@@ -4,6 +4,60 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Index</title>
+    <link href="css/style.css" data-th-ref="@{/css/style.css}" rel="stylesheet">
 </head>
-<form method="post" action="" ></form>
+<body class="has-background-light">
+<section class="hero-is-fullheight">
+    <div class="hero-body">
+        <div class="container">
+            <div class="column is-4 is-offset-4">
+                <div class="has-text-centered mb-5">
+                    <h1 class="title">Login Page</h1>
+                </div>
+                <div class="box">
+                    <form name="loginForm" method="post" data-th-action="@{'/login'}">
+                        <fieldset>
+                            <div class="field">
+                                <label class="label" for="username">Username</label>
+                                <div class="control">
+                                    <input class="input" type="text" name="username" id="username" placeholder="Username" required>
+                                </div>
+                            </div>
+
+                            <div class="field">
+                                <label class="label" for="password">Password</label>
+                                <div class="control">
+                                    <input class="input" type="password" name="password" id="password" placeholder="Password" required>
+                                </div>
+                            </div>
+
+                            <div class="has-text-centered">
+                                <input type="submit" class="button is-primary is-medium" value="Login">
+                            </div>
+                        </fieldset>
+                    </form>
+                    <div class="mt-4">
+                        <p>Don't have an account? Create one!</p>
+                        <br>
+                    </div>
+                    <form method="post" data-th-action="@{'/register'}">
+                        <div class="has-text-centered">
+                            <input type="submit" class="button is-primary is-small" value="Register">
+                        </div>
+                    </form>
+                </div>
+                <div class="mt-4">
+                    <p>Or else, start browsing clicking here!</p>
+                    <br>
+                </div>
+                <form method="post" data-th-action="@{'/homepage'}">
+                    <div class="has-text-centered">
+                        <input type="submit" class="button is-primary is-small" value="Homepage">
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</section>
+</body>
 </html>

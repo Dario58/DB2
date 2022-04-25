@@ -4,6 +4,11 @@ import javax.persistence.*;
 
 @Entity
 @Table(name = "user", schema = "db2_project")
+@NamedQueries({
+        @NamedQuery(name = "UserEntity.findByNickname", query = "SELECT u FROM UserEntity u WHERE u.nickname = :nickname"),
+        @NamedQuery(name = "UserEntity.findByEmail", query = "SELECT u FROM UserEntity u WHERE u.email = :email"),
+        @NamedQuery(name = "UserEntity.checkCredentials", query = "SELECT u FROM UserEntity u WHERE u.nickname = :nickname AND u.password = :password")
+})
 public class UserEntity {
     private int id;
     private String nickname;
@@ -11,6 +16,16 @@ public class UserEntity {
     private String email;
     private boolean insolvent;
     private boolean flag;
+
+    public UserEntity(String nickname, String password, String email) {
+        this.nickname = nickname;
+        this.password = password;
+        this.email = email;
+    }
+
+    public UserEntity() {
+
+    }
 
     @Id
     @Column(name = "id")
