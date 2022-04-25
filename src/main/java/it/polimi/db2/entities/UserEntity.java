@@ -10,6 +10,9 @@ import javax.persistence.*;
         @NamedQuery(name = "UserEntity.checkCredentials", query = "SELECT u FROM UserEntity u WHERE u.nickname = :nickname AND u.password = :password")
 })
 public class UserEntity {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "Id", nullable = false)
     private int id;
     private String nickname;
     private String password;
@@ -21,6 +24,8 @@ public class UserEntity {
         this.nickname = nickname;
         this.password = password;
         this.email = email;
+        this.insolvent = false;
+        this.flag = false;
     }
 
     public UserEntity() {
