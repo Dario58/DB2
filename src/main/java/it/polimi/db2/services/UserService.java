@@ -40,20 +40,22 @@ public class UserService {
     public UserEntity checkCredentials(String username, String password) throws CredentialException, NonUniqueResultException {
         List<UserEntity> uList;
 
+        System.out.println("Checking credentials for user: " + username + ", " + password);
+
         try {
-            System.out.println("PRIMAAAAAAAAAAAAAA");
             uList = em.createNamedQuery("UserEntity.checkCredentials", UserEntity.class)
                     .setParameter("nickname", username)
                     .setParameter("password", password)
                     .getResultList();
-            System.out.println("AOOOOOOOOOOOOOOOOO");
         } catch (PersistenceException e) {
             throw new CredentialException("Could not verify credentials");
         }
 
         if (uList.isEmpty()) {
+            System.out.println("Check OK but user KO for: " + username + ", " + password);
             return null;
         } else if (uList.size() == 1) {
+            System.out.println("Check OK and user OK for: " + username + ", " + password);
             return uList.get(0);
         }
 
@@ -61,6 +63,9 @@ public class UserService {
     }
 
     public UserEntity addNewUser(String username, String password, String email) throws CredentialException {
+
+        System.out.println("Creating new user with credentials: " + username + ", " + password + ", " + email);
+
         if (findUserByUsername(username) != null) {
             throw new CredentialException("Username already in use!");
         }
@@ -71,6 +76,8 @@ public class UserService {
 
         UserEntity newUser = new UserEntity(username, password, email);
         em.persist(newUser);
+
+        System.out.println("Created user OK: " + username + ", " + password + ", " + email);
 
         return newUser;
     }

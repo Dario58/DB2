@@ -62,7 +62,7 @@ public class LoginServlet extends HttpServlet {
             resp.setContentType("text/html");
 
             ServletContext servletContext = getServletContext();
-            final WebContext ctx = new WebContext(req,resp,servletContext,req.getLocale());
+            final WebContext ctx = new WebContext(req, resp, servletContext, req.getLocale());
             ctx.setVariable("errorMessage", "Incorrect username or password.");
 
             templateEngine.process("/index.html", ctx, resp.getWriter());
