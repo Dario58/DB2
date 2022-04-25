@@ -87,7 +87,7 @@ public class RegisterServlet extends HttpServlet {
             templateEngine.process(registerPath, ctx, resp.getWriter());
         } else {
             req.getSession().setAttribute("user", user);
-            resp.sendRedirect(getServletContext().getContextPath() + "/homepage");
+            resp.sendRedirect(getServletContext().getContextPath() + "/login");
         }
     }
 
