@@ -48,8 +48,11 @@
                                            placeholder="Confirm Password" required>
                                 </div>
                             </div>
+                            <div data-th-if="${errorMessage != null}" class="notification is-danger"
+                                 data-th-text="${errorMessage}">Test error
+                            </div>
                             <div class="has-text-centered"><input type="submit" class="button is-primary is-medium"
-                                                                  value="Register"></div>
+                                                                  style="background-color: #2160c4"  value="Register"></div>
                         </fieldset>
                     </form>
                 </div>

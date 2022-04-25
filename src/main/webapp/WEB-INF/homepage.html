@@ -1,8 +1,11 @@
 <!DOCTYPE html>
 <html>
-<body>
-<h1>sei loggato</h1>
-<p>bravissima!</p>
-<form method="post" data-th-action="@{'/register'}"></form>
+<body class="has-background-light">
+<section class="container py-5 vh100">
+    <div class="has-text-right">
+        <div data-th-text="'Signed in as ' + ${session.user.username}"></div>
+        <a data-th-href="@{/logout}">Logout</a>
+    </div>
+</section>
 </body>
 </html>

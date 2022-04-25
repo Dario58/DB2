@@ -11,7 +11,7 @@
     <div class="hero-body">
         <div class="container">
             <div class="column is-4 is-offset-4">
-                <div class="has-text-centered mb-5">
+                <div class="has-text-centered mb-6">
                     <h1 class="title">Login Page</h1>
                 </div>
                 <div class="box">
@@ -30,9 +30,11 @@
                                     <input class="input" type="password" name="password" id="password" placeholder="Password" required>
                                 </div>
                             </div>
-
+                            <div data-th-if="${errorMessage != null}" class="notification is-danger"
+                                 data-th-text="${errorMessage}">Test error
+                            </div>
                             <div class="has-text-centered">
-                                <input type="submit" class="button is-primary is-medium" value="Login">
+                                <input type="submit" class="button is-primary is-medium" style="background-color: #2160c4" value="Login">
                             </div>
                         </fieldset>
                     </form>
@@ -42,7 +44,7 @@
                     </div>
                     <form method="get" data-th-action="@{'/register'}">
                         <div class="has-text-centered">
-                            <input type="submit" class="button is-primary is-small" value="Register">
+                            <input type="submit" class="button is-primary is-small" style="background-color: #2160c4" value="Register">
                         </div>
                     </form>
                 </div>
@@ -52,7 +54,7 @@
                 </div>
                 <form method="get" data-th-action="@{'/homepage'}">
                     <div class="has-text-centered">
-                        <input type="submit" class="button is-primary is-small" value="Homepage">
+                        <input type="submit" class="button is-primary is-small" style="background-color: #2160c4" value="Homepage">
                     </div>
                 </form>
             </div>
