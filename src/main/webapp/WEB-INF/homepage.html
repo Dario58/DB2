@@ -3,7 +3,7 @@
 <body class="has-background-light">
 <section class="container py-5 vh100">
     <div class="has-text-right">
-        <div data-th-text="'Signed in as ' + ${session.user.username}"></div>
+        <div data-th-text="'Logged in as: ' + ${session.user.nickname} "></div>
         <a data-th-href="@{/logout}">Logout</a>
     </div>
 </section>
