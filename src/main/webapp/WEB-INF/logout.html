@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Greetings</title>
+    <link href="../css/style.css" data-th-href="@{/css/style.css}" rel="stylesheet">
+    <link href="../css/body.css" data-th-href="@{/css/body.css}" rel="stylesheet">
+</head>
+<body class="has-background-white">
+<section class="container py-5 vh100" style="background-color: lightskyblue">
+    <div class="has-text-right-desktop">
+        <div data-th-text="'Signed in as ' + ${session.user.nickname}"></div>
+        <a data-th-href="@{/logout}">Logout</a>
+    </div>
+
+    <div class="column">
+        <div class="has-text-centered mb-6">
+            <h1 class="title">Thank you for visiting our website. We hope to see you soon!</h1>
+        </div>
+
+        <div class="has-text-centered mt-6">
+            Go back to the <a href="#" data-th-href="@{/homepage}">homepage</a>
+        </div>
+    </div>
+</section>
+</body>
+</html>
