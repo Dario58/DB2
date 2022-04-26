@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Homepage</title>
+    <link href="/css/style.css" data-th-ref="@{/css/style.css}" rel="stylesheet">
+    <link href="/css/body.css" data-th-ref="@{/css/body.css}" rel="stylesheet">
+</head>
+<body class="has-background-light">
+<section class="container py-5 vh100">
+    <div class="has-text-right">
+        <div data-th-text="'Signed in as ' + ${session.employee.username}">Signed in as pippo</div>
+        <a href="#" data-th-href="@{/employee/logout}">Logout</a>
+    </div>
+
+    <div class="column">
+        <div class="has-text-centered mb-6">
+            <h1 class="title">Admin Homepage</h1>
+        </div>
+        <h2 class="is-size-3 mb-2">Welcome to the admin homepage!</h2>
+        <h3 class="is-size-5 mb-1">Please select an action:</h3>
+    </div>
+</section>
+</body>
+</html>

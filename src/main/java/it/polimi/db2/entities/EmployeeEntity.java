@@ -4,6 +4,9 @@ import javax.persistence.*;
 
 @Entity
 @Table(name = "employee", schema = "db2_project")
+@NamedQueries({
+        @NamedQuery(name = "EmployeeEntity.checkCredentials", query = "SELECT a FROM EmployeeEntity a WHERE a.nickname = :nickname AND a.password = :password")
+})
 public class EmployeeEntity {
     private int id;
     private String nickname;
