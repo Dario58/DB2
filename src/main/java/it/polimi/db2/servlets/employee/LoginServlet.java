@@ -50,6 +50,8 @@ public class LoginServlet extends HttpServlet {
             return;
         }
 
+        System.out.println("Trying login for employee: " + username + " " + password);
+
         EmployeeEntity employee;
         try {
             employee = employeeService.checkCredentials(username, password);
@@ -67,6 +69,7 @@ public class LoginServlet extends HttpServlet {
 
             templateEngine.process("/WEB-INF/employee/index.html", ctx, resp.getWriter());
         } else {
+            System.out.println("Login OK for employee: " + username + " " + password);
             req.getSession().setAttribute("employee", employee);
             resp.sendRedirect(getServletContext().getContextPath() + "/employee/homepage");
         }

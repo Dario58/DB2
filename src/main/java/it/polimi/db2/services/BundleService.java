@@ -1,0 +1,60 @@
+package it.polimi.db2.services;
+
+import it.polimi.db2.entities.BundleEntity;
+import it.polimi.db2.entities.UserEntity;
+import it.polimi.db2.exception.BundleExistentException;
+import it.polimi.db2.exception.CredentialException;
+
+import javax.ejb.Stateless;
+import javax.management.Query;
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+import java.util.List;
+
+@Stateless
+public class BundleService {
+    @PersistenceContext(unitName = "DB2")
+    private EntityManager em;
+
+    public BundleEntity findBundleByBundleId(int bundleId) {
+        return em.find(BundleEntity.class, bundleId);
+    }
+
+    public BundleEntity findBundleByTitle(String title) {
+        return em.createNamedQuery("BundleEntity.findBundleByTitle", BundleEntity.class)
+                .setParameter("title", title)
+                .setMaxResults(1)
+                .getResultStream()
+                .findFirst()
+                .orElse(null);
+    }
+
+    public BundleEntity addNewBundle(String title, List<Integer> listOfServices, List<Integer> listOfValidityPeriods) throws BundleExistentException {
+
+        System.out.println("Creating new user with title: " + title + ", services ids:" + listOfServices + ", validityPeriods ids:" + listOfValidityPeriods);
+
+        if (findBundleByTitle(title) != null) {
+            throw new BundleExistentException("Bundle title already in use!");
+        }
+
+        BundleEntity newBundle = new BundleEntity(title);
+        em.persist(newBundle);
+
+        int bundleId = findBundleByTitle(title).getId();
+        String query;
+        Query q;
+
+        for(int service : listOfServices) {
+            query = "INSERT INTO servicesinbundle (serviceId, bundleId) VALUES (" + service + "," + bundleId + ")";
+            q = (Query) em.createQuery(query);
+        }
+        for(int validityPeriod : listOfValidityPeriods) {
+            query = "INSERT INTO validityperiodsperbundle (serviceId, bundleId) VALUES (" + bundleId + "," + validityPeriod + ")";
+            q = (Query) em.createQuery(query);
+        }
+
+        System.out.println("Created bundle OK: " + title);
+
+        return newBundle;
+    }
+}

@@ -4,9 +4,23 @@ import javax.persistence.*;
 
 @Entity
 @Table(name = "bundle", schema = "db2_project")
+@NamedQueries({
+        @NamedQuery(name = "BundleEntity.findBundleByTitle", query = "SELECT b FROM BundleEntity b WHERE b.title = :title")
+})
 public class BundleEntity {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id", nullable = false)
     private int id;
     private String title;
+
+    public BundleEntity(String title) {
+        this.title = title;
+    }
+
+    public BundleEntity() {
+
+    }
 
     @Id
     @Column(name = "id")
