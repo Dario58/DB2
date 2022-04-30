@@ -1,7 +1,7 @@
 package it.polimi.db2.servlets;
 
 import it.polimi.db2.entities.UserEntity;
-import it.polimi.db2.exception.CredentialException;
+import it.polimi.db2.exceptions.CredentialException;
 import it.polimi.db2.services.UserService;
 import org.apache.commons.text.StringEscapeUtils;
 import org.thymeleaf.TemplateEngine;
@@ -17,7 +17,6 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 import java.io.IOException;
 
 @WebServlet(name = "LoginServlet", value = "/login")

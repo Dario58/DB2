@@ -1,11 +1,16 @@
 package it.polimi.db2.servlets;
 
+import it.polimi.db2.entities.BundleEntity;
 import it.polimi.db2.entities.UserEntity;
+import it.polimi.db2.services.BundleService;
+import it.polimi.db2.utils.Product;
 import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.context.WebContext;
 import org.thymeleaf.templatemode.TemplateMode;
 import org.thymeleaf.templateresolver.ServletContextTemplateResolver;
 
+import javax.ejb.EJB;
+import javax.persistence.PersistenceException;
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -14,11 +19,16 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 @WebServlet(name = "HomepageServlet", value = "/homepage")
 public class HomepageServlet extends HttpServlet {
 
     private TemplateEngine templateEngine;
+
+    @EJB(name = "it.polimi.db2.services/BundleService")
+    private BundleService bundleService;
 
     @Override
     public void init() throws ServletException {
@@ -34,6 +44,23 @@ public class HomepageServlet extends HttpServlet {
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         HttpSession session = req.getSession();
         UserEntity user = (UserEntity) session.getAttribute("user");
+
+        List<BundleEntity> bundleList = new ArrayList<>();
+
+        try {
+            bundleList = bundleService.retrieveAllBundles();
+        } catch (PersistenceException e) {
+            resp.sendError(HttpServletResponse.SC_BAD_REQUEST, "Couldn't retrieve bundles.");
+        }
+
+        if(bundleList != null) {
+            List<Product> products = new ArrayList<>();
+
+            for(BundleEntity b : bundleList) {
+
+                products.add(new Product(b, ))
+            }
+        }
 
 
         resp.setContentType("text/html");

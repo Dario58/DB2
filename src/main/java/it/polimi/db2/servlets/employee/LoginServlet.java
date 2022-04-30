@@ -1,7 +1,7 @@
 package it.polimi.db2.servlets.employee;
 
 import it.polimi.db2.entities.EmployeeEntity;
-import it.polimi.db2.exception.CredentialException;
+import it.polimi.db2.exceptions.CredentialException;
 import it.polimi.db2.services.EmployeeService;
 import org.apache.commons.text.StringEscapeUtils;
 import org.thymeleaf.TemplateEngine;

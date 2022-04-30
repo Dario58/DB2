@@ -5,7 +5,12 @@ import javax.persistence.*;
 @Entity
 @Table(name = "bundle", schema = "db2_project")
 @NamedQueries({
-        @NamedQuery(name = "BundleEntity.findBundleByTitle", query = "SELECT b FROM BundleEntity b WHERE b.title = :title")
+        @NamedQuery(name = "BundleEntity.findBundleByTitle", query = "SELECT b FROM BundleEntity b WHERE b.title = :title"),
+        @NamedQuery(name = "BundleEntity.retrieveAll", query = "SELECT b FROM BundleEntity b")
+})
+@NamedNativeQueries({
+        @NamedNativeQuery(name = "BundleEntity.findServicesById", query = "SELECT serviceId FROM servicesinbundle s WHERE s.bundleId = :bId"),
+        @NamedNativeQuery(name = "BundleEntity.findValidityPeriodsById", query = "SELECT validityPeriodId FROM validityperiodsperbundle s WHERE s.bundleId = :bId" )
 })
 public class BundleEntity {
     @Id

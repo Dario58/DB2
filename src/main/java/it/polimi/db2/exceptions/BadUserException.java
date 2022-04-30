@@ -1,4 +1,4 @@
-package it.polimi.db2.exception;
+package it.polimi.db2.exceptions;
 
 public class BadUserException extends Exception{
     private static final long serialVersionUID = 1L;

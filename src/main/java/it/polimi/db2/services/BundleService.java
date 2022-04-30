@@ -1,14 +1,17 @@
 package it.polimi.db2.services;
 
 import it.polimi.db2.entities.BundleEntity;
-import it.polimi.db2.entities.UserEntity;
-import it.polimi.db2.exception.BundleExistentException;
-import it.polimi.db2.exception.CredentialException;
+import it.polimi.db2.entities.ServiceEntity;
+import it.polimi.db2.entities.ValidityPeriodEntity;
+import it.polimi.db2.exceptions.BundleExistentException;
 
 import javax.ejb.Stateless;
 import javax.management.Query;
 import javax.persistence.EntityManager;
+import javax.persistence.NamedNativeQueries;
+import javax.persistence.NamedNativeQuery;
 import javax.persistence.PersistenceContext;
+import java.util.ArrayList;
 import java.util.List;
 
 @Stateless
@@ -29,6 +32,11 @@ public class BundleService {
                 .orElse(null);
     }
 
+    public List<BundleEntity> retrieveAllBundles() {
+        return em.createNamedQuery("BundleEntity.retrieveAll", BundleEntity.class)
+                .getResultList();
+    }
+
     public BundleEntity addNewBundle(String title, List<Integer> listOfServices, List<Integer> listOfValidityPeriods) throws BundleExistentException {
 
         System.out.println("Creating new user with title: " + title + ", services ids:" + listOfServices + ", validityPeriods ids:" + listOfValidityPeriods);
@@ -41,20 +49,35 @@ public class BundleService {
         em.persist(newBundle);
 
         int bundleId = findBundleByTitle(title).getId();
-        String query;
-        Query q;
-
-        for(int service : listOfServices) {
-            query = "INSERT INTO servicesinbundle (serviceId, bundleId) VALUES (" + service + "," + bundleId + ")";
-            q = (Query) em.createQuery(query);
-        }
-        for(int validityPeriod : listOfValidityPeriods) {
-            query = "INSERT INTO validityperiodsperbundle (serviceId, bundleId) VALUES (" + bundleId + "," + validityPeriod + ")";
-            q = (Query) em.createQuery(query);
-        }
+        addServicesToBundle(listOfServices, bundleId);
+        addValidityPeriodsToBundle(listOfValidityPeriods, bundleId);
 
         System.out.println("Created bundle OK: " + title);
 
         return newBundle;
+    }
+
+    public List<ValidityPeriodEntity> findValidityPeriodsByBundleId(int bId) {
+
+    }
+
+    public List<ServiceEntity> findServicesByBundleId(int bId) {
+
+    }
+
+    private void addServicesToBundle(List<Integer> listOfServices, int bundleId) {
+        String query;
+        for(int service : listOfServices) {
+            query = "INSERT INTO servicesinbundle (serviceId, bundleId) VALUES (" + service + "," + bundleId + ")";
+            em.createQuery(query);
+        }
+    }
+
+    private void addValidityPeriodsToBundle(List<Integer> listOfValidityPeriods, int bundleId) {
+        String query;
+        for(int validityPeriod : listOfValidityPeriods) {
+            query = "INSERT INTO validityperiodsperbundle (serviceId, bundleId) VALUES (" + bundleId + "," + validityPeriod + ")";
+            em.createQuery(query);
+        }
     }
 }

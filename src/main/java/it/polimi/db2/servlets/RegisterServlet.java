@@ -1,9 +1,8 @@
 package it.polimi.db2.servlets;
 
 import it.polimi.db2.entities.UserEntity;
-import it.polimi.db2.exception.BadUserException;
-import it.polimi.db2.exception.CredentialException;
-import it.polimi.db2.exception.InputException;
+import it.polimi.db2.exceptions.CredentialException;
+import it.polimi.db2.exceptions.InputException;
 import it.polimi.db2.services.UserService;
 import org.apache.commons.text.StringEscapeUtils;
 import org.thymeleaf.TemplateEngine;

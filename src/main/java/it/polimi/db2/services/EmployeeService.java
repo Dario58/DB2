@@ -2,7 +2,7 @@ package it.polimi.db2.services;
 
 
 import it.polimi.db2.entities.EmployeeEntity;
-import it.polimi.db2.exception.CredentialException;
+import it.polimi.db2.exceptions.CredentialException;
 
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
