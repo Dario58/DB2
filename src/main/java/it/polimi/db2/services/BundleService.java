@@ -58,26 +58,36 @@ public class BundleService {
     }
 
     public List<ValidityPeriodEntity> findValidityPeriodsByBundleId(int bId) {
+        List<ValidityPeriodEntity> vPeriods = new ArrayList<>();
+        List<Integer> validityPeriodsIds = em.createNamedQuery("BundleEntity.findValidityPeriodsById").getResultList();
 
+        for(int id : validityPeriodsIds) vPeriods.add(em.find(ValidityPeriodEntity.class, id));
+
+        return vPeriods;
     }
 
     public List<ServiceEntity> findServicesByBundleId(int bId) {
+        List<ServiceEntity> services = new ArrayList<>();
+        List<Integer> servicesIds = em.createNamedQuery("BundleEntity.findServicesById").getResultList();
 
+        for(int id : servicesIds) services.add(em.find(ServiceEntity.class, id));
+
+        return services;
     }
 
     private void addServicesToBundle(List<Integer> listOfServices, int bundleId) {
-        String query;
         for(int service : listOfServices) {
-            query = "INSERT INTO servicesinbundle (serviceId, bundleId) VALUES (" + service + "," + bundleId + ")";
-            em.createQuery(query);
+            em.createNamedQuery("BundleEntity.addServiceToBundle")
+                    .setParameter("service", service)
+                    .setParameter("bId", bundleId);
         }
     }
 
     private void addValidityPeriodsToBundle(List<Integer> listOfValidityPeriods, int bundleId) {
-        String query;
         for(int validityPeriod : listOfValidityPeriods) {
-            query = "INSERT INTO validityperiodsperbundle (serviceId, bundleId) VALUES (" + bundleId + "," + validityPeriod + ")";
-            em.createQuery(query);
+            em.createNamedQuery("BundleEntity.addValidityPeriodToBundle")
+                    .setParameter("validityPeriod", validityPeriod)
+                    .setParameter("bId", bundleId);
         }
     }
 }

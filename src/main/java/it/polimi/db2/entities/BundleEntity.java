@@ -10,7 +10,9 @@ import javax.persistence.*;
 })
 @NamedNativeQueries({
         @NamedNativeQuery(name = "BundleEntity.findServicesById", query = "SELECT serviceId FROM servicesinbundle s WHERE s.bundleId = :bId"),
-        @NamedNativeQuery(name = "BundleEntity.findValidityPeriodsById", query = "SELECT validityPeriodId FROM validityperiodsperbundle s WHERE s.bundleId = :bId" )
+        @NamedNativeQuery(name = "BundleEntity.findValidityPeriodsById", query = "SELECT validityPeriodId FROM validityperiodsperbundle s WHERE s.bundleId = :bId" ),
+        @NamedNativeQuery(name = "BundleEntity.addServiceToBundle", query = "INSERT INTO servicesinbundle (serviceId, bundleId) VALUES (:service, :bId)"),
+        @NamedNativeQuery(name = "BundleEntity.addValidityPeriodToBundle", query = "INSERT INTO validityperiodsperbundle (validityPeriodId, bundleId) VALUES (:validityPeriod, :bId)")
 })
 public class BundleEntity {
     @Id
