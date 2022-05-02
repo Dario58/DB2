@@ -1,9 +1,11 @@
 package it.polimi.db2.services;
 
 import it.polimi.db2.entities.BundleEntity;
+import it.polimi.db2.entities.OptionalProductEntity;
 import it.polimi.db2.entities.ServiceEntity;
 import it.polimi.db2.entities.ValidityPeriodEntity;
 import it.polimi.db2.exceptions.BundleExistentException;
+import it.polimi.db2.utils.Product;
 
 import javax.ejb.Stateless;
 import javax.management.Query;
@@ -75,6 +77,26 @@ public class BundleService {
         return services;
     }
 
+    public List<OptionalProductEntity> findAvailableOptionalsByBundleId(int bId) {
+        List<OptionalProductEntity> optionals = new ArrayList<>();
+        List<Integer> availableOptionalsIds = em.createNamedQuery("BundleEntity.findAvailableOptionalsById").getResultList();
+
+        for(int id : availableOptionalsIds) optionals.add(em.find(OptionalProductEntity.class, id));
+
+        return optionals;
+    }
+
+    public Product buildProduct(BundleEntity b, int bId) {
+        List<ValidityPeriodEntity> vps = findValidityPeriodsByBundleId(bId);
+        List<ServiceEntity> ss = findServicesByBundleId(bId);
+        List<OptionalProductEntity> ops = findAvailableOptionalsByBundleId(bId);
+
+        assert !vps.isEmpty();
+        assert !ss.isEmpty();
+
+        return new Product(b, vps, ss, ops);
+    }
+
     private void addServicesToBundle(List<Integer> listOfServices, int bundleId) {
         for(int service : listOfServices) {
             em.createNamedQuery("BundleEntity.addServiceToBundle")
@@ -87,6 +109,14 @@ public class BundleService {
         for(int validityPeriod : listOfValidityPeriods) {
             em.createNamedQuery("BundleEntity.addValidityPeriodToBundle")
                     .setParameter("validityPeriod", validityPeriod)
+                    .setParameter("bId", bundleId);
+        }
+    }
+
+    private void addAvailableOptionalsToBundle(List<Integer> listOfAvailableOptionals, int bundleId) {
+        for(int optional : listOfAvailableOptionals) {
+            em.createNamedQuery("BundleEntity.addAvailableOptionalToBundle")
+                    .setParameter("optional", optional)
                     .setParameter("bId", bundleId);
         }
     }

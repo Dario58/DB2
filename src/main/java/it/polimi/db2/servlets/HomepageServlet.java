@@ -1,7 +1,6 @@
 package it.polimi.db2.servlets;
 
-import it.polimi.db2.entities.BundleEntity;
-import it.polimi.db2.entities.UserEntity;
+import it.polimi.db2.entities.*;
 import it.polimi.db2.services.BundleService;
 import it.polimi.db2.utils.Product;
 import org.thymeleaf.TemplateEngine;
@@ -53,20 +52,17 @@ public class HomepageServlet extends HttpServlet {
             resp.sendError(HttpServletResponse.SC_BAD_REQUEST, "Couldn't retrieve bundles.");
         }
 
+        List<Product> products = null;
         if(bundleList != null) {
-            List<Product> products = new ArrayList<>();
-
-            for(BundleEntity b : bundleList) {
-
-                products.add(new Product(b, ))
-            }
+            products = new ArrayList<>();
+            for(BundleEntity b : bundleList) products.add(bundleService.buildProduct(b, b.getId()));
         }
-
 
         resp.setContentType("text/html");
 
         ServletContext servletContext = getServletContext();
         WebContext ctx = new WebContext(req, resp, servletContext, req.getLocale());
+        ctx.setVariable("products", products);
         String path = "/WEB-INF/homepage.html";
 
         templateEngine.process(path, ctx, resp.getWriter());

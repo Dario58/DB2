@@ -10,9 +10,11 @@ import javax.persistence.*;
 })
 @NamedNativeQueries({
         @NamedNativeQuery(name = "BundleEntity.findServicesById", query = "SELECT serviceId FROM servicesinbundle s WHERE s.bundleId = :bId"),
-        @NamedNativeQuery(name = "BundleEntity.findValidityPeriodsById", query = "SELECT validityPeriodId FROM validityperiodsperbundle s WHERE s.bundleId = :bId" ),
+        @NamedNativeQuery(name = "BundleEntity.findValidityPeriodsById", query = "SELECT validityPeriodId FROM validityperiodsperbundle vp WHERE vp.bundleId = :bId" ),
+        @NamedNativeQuery(name = "BundleEntity.findAvailableOptionalsById", query = "SELECT optionalId FROM availableoptionalsforbundle ao WHERE ao.bundleId = :bId" ),
         @NamedNativeQuery(name = "BundleEntity.addServiceToBundle", query = "INSERT INTO servicesinbundle (serviceId, bundleId) VALUES (:service, :bId)"),
-        @NamedNativeQuery(name = "BundleEntity.addValidityPeriodToBundle", query = "INSERT INTO validityperiodsperbundle (validityPeriodId, bundleId) VALUES (:validityPeriod, :bId)")
+        @NamedNativeQuery(name = "BundleEntity.addValidityPeriodToBundle", query = "INSERT INTO validityperiodsperbundle (bundleId, validityPeriodId) VALUES (:bId, :validityPeriod)"),
+        @NamedNativeQuery(name = "BundleEntity.addAvailableOptionalToBundle", query = "INSERT INTO availableoptionalsforbundle (optionalId, bundleId) VALUES (:optional, :bId)")
 })
 public class BundleEntity {
     @Id
