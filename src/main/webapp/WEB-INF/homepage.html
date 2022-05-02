@@ -20,8 +20,10 @@
             <div class="has-text-centered mb-5">
                 <h1 class="title">Homepage</h1>
             </div>
-            <div data-th-each="packages: ${session.bundle.id}">
-
+            <div data-th-each="packages: ${product}">
+                <div data-th-text="${product.bundleId}"></div>
+                <div data-th-text="${product.service}"></div>
+                <div data-th-text="${product.validityPeriod}"></div>
             </div>
             </div>
         </div>
