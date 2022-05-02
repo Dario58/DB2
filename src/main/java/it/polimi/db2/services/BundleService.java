@@ -61,7 +61,9 @@ public class BundleService {
 
     public List<ValidityPeriodEntity> findValidityPeriodsByBundleId(int bId) {
         List<ValidityPeriodEntity> vPeriods = new ArrayList<>();
-        List<Integer> validityPeriodsIds = em.createNamedQuery("BundleEntity.findValidityPeriodsById").getResultList();
+        List<Integer> validityPeriodsIds = em.createNamedQuery("BundleEntity.findValidityPeriodsById")
+                .setParameter("bId", bId)
+                .getResultList();
 
         for(int id : validityPeriodsIds) vPeriods.add(em.find(ValidityPeriodEntity.class, id));
 
@@ -70,7 +72,9 @@ public class BundleService {
 
     public List<ServiceEntity> findServicesByBundleId(int bId) {
         List<ServiceEntity> services = new ArrayList<>();
-        List<Integer> servicesIds = em.createNamedQuery("BundleEntity.findServicesById").getResultList();
+        List<Integer> servicesIds = em.createNamedQuery("BundleEntity.findServicesById")
+                .setParameter("bId", bId)
+                .getResultList();
 
         for(int id : servicesIds) services.add(em.find(ServiceEntity.class, id));
 
@@ -79,7 +83,9 @@ public class BundleService {
 
     public List<OptionalProductEntity> findAvailableOptionalsByBundleId(int bId) {
         List<OptionalProductEntity> optionals = new ArrayList<>();
-        List<Integer> availableOptionalsIds = em.createNamedQuery("BundleEntity.findAvailableOptionalsById").getResultList();
+        List<Integer> availableOptionalsIds = em.createNamedQuery("BundleEntity.findAvailableOptionalsById")
+                .setParameter("bId", bId)
+                .getResultList();
 
         for(int id : availableOptionalsIds) optionals.add(em.find(OptionalProductEntity.class, id));
 
