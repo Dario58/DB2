@@ -20,13 +20,15 @@
             <div class="has-text-centered mb-5">
                 <h1 class="title">Homepage</h1>
             </div>
-            <div data-th-each="packages: ${product}">
-                <div data-th-text="${product.bundleId}"></div>
-                <div data-th-text="${product.service}"></div>
-                <div data-th-text="${product.validityPeriod}"></div>
-            </div>
+            <div data-th-text="${product.bId}"></div>
+            <div data-th-text="${product.title}"></div>
+            <div data-th-each="packages: ${product}" class="my-2">
+                <strong><span data-th-text="${product.bundleId}"></span></strong>
+                <strong><span data-th-text="${product.service}"></span></strong>
+                <strong><span data-th-text="${product.validityPeriod}"></span></strong>
             </div>
         </div>
+    </div>
 </section>
 </body>
 </html>
