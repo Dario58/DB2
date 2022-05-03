@@ -9,12 +9,12 @@ import javax.persistence.*;
         @NamedQuery(name = "BundleEntity.retrieveAll", query = "SELECT b FROM BundleEntity b")
 })
 @NamedNativeQueries({
-        @NamedNativeQuery(name = "BundleEntity.findServicesById", query = "SELECT serviceId FROM servicesinbundle s WHERE s.bundleId = :bId"),
-        @NamedNativeQuery(name = "BundleEntity.findValidityPeriodsById", query = "SELECT validityPeriodId FROM validityperiodsperbundle vp WHERE vp.bundleId = :bId" ),
-        @NamedNativeQuery(name = "BundleEntity.findAvailableOptionalsById", query = "SELECT optionalId FROM availableoptionalsforbundle ao WHERE ao.bundleId = :bId" ),
-        @NamedNativeQuery(name = "BundleEntity.addServiceToBundle", query = "INSERT INTO servicesinbundle (serviceId, bundleId) VALUES (:service, :bId)"),
-        @NamedNativeQuery(name = "BundleEntity.addValidityPeriodToBundle", query = "INSERT INTO validityperiodsperbundle (bundleId, validityPeriodId) VALUES (:bId, :validityPeriod)"),
-        @NamedNativeQuery(name = "BundleEntity.addAvailableOptionalToBundle", query = "INSERT INTO availableoptionalsforbundle (optionalId, bundleId) VALUES (:optional, :bId)")
+        @NamedNativeQuery(name = "BundleEntity.findServicesById", query = "SELECT serviceId FROM servicesinbundle s WHERE s.bundleId = ?1"),
+        @NamedNativeQuery(name = "BundleEntity.findValidityPeriodsById", query = "SELECT validityPeriodId FROM validityperiodsperbundle vp WHERE vp.bundleId = ?1"),
+        @NamedNativeQuery(name = "BundleEntity.findAvailableOptionalsById", query = "SELECT optionalId FROM availableoptionalsforbundle ao WHERE ao.bundleId = ?1"),
+        @NamedNativeQuery(name = "BundleEntity.addServiceToBundle", query = "INSERT INTO servicesinbundle (serviceId, bundleId) VALUES (?1, ?2)"),
+        @NamedNativeQuery(name = "BundleEntity.addValidityPeriodToBundle", query = "INSERT INTO validityperiodsperbundle (bundleId, validityPeriodId) VALUES (?2, ?1)"),
+        @NamedNativeQuery(name = "BundleEntity.addAvailableOptionalToBundle", query = "INSERT INTO availableoptionalsforbundle (optionalId, bundleId) VALUES (?1, ?2)")
 })
 public class BundleEntity {
     @Id

@@ -60,20 +60,21 @@ public class BundleService {
     }
 
     public List<ValidityPeriodEntity> findValidityPeriodsByBundleId(int bId) {
+        System.out.println(bId);
         List<ValidityPeriodEntity> vPeriods = new ArrayList<>();
         List<Integer> validityPeriodsIds = em.createNamedQuery("BundleEntity.findValidityPeriodsById")
-                .setParameter("bId", bId)
+                .setParameter("1", bId)
                 .getResultList();
 
         for(int id : validityPeriodsIds) vPeriods.add(em.find(ValidityPeriodEntity.class, id));
-
+        //for(ValidityPeriodEntity v : vPeriods) System.out.println(v.getId()); TODO: Delete at the end
         return vPeriods;
     }
 
     public List<ServiceEntity> findServicesByBundleId(int bId) {
         List<ServiceEntity> services = new ArrayList<>();
         List<Integer> servicesIds = em.createNamedQuery("BundleEntity.findServicesById")
-                .setParameter("bId", bId)
+                .setParameter("1", bId)
                 .getResultList();
 
         for(int id : servicesIds) services.add(em.find(ServiceEntity.class, id));
@@ -84,7 +85,7 @@ public class BundleService {
     public List<OptionalProductEntity> findAvailableOptionalsByBundleId(int bId) {
         List<OptionalProductEntity> optionals = new ArrayList<>();
         List<Integer> availableOptionalsIds = em.createNamedQuery("BundleEntity.findAvailableOptionalsById")
-                .setParameter("bId", bId)
+                .setParameter("1", bId)
                 .getResultList();
 
         for(int id : availableOptionalsIds) optionals.add(em.find(OptionalProductEntity.class, id));
@@ -106,24 +107,24 @@ public class BundleService {
     private void addServicesToBundle(List<Integer> listOfServices, int bundleId) {
         for(int service : listOfServices) {
             em.createNamedQuery("BundleEntity.addServiceToBundle")
-                    .setParameter("service", service)
-                    .setParameter("bId", bundleId);
+                    .setParameter("1", service)
+                    .setParameter("2", bundleId);
         }
     }
 
     private void addValidityPeriodsToBundle(List<Integer> listOfValidityPeriods, int bundleId) {
         for(int validityPeriod : listOfValidityPeriods) {
             em.createNamedQuery("BundleEntity.addValidityPeriodToBundle")
-                    .setParameter("validityPeriod", validityPeriod)
-                    .setParameter("bId", bundleId);
+                    .setParameter("1", validityPeriod)
+                    .setParameter("2", bundleId);
         }
     }
 
     private void addAvailableOptionalsToBundle(List<Integer> listOfAvailableOptionals, int bundleId) {
         for(int optional : listOfAvailableOptionals) {
             em.createNamedQuery("BundleEntity.addAvailableOptionalToBundle")
-                    .setParameter("optional", optional)
-                    .setParameter("bId", bundleId);
+                    .setParameter("1", optional)
+                    .setParameter("2", bundleId);
         }
     }
 }
