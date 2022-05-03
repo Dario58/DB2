@@ -60,4 +60,13 @@ public class ValidityPeriodEntity {
         result = 31 * result + costPerMonth;
         return result;
     }
+
+    @Override
+    public String toString() {
+        return "ValidityPeriodEntity{" +
+                "id=" + id +
+                ", months=" + months +
+                ", costPerMonth=" + costPerMonth +
+                '}';
+    }
 }

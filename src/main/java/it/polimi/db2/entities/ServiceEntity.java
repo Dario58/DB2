@@ -155,4 +155,11 @@ public class ServiceEntity {
         result = 31 * result + (miExtraGBsCost != null ? miExtraGBsCost.hashCode() : 0);
         return result;
     }
+
+    @Override
+    public String toString() {
+        return "ServiceEntity{" +
+                "id=" + id +
+                '}';
+    }
 }

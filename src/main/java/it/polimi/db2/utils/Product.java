@@ -39,4 +39,14 @@ public class Product {
     public List<OptionalProductEntity> getAvailableOptionals() {
         return availableOptionals;
     }
+
+    @Override
+    public String toString() {
+        return "Product{" +
+                "bundle=" + bundle +
+                ", validityPeriods=" + validityPeriods +
+                ", services=" + services +
+                ", availableOptionals=" + availableOptionals +
+                '}';
+    }
 }

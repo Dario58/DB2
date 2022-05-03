@@ -70,4 +70,11 @@ public class BundleEntity {
         result = 31 * result + (title != null ? title.hashCode() : 0);
         return result;
     }
+
+    @Override
+    public String toString() {
+        return "BundleEntity{" +
+                "title='" + title + '\'' +
+                '}';
+    }
 }

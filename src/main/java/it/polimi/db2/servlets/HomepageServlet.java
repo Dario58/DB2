@@ -56,6 +56,7 @@ public class HomepageServlet extends HttpServlet {
         if(bundleList != null) {
             products = new ArrayList<>();
             for(BundleEntity b : bundleList) products.add(bundleService.buildProduct(b, b.getId()));
+            System.out.println(products.get(0));
         }
 
         resp.setContentType("text/html");

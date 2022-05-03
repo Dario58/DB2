@@ -20,12 +20,17 @@
             <div class="has-text-centered mb-5">
                 <h1 class="title">Homepage</h1>
             </div>
-            <div data-th-text="${product.bId}"></div>
-            <div data-th-text="${product.title}"></div>
-            <div data-th-each="packages: ${product}" class="my-2">
-                <strong><span data-th-text="${product.bundleId}"></span></strong>
-                <strong><span data-th-text="${product.service}"></span></strong>
-                <strong><span data-th-text="${product.validityPeriod}"></span></strong>
+        </div>
+        <div class="container">
+            <div data-th-each="product: ${session.products}" class="my-2">
+                <strong><span data-th-text="'Title: ' + ${product.bundle.title}"></span></strong>
+                <strong><span data-th-each="service: ${product.services}" class="container">
+                    <span data-th-text="${service.offer}"></span>
+                </span></strong>
+                <strong><span data-th-each="period: ${product.validityPeriods}" class="container">
+                    <span data-th-text="${period.months} + ' months'"></span>
+                    <span data-th-text="${period.costPerMonth} + ' €/month'"></span>
+                </span></strong>
             </div>
         </div>
     </div>

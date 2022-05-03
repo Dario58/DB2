@@ -60,4 +60,13 @@ public class OptionalProductEntity {
         result = 31 * result + monthlyFee;
         return result;
     }
+
+    @Override
+    public String toString() {
+        return "OptionalProductEntity{" +
+                "id=" + id +
+                ", title='" + title + '\'' +
+                ", monthlyFee=" + monthlyFee +
+                '}';
+    }
 }
