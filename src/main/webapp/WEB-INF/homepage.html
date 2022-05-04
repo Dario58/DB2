@@ -4,8 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Homepage</title>
-    <link href="/css/style.css" data-th-ref="@{/css/style.css}" rel="stylesheet">
-    <link href="/css/body.css" data-th-ref="@{/css/body.css}" rel="stylesheet">
+    <link href="css/style.css" data-th-ref="@{/css/style.css}" rel="stylesheet">
 </head>
 <body class="has-background-white">
 <section class="hero-is-fullheight">
@@ -22,7 +21,7 @@
             </div>
         </div>
         <div data-th-each="product: ${products}" class="my-2">
-            <strong><span data-th-text="${product.bundle.title}"></span></strong>
+            <strong><span data-th-text="${product.bundle.title}" ></span></strong>
             <div data-th-each="service: ${product.services}">
                 <strong><span data-th-text="${service.offer}"></span></strong>
             </div>
@@ -30,6 +29,11 @@
                 <strong><span data-th-text="${period.months} + ' months at: ' + '$' + ${period.costPerMonth} + '/month.'"></span></strong>
             </div>
         </div>
+        <form method="get" data-th-action="@{'/cart'}">
+            <div class="has-text-centered">
+                <input type="submit" class="button is-primary is-small" style="background-color: #2160c4" value="Cart">
+            </div>
+        </form>
     </div>
 </section>
 </body>
