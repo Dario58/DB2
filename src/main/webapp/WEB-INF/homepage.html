@@ -23,6 +23,12 @@
         </div>
         <div data-th-each="product: ${products}" class="my-2">
             <strong><span data-th-text="${product.bundle.title}"></span></strong>
+            <div data-th-each="service: ${product.services}">
+                <strong><span data-th-text="${service.offer}"></span></strong>
+            </div>
+            <div data-th-each="period: ${product.validityPeriods}">
+                <strong><span data-th-text="${period.months} + ' months at: ' + '$' + ${period.costPerMonth} + '/month.'"></span></strong>
+            </div>
         </div>
     </div>
 </section>
