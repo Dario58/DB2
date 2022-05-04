@@ -21,9 +21,12 @@
             </div>
         </div>
         <div data-th-each="product: ${products}" class="my-2">
-            <strong><span data-th-text="${product.bundle.title}" ></span></strong>
+            <strong><span data-th-text="${product.bundle.title}" style="font-size: 150%"></span></strong>
             <div data-th-each="service: ${product.services}">
-                <strong><span data-th-text="${service.offer}"></span></strong>
+                <strong><span data-th-if="${service.offer} == 'FP'">Fixed Phone</span></strong>
+                <strong><span data-th-if="${service.offer} == 'FI'">Fixed Internet</span></strong>
+                <strong><span data-th-if="${service.offer} == 'MP'">Mobile Phone</span></strong>
+                <strong><span data-th-if="${service.offer} == 'MI'">Mobile Internet</span></strong>
             </div>
             <div data-th-each="period: ${product.validityPeriods}">
                 <strong><span data-th-text="${period.months} + ' months at: ' + '$' + ${period.costPerMonth} + '/month.'"></span></strong>
