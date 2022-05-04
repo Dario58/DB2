@@ -30,7 +30,10 @@ public class OrderServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        resp.sendRedirect(getServletContext().getContextPath());
+        ServletContext servletContext = getServletContext();
+        WebContext ctx = new WebContext(req, resp, servletContext, req.getLocale());
+        String path = "/WEB-INF/order.html";
+        templateEngine.process(path, ctx, resp.getWriter());
     }
 
     @Override
