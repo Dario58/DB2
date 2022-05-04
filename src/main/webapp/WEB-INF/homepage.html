@@ -21,7 +21,7 @@
             </div>
         </div>
         <div data-th-each="product: ${products}" class="my-2">
-            <strong><span data-th-text="${product.bundle.title}" style="font-size: 150%"></span></strong>
+            <strong><span> <a data-th-text="${product.bundle.title}" data-th-href="@{/order}"></a></span></strong>
             <div data-th-each="service: ${product.services}">
                 <strong><span data-th-if="${service.offer} == 'FP'">Fixed Phone</span></strong>
                 <strong><span data-th-if="${service.offer} == 'FI'">Fixed Internet</span></strong>
@@ -32,11 +32,6 @@
                 <strong><span data-th-text="${period.months} + ' months at: ' + '$' + ${period.costPerMonth} + '/month.'"></span></strong>
             </div>
         </div>
-        <form method="get" data-th-action="@{'/cart'}">
-            <div class="has-text-centered">
-                <input type="submit" class="button is-primary is-small" style="background-color: #2160c4" value="Cart">
-            </div>
-        </form>
     </div>
 </section>
 </body>
