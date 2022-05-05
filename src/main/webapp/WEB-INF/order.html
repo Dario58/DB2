@@ -4,12 +4,17 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Fill Order</title>
-    <link href="css/style.css" data-th-ref="@{/css/style.css}" rel="stylesheet">
+    <link href="/css/style.css" data-th-ref="@{/css/style.css}" rel="stylesheet">
 </head>
 <body>
 <div data-th-each="${session.product.validityPeriods}">
-    <strong><span data-th-text="${period.months}"> + <input type="checkbox" id="period" name="period1" value="Period">
+    <strong><span data-th-text="${period.months}"> +
+        <label for="period"></label><input type="checkbox" id="period" name="period1" value="Period">
+<!--        QUI HA FATTO AGGIUNGERE UNA LABEL DA CONTROLLARE-->
          </span></strong>
+</div>
+<div data-th-each="${session.product.optionalProducts}">
+    <strong><span data-th-text="${}" ></span></strong>
 </div>
 <form method="get" data-th-action="/cart">
     <div class="has-text-left-desktop-only">

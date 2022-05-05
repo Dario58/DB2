@@ -3,6 +3,7 @@ package it.polimi.db2.servlets;
 import it.polimi.db2.entities.*;
 import it.polimi.db2.services.BundleService;
 import it.polimi.db2.utils.Product;
+import org.apache.commons.text.StringEscapeUtils;
 import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.context.WebContext;
 import org.thymeleaf.templatemode.TemplateMode;
@@ -67,5 +68,28 @@ public class HomepageServlet extends HttpServlet {
         String path = "/WEB-INF/homepage.html";
 
         templateEngine.process(path, ctx, resp.getWriter());
+    }
+
+    @Override
+    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+
+        String order = StringEscapeUtils.escapeJava(req.getParameter("title"));
+        String services = StringEscapeUtils.escapeJava(req.getParameter("services"));
+        String offer = StringEscapeUtils.escapeJava(req.getParameter("offer")); //there is more than one offer how can you take them all?
+        String validMonths = StringEscapeUtils.escapeJava(req.getParameter("months"));
+        String costPerMonth = StringEscapeUtils.escapeJava(req.getParameter("costPerMonth"));
+
+        if(order == null /*|| order = ""*/) {
+            resp.sendError(HttpServletResponse.SC_BAD_REQUEST, "Your cart is empty, choose a service package to " +
+                    "continue purchasing");
+        }else{
+            req.getSession().setAttribute("title", order);
+            req.getSession().setAttribute("services", services);
+            req.getSession().setAttribute("offer", offer);
+            req.getSession().setAttribute("months", validMonths);
+            req.getSession().setAttribute("costPerMonth", costPerMonth);
+
+            resp.sendRedirect(getServletContext().getContextPath() + "/order");
+        }
     }
 }

@@ -22,7 +22,7 @@
         </div>
         <div data-th-each="product: ${products}" class="my-2">
             <strong><span data-th-text="${product.bundle.title}"></span></strong><br>
-            <form method="post" data-th-action="@{'/order'}">
+            <form method="get" data-th-action="@{'/order'}">
                 <div>
                     <input type="submit" class="button is-primary is-small" style="background-color: #2160c4" name="${product.bundle.title}" value="${product.bundle.title}">
                 </div>
