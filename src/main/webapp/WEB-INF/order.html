@@ -7,11 +7,15 @@
     <link href="css/style.css" data-th-ref="@{/css/style.css}" rel="stylesheet">
 </head>
 <body>
-
-<h1>My First Heading</h1>
-
-<p>My first paragraph.</p>
-
+<div data-th-each="${session.product.validityPeriods}">
+    <strong><span data-th-text="${period.months}"> + <input type="checkbox" id="period" name="period1" value="Period">
+         </span></strong>
+</div>
+<form method="get" data-th-action="/cart">
+    <div class="has-text-left-desktop-only">
+        <input type="submit" class="button is-primary is-small" style="background-color: #2160c4" value="Cart">
+    </div>
+</form>
 </body>
 </html>
 

@@ -1,16 +1,16 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:counter-reset="http://java.sun.com/jsf/composite">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Homepage</title>
     <link href="css/style.css" data-th-ref="@{/css/style.css}" rel="stylesheet">
 </head>
-<body class="has-background-white">
+<body class="has-background-white" counter-reset: my-sec-counter;>
 <section class="hero-is-fullheight">
     <div class="hero-body">
         <div class="container">
-            <div data-th-if="${session.user == null}" class="column is-4 is-offset-4"
+            <div data-th-if="${session.user == null}" class="column is-left" style="text-align:left;"
                  data-th-text="'Guest User'"></div>
             <div data-th-if="${session.user != null}" class="column is-4 is-offset-4">
                 <div data-th-text="'Logged in as: ' + ${session.user.nickname} "></div>
@@ -21,7 +21,12 @@
             </div>
         </div>
         <div data-th-each="product: ${products}" class="my-2">
-            <strong><span> <a data-th-text="${product.bundle.title}" data-th-href="@{/order}"></a></span></strong>
+            <strong><span data-th-text="${product.bundle.title}"></span></strong><br>
+            <form method="post" data-th-action="@{'/order'}">
+                <div>
+                    <input type="submit" class="button is-primary is-small" style="background-color: #2160c4" name="${product.bundle.title}" value="${product.bundle.title}">
+                </div>
+            </form>
             <div data-th-each="service: ${product.services}">
                 <strong><span data-th-if="${service.offer} == 'FP'">Fixed Phone</span></strong>
                 <strong><span data-th-if="${service.offer} == 'FI'">Fixed Internet</span></strong>
