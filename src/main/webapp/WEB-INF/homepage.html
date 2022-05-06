@@ -6,7 +6,7 @@
     <title>Homepage</title>
     <link href="css/style.css" data-th-ref="@{/css/style.css}" rel="stylesheet">
 </head>
-<body class="has-background-white" counter-reset: my-sec-counter;>
+<body class="has-background-white">
 <section class="hero-is-fullheight">
     <div class="hero-body">
         <div class="container">
@@ -20,11 +20,18 @@
                 <h1 class="title">Homepage</h1>
             </div>
         </div>
-        <div data-th-each="product: ${products}" class="my-2">
-            <strong><span data-th-text="${product.bundle.title}"></span></strong><br>
-            <form method="get" data-th-action="@{'/order'}">
+        <div th:each="product: ${products}" class="my-2">
+            <strong>
+            <!--/*@thymesVar id="product" type="it.polimi.db2.utils.Product"*/-->
+            <span th:text="${product.getBundle().getTitle()}"></span>
+            </strong>
+            <br>
+            <form method="post" data-th-action="@{'/homepage'}">
                 <div>
-                    <input type="submit" class="button is-primary is-small" style="background-color: #2160c4" name="${product.bundle.title}" value="${product.bundle.title}">
+                    <!--/*@thymesVar id="product" type="it.polimi.db2.utils.Product"*/-->
+                    <button type="submit" class="button is-primary is-small" style="background-color: #2160c4" name="buyButton" th:value="${product.getBundle().getId()}">
+                        Buy Bundle
+                    </button>
                 </div>
             </form>
             <div data-th-each="service: ${product.services}">

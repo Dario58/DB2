@@ -20,6 +20,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 @WebServlet(name = "HomepageServlet", value = "/homepage")
@@ -72,24 +73,6 @@ public class HomepageServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-
-        String order = StringEscapeUtils.escapeJava(req.getParameter("title"));
-        String services = StringEscapeUtils.escapeJava(req.getParameter("services"));
-        String offer = StringEscapeUtils.escapeJava(req.getParameter("offer")); //there is more than one offer how can you take them all?
-        String validMonths = StringEscapeUtils.escapeJava(req.getParameter("months"));
-        String costPerMonth = StringEscapeUtils.escapeJava(req.getParameter("costPerMonth"));
-
-        if(order == null /*|| order = ""*/) {
-            resp.sendError(HttpServletResponse.SC_BAD_REQUEST, "Your cart is empty, choose a service package to " +
-                    "continue purchasing");
-        }else{
-            req.getSession().setAttribute("title", order);
-            req.getSession().setAttribute("services", services);
-            req.getSession().setAttribute("offer", offer);
-            req.getSession().setAttribute("months", validMonths);
-            req.getSession().setAttribute("costPerMonth", costPerMonth);
-
-            resp.sendRedirect(getServletContext().getContextPath() + "/order");
-        }
+        int bId = Integer.parseInt(req.getParameter("buyButton"));
     }
 }

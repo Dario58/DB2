@@ -1,6 +1,7 @@
 package it.polimi.db2.servlets;
 
 import it.polimi.db2.entities.BundleEntity;
+import it.polimi.db2.entities.ServiceEntity;
 import it.polimi.db2.services.BundleService;
 import it.polimi.db2.utils.Product;
 import org.apache.commons.text.StringEscapeUtils;
@@ -43,11 +44,6 @@ public class OrderServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         HttpSession session = req.getSession();
-        Product order = (Product) session.getAttribute("title");
-        Product services = (Product) session.getAttribute("services");
-        Product offer = (Product) session.getAttribute("offer");
-        Product validMonths = (Product) session.getAttribute("months");
-        Product costPerMonth = (Product) session.getAttribute("costPerMonth");
 
         List<BundleEntity> bundleList = new ArrayList<>();
 
@@ -65,11 +61,6 @@ public class OrderServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-
-        String choice = StringEscapeUtils.escapeJava(req.getParameter("title"));
-        req.getSession().setAttribute("title", choice);
-
-
         resp.sendRedirect(getServletContext().getContextPath() + "/cart");
 
     }
