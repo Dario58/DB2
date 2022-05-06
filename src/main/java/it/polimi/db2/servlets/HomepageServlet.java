@@ -58,7 +58,6 @@ public class HomepageServlet extends HttpServlet {
         if(bundleList != null) {
             products = new ArrayList<>();
             for(BundleEntity b : bundleList) products.add(bundleService.buildProduct(b, b.getId()));
-            System.out.println(products.get(0));
         }
 
         resp.setContentType("text/html");
@@ -66,6 +65,7 @@ public class HomepageServlet extends HttpServlet {
         ServletContext servletContext = getServletContext();
         WebContext ctx = new WebContext(req, resp, servletContext, req.getLocale());
         ctx.setVariable("products", products);
+        session.setAttribute("products", products);
         String path = "/WEB-INF/homepage.html";
 
         templateEngine.process(path, ctx, resp.getWriter());
@@ -73,6 +73,29 @@ public class HomepageServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        int bId = Integer.parseInt(req.getParameter("buyButton"));
+
+        if(req.getParameter("buyButton") != null) {
+            int bId = Integer.parseInt(req.getParameter("buyButton"));
+
+            List<Product> products = (ArrayList<Product>) req.getSession().getAttribute("products");
+            Product currentProduct = null;
+
+            for(Product product : products) {
+                if(product.getBundle().getId() == bId) currentProduct = product;
+            }
+
+            if(currentProduct != null) {
+                req.getSession().setAttribute("currentProduct", currentProduct);
+                resp.sendRedirect(getServletContext().getContextPath() + "/order");
+                return;
+            }
+        }
+        resp.setContentType("text/html");
+
+        ServletContext servletContext = getServletContext();
+        WebContext ctx = new WebContext(req, resp, servletContext, req.getLocale());
+        ctx.setVariable("errorMessage", "Couldn't read the bundle.");
+
+        templateEngine.process("/WEB-INF/homepage.html", ctx, resp.getWriter());
     }
 }

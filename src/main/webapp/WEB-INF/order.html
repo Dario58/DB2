@@ -3,24 +3,60 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Fill Order</title>
-    <link href="/css/style.css" data-th-ref="@{/css/style.css}" rel="stylesheet">
+    <title>Fill Details</title>
+    <link href="css/style.css" data-th-ref="@{/css/style.css}" rel="stylesheet">
 </head>
 <body>
-<div data-th-each="${session.product.validityPeriods}">
-    <strong><span data-th-text="${period.months}">
-        <label for="period"></label><input type="checkbox" id="period" name="period1" value="Period">
-<!--        QUI HA FATTO AGGIUNGERE UNA LABEL DA CONTROLLARE-->
-         </span></strong>
-</div>
-<div data-th-each="${session.product.optionalProducts}">
-    <strong><span data-th-text="${}" ></span></strong>
-</div>
-<form method="get" data-th-action="/cart">
-    <div class="has-text-left-desktop-only">
-        <input type="submit" class="button is-primary is-small" style="background-color: #2160c4" value="Cart">
+    <div class="container, has-text-centered mb-5">
+        <h1 class="title" th:text="${session.currentProduct.getBundle().getTitle()}"></h1>
     </div>
-</form>
+    <div class="container">
+        <div class="box" th:each=" service: ${session.currentProduct.getServices()}">
+            <div>
+                <ul>
+                    <li>
+                        <strong>
+                            <span data-th-if="${service.offer} == 'FP'">
+                                Fixed Phone
+                            </span>
+                        </strong>
+                        <strong>
+                            <span data-th-if="${service.offer} == 'FI'">
+                                Fixed Internet
+                            </span>
+                        </strong>
+                            <span data-th-if="${service.offer} == 'FI'"
+                                  data-th-text="' - GigaBytes: ' + ${service.fiGBs} + '. Extra $/GB ' + ${service.fiExtraGBsCost}">
+                            </span>
+                        <strong>
+                            <span data-th-if="${service.offer} == 'MP'">
+                                Mobile Phone
+                            </span>
+                        </strong>
+                            <span data-th-if="${service.offer} == 'MP'"
+                                  data-th-text="' - Mins: ' + ${service.mpMins} + '. Extra $/Min ' + ${service.mpExtraMinsCost} + '. Sms: ' + ${service.mpSms} + '. Extra $/Sms ' + ${service.mpExtraSmsCost}">
+                            </span>
+                        <strong>
+                            <span data-th-if="${service.offer} == 'MI'">
+                                Mobile Internet
+                            </span>
+                        </strong>
+                            <span data-th-if="${service.offer} == 'MI'"
+                                  data-th-text="' - GigaBytes: ' + ${service.miGBs} + '. Extra $/GB ' + ${service.miExtraGBsCost}">
+                            </span>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div class="container">
+        CIAO
+        <!-- ALE QUI FAI IL CHECKBOX PER I VALIDITY -->
+    </div>
+    <div class="container">
+        CIAO
+        <!-- QUI IL CHECKBOX PER GLI OPTIONAL -->
+    </div>
 </body>
 </html>
 

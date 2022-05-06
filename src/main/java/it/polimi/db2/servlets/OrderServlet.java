@@ -43,20 +43,13 @@ public class OrderServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        HttpSession session = req.getSession();
+        resp.setContentType("text/html");
 
-        List<BundleEntity> bundleList = new ArrayList<>();
+        ServletContext servletContext = getServletContext();
+        WebContext ctx = new WebContext(req, resp, servletContext, req.getLocale());
+        String path = "/WEB-INF/order.html";
 
-        try {
-            bundleList = bundleService.retrieveAllBundles();
-        } catch (PersistenceException e) {
-            resp.sendError(HttpServletResponse.SC_BAD_REQUEST, "Couldn't retrieve bundles.");
-
-            ServletContext servletContext = getServletContext();
-            WebContext ctx = new WebContext(req, resp, servletContext, req.getLocale());
-            String path = "/WEB-INF/order.html";
-            templateEngine.process(path, ctx, resp.getWriter());
-        }
+        templateEngine.process(path, ctx, resp.getWriter());
     }
 
     @Override
