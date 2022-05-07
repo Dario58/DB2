@@ -49,9 +49,18 @@
             </div>
         </div>
     </div>
+    <br>
     <div class="container">
-        CIAO
-        <!-- ALE QUI FAI IL CHECKBOX PER I VALIDITY -->
+        <div class="box">
+            <fieldset>
+                <legend>Select a Validity Period</legend>
+                <div th:each="period : ${session.currentProduct.getValidityPeriods()}">
+                    <!--/*@thymesVar id="period" type="it.polimi.db2.entities.ValidityPeriodEntity"*/-->
+                    <input type="radio" id="${period.id}" name="selectedValidityPeriod" th:value="${period.getId()}">
+                    <label for="${period.id}" th:text="${period.getMonths()} + ' months, at: ' + ${period.getCostPerMonth()} + '$ per month. (Total of ' + ${period.getMonths()} * ${period.getCostPerMonth()} + '$)'"></label>
+                </div>
+            </fieldset>
+        </div>
     </div>
     <div class="container">
         CIAO
