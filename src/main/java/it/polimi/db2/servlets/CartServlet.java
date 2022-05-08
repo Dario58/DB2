@@ -3,6 +3,7 @@ package it.polimi.db2.servlets;
 import it.polimi.db2.entities.UserEntity;
 import it.polimi.db2.utils.Product;
 import org.thymeleaf.TemplateEngine;
+import org.thymeleaf.context.WebContext;
 import org.thymeleaf.templatemode.TemplateMode;
 import org.thymeleaf.templateresolver.ServletContextTemplateResolver;
 
@@ -14,9 +15,11 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 @WebServlet(name = "CartServlet", value = "/cart")
-public class CartServlet extends HttpServlet{
+public class CartServlet extends HttpServlet {
 
     private TemplateEngine templateEngine;
 
@@ -33,16 +36,18 @@ public class CartServlet extends HttpServlet{
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        resp.sendRedirect(getServletContext().getContextPath());
+        resp.setContentType("text/html");
+
+        ServletContext servletContext = getServletContext();
+        WebContext ctx = new WebContext(req, resp, servletContext, req.getLocale());
+        String path = "/WEB-INF/cart.html";
+
+        templateEngine.process(path, ctx, resp.getWriter());
     }
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        HttpSession session = req.getSession();
-        UserEntity user = (UserEntity) session.getAttribute("user");
-        Product bundle = (Product) session.getAttribute("bundle");
-        Product validityPeriod = (Product) session.getAttribute("validityPeriod");
-        Product service = (Product) session.getAttribute("service");
+
 
     }
 }

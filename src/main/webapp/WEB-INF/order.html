@@ -72,18 +72,19 @@
                         <!--/*@thymesVar id="optional" type="it.polimi.db2.entities.OptionalProductEntity"*/-->
                         <!--/*@thymesVar id="listOptionals" type="java.util.ArrayList<it.polimi.db2.entities.OptionalProductEntity>"*/-->
                         <input type="checkbox" th:id="'op' + ${optional.id}" th:name="'selectedOptional' + ${optional.getId()}" th:value="${optional.getId()}">
-                        <label th:for="'op' + ${optional.id}" th:text="${optional.getTitle()} + 'for: ' + ${optional.getMonthlyFee()} + '$ per month.'"></label>
+                        <label th:for="'op' + ${optional.id}" th:text="${optional.getTitle()} + ' for: ' + ${optional.getMonthlyFee()} + '$ per month.'"></label>
                     </div>
                 </fieldset>
             </div>
         </div>
         <br>
-        <div class="has-text-centered">
-            <!--/*@thymesVar id="listOptionals" type="java.util.ArrayList<it.polimi.db2.entities.OptionalProductEntity>"*/-->
-            <input type="submit" class="button is-primary is-medium" style="background-color: #2160c4" value="Submit">
-        </div>
-        <br>
     </form>
+<form method="post" data-th-action="@{'/cart'}">
+    <div class="has-text-centered">
+        <input type="submit" class="button is-primary is-medium" style="background-color: #2160c4" value="Submit">
+    </div>
+    <br>
+</form>
 </body>
 </html>
 

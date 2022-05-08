@@ -3,6 +3,7 @@ package it.polimi.db2.servlets;
 import it.polimi.db2.entities.BundleEntity;
 import it.polimi.db2.entities.OptionalProductEntity;
 import it.polimi.db2.entities.ServiceEntity;
+import it.polimi.db2.entities.ValidityPeriodEntity;
 import it.polimi.db2.services.BundleService;
 import it.polimi.db2.utils.Product;
 import org.apache.commons.text.StringEscapeUtils;
@@ -57,11 +58,15 @@ public class OrderServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        System.out.println("validity period: " + req.getParameter("selectedValidityPeriod"));
+
+        ValidityPeriodEntity selectedValidityPeriod = null;
+        OptionalProductEntity selectedOptional = null;
+
+        req.getSession().setAttribute("selectedValidityPeriod", selectedValidityPeriod);
         Product current = (Product) req.getSession().getAttribute("currentProduct");
         for(OptionalProductEntity op : current.getAvailableOptionals()) {
             if(req.getParameter("selectedOptional" + op.getId()) != null) {
-                System.out.println("chosen optional: " + req.getParameter("selectedOptional" + op.getId()));
+                req.setAttribute("selectedOptional" + op.getId(), selectedOptional);
             }
         }
 
