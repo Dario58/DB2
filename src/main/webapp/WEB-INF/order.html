@@ -63,8 +63,16 @@
         </div>
     </div>
     <div class="container">
-        CIAO
-        <!-- QUI IL CHECKBOX PER GLI OPTIONAL -->
+        <fieldset>
+            <legend>Choose your Optional Products</legend>
+            <div class="box" th:each=" optionals: ${session.currentProduct.getAvailableOptionals()}">
+                <!--/*@thymesVar id="optionals" type="it.polimi.db2.entities.OptionalProductEntity"*/-->
+                <!--/*@thymesVar id="period" type="it.polimi.db2.entities.ValidityPeriodEntity"*/-->
+                <input type="checkbox" id="${optionals.id}" name="selectedOptionalProducts" th:value="${optionals.getId()}">
+                <label for="${optionals.id}" th:text="${optionals.getTitle()} + 'for: ' + ${optionals.getMonthlyFee()} + 'per month.  + (Total of ' + ${period.getMonths()}*{optionals.getMonthlyFee()} + '$)'"></label>
+            </div>
+        </fieldset>
+    </div>
     </div>
 </body>
 </html>
