@@ -78,13 +78,18 @@
             </div>
         </div>
         <br>
+        <div class="container">
+            <div class="box">
+                <input type="date" id="start" name="subscriptionStart" th:min="${session.today}" required>
+                <label>Choose subscription start date</label>
+            </div>
+        </div>
+        <br>
+        <div class="has-text-centered">
+            <input type="submit" class="button is-primary is-medium" style="background-color: #2160c4" value="Submit">
+        </div>
+        <br>
     </form>
-<form method="post" data-th-action="@{'/cart'}">
-    <div class="has-text-centered">
-        <input type="submit" class="button is-primary is-medium" style="background-color: #2160c4" value="Submit">
-    </div>
-    <br>
-</form>
 </body>
 </html>
 

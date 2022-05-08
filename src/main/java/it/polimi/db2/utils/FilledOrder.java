@@ -13,22 +13,16 @@ import java.util.List;
  * for an order
  */
 public class FilledOrder {
-    private final UserEntity user;
     private final BundleEntity bundle;
     private final ValidityPeriodEntity validityPeriod;
     private final List<OptionalProductEntity> availableOptionals;
     private final Date startDate;
 
-    public FilledOrder(UserEntity user, BundleEntity bundle, ValidityPeriodEntity validityPeriod, List<OptionalProductEntity> availableOptionals, Date startDate) {
-        this.user = user;
+    public FilledOrder(BundleEntity bundle, ValidityPeriodEntity validityPeriod, List<OptionalProductEntity> availableOptionals, Date startDate) {
         this.bundle = bundle;
         this.validityPeriod = validityPeriod;
         this.availableOptionals = availableOptionals;
         this.startDate = startDate;
-    }
-
-    public UserEntity getUser() {
-        return user;
     }
 
     public BundleEntity getBundle() {
@@ -45,5 +39,15 @@ public class FilledOrder {
 
     public Date getStartDate() {
         return startDate;
+    }
+
+    @Override
+    public String toString() {
+        return "FilledOrder{" +
+                "bundle=" + bundle +
+                ", validityPeriod=" + validityPeriod +
+                ", availableOptionals=" + availableOptionals +
+                ", startDate=" + startDate +
+                '}';
     }
 }
