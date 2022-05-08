@@ -15,14 +15,23 @@ import java.util.List;
 public class FilledOrder {
     private final BundleEntity bundle;
     private final ValidityPeriodEntity validityPeriod;
-    private final List<OptionalProductEntity> availableOptionals;
+    private final List<OptionalProductEntity> chosenOptionals;
     private final Date startDate;
+    private final int totalExpenditure;
 
-    public FilledOrder(BundleEntity bundle, ValidityPeriodEntity validityPeriod, List<OptionalProductEntity> availableOptionals, Date startDate) {
+    public FilledOrder(BundleEntity bundle, ValidityPeriodEntity validityPeriod, List<OptionalProductEntity> chosenOptionals, Date startDate) {
         this.bundle = bundle;
         this.validityPeriod = validityPeriod;
-        this.availableOptionals = availableOptionals;
+        this.chosenOptionals = chosenOptionals;
         this.startDate = startDate;
+
+        int total = validityPeriod.getMonths() * validityPeriod.getCostPerMonth();
+        if(chosenOptionals != null) {
+            for(OptionalProductEntity op : chosenOptionals) {
+                total += validityPeriod.getMonths() * op.getMonthlyFee();
+            }
+        }
+        this.totalExpenditure = total;
     }
 
     public BundleEntity getBundle() {
@@ -33,12 +42,16 @@ public class FilledOrder {
         return validityPeriod;
     }
 
-    public List<OptionalProductEntity> getAvailableOptionals() {
-        return availableOptionals;
+    public List<OptionalProductEntity> getChosenOptionals() {
+        return chosenOptionals;
     }
 
     public Date getStartDate() {
         return startDate;
+    }
+
+    public int getTotalExpenditure() {
+        return totalExpenditure;
     }
 
     @Override
@@ -46,8 +59,9 @@ public class FilledOrder {
         return "FilledOrder{" +
                 "bundle=" + bundle +
                 ", validityPeriod=" + validityPeriod +
-                ", availableOptionals=" + availableOptionals +
+                ", chosenOptionals=" + chosenOptionals +
                 ", startDate=" + startDate +
+                ", totalExpenditure=" + totalExpenditure +
                 '}';
     }
 }
