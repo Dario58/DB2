@@ -60,14 +60,13 @@ public class BundleService {
     }
 
     public List<ValidityPeriodEntity> findValidityPeriodsByBundleId(int bId) {
-        System.out.println(bId);
         List<ValidityPeriodEntity> vPeriods = new ArrayList<>();
         List<Integer> validityPeriodsIds = em.createNamedQuery("BundleEntity.findValidityPeriodsById")
                 .setParameter("1", bId)
                 .getResultList();
 
         for(int id : validityPeriodsIds) vPeriods.add(em.find(ValidityPeriodEntity.class, id));
-        //for(ValidityPeriodEntity v : vPeriods) System.out.println(v.getId()); TODO: Delete at the end
+
         return vPeriods;
     }
 

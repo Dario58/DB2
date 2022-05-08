@@ -50,31 +50,40 @@
         </div>
     </div>
     <br>
-    <div class="container">
-        <div class="box">
-            <fieldset>
-                <legend>Select a Validity Period</legend>
-                <div th:each="period : ${session.currentProduct.getValidityPeriods()}">
-                    <!--/*@thymesVar id="period" type="it.polimi.db2.entities.ValidityPeriodEntity"*/-->
-                    <input type="radio" th:id="'vp' + ${period.id}" name="selectedValidityPeriod" th:value="${period.getId()}">
-                    <label th:for="'vp' + ${period.id}" th:text="${period.getMonths()} + ' months, at: ' + ${period.getCostPerMonth()} + '$ per month. (Total of ' + ${period.getMonths()} * ${period.getCostPerMonth()} + '$)'"></label>
-                </div>
-            </fieldset>
+    <form name="selectionForm" data-th-action="@{'/order'}" method="post">
+        <div class="container">
+            <div class="box">
+                <fieldset id="periods">
+                    <legend>Select a Validity Period</legend>
+                    <div th:each="period : ${session.currentProduct.getValidityPeriods()}">
+                        <!--/*@thymesVar id="period" type="it.polimi.db2.entities.ValidityPeriodEntity"*/-->
+                        <input type="radio" th:id="'vp' + ${period.id}" name="selectedValidityPeriod" th:value="${period.getId()}" required>
+                        <label th:for="'vp' + ${period.id}" th:text="${period.getMonths()} + ' months, at: ' + ${period.getCostPerMonth()} + '$ per month. (Total of ' + ${period.getMonths()} * ${period.getCostPerMonth()} + '$)'"></label>
+                    </div>
+                </fieldset>
+            </div>
         </div>
-    </div>
-    <br>
-    <div class="container">
-        <div class="box">
-            <fieldset>
-                <legend>Choose your Optional Products</legend>
-                <div th:if="${session.currentProduct.getAvailableOptionals() != null}" th:each=" optional: ${session.currentProduct.getAvailableOptionals()}">
-                    <!--/*@thymesVar id="optional" type="it.polimi.db2.entities.OptionalProductEntity"*/-->
-                    <input type="checkbox" th:id="'op' + ${optional.id}" name="selectedOptionalProducts" th:value="${optional.getId()}">
-                    <label th:for="'op' + ${optional.id}" th:text="${optional.getTitle()} + 'for: ' + ${optional.getMonthlyFee()} + '$ per month.'"></label>
-                </div>
-            </fieldset>
-    </div>
-    </div>
+        <br>
+        <div class="container">
+            <div class="box">
+                <fieldset id="optionals">
+                    <legend>Choose your Optional Products</legend>
+                    <div th:if="${session.currentProduct.getAvailableOptionals() != null}" th:each=" optional: ${session.currentProduct.getAvailableOptionals()}">
+                        <!--/*@thymesVar id="optional" type="it.polimi.db2.entities.OptionalProductEntity"*/-->
+                        <!--/*@thymesVar id="listOptionals" type="java.util.ArrayList<it.polimi.db2.entities.OptionalProductEntity>"*/-->
+                        <input type="checkbox" th:id="'op' + ${optional.id}" th:name="'selectedOptional' + ${optional.getId()}" th:value="${optional.getId()}">
+                        <label th:for="'op' + ${optional.id}" th:text="${optional.getTitle()} + 'for: ' + ${optional.getMonthlyFee()} + '$ per month.'"></label>
+                    </div>
+                </fieldset>
+            </div>
+        </div>
+        <br>
+        <div class="has-text-centered">
+            <!--/*@thymesVar id="listOptionals" type="java.util.ArrayList<it.polimi.db2.entities.OptionalProductEntity>"*/-->
+            <input type="submit" class="button is-primary is-medium" style="background-color: #2160c4" value="Submit">
+        </div>
+        <br>
+    </form>
 </body>
 </html>
 

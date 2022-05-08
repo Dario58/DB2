@@ -1,6 +1,7 @@
 package it.polimi.db2.servlets;
 
 import it.polimi.db2.entities.BundleEntity;
+import it.polimi.db2.entities.OptionalProductEntity;
 import it.polimi.db2.entities.ServiceEntity;
 import it.polimi.db2.services.BundleService;
 import it.polimi.db2.utils.Product;
@@ -21,6 +22,8 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Enumeration;
 import java.util.List;
 
 @WebServlet(name = "OrderServlet", value = "/order")
@@ -54,7 +57,13 @@ public class OrderServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        resp.sendRedirect(getServletContext().getContextPath() + "/cart");
+        System.out.println("validity period: " + req.getParameter("selectedValidityPeriod"));
+        Product current = (Product) req.getSession().getAttribute("currentProduct");
+        for(OptionalProductEntity op : current.getAvailableOptionals()) {
+            if(req.getParameter("selectedOptional" + op.getId()) != null) {
+                System.out.println("chosen optional: " + req.getParameter("selectedOptional" + op.getId()));
+            }
+        }
 
     }
 }
