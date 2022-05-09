@@ -8,11 +8,13 @@ import javax.persistence.*;
         @NamedQuery(name = "EmployeeEntity.checkCredentials", query = "SELECT a FROM EmployeeEntity a WHERE a.nickname = :nickname AND a.password = :password")
 })
 public class EmployeeEntity {
+    @Id
+    @Column(name = "id", nullable = false)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
     private String nickname;
     private String password;
 
-    @Id
     @Column(name = "id")
     public int getId() {
         return id;

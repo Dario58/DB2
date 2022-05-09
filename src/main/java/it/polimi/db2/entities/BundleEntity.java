@@ -31,7 +31,6 @@ public class BundleEntity {
 
     }
 
-    @Id
     @Column(name = "id")
     public int getId() {
         return id;

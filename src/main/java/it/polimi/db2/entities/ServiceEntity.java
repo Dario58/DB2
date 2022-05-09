@@ -5,6 +5,9 @@ import javax.persistence.*;
 @Entity
 @Table(name = "service", schema = "db2_project")
 public class ServiceEntity {
+    @Id
+    @Column(name = "id", nullable = false)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
     private String offer;
     private Integer mpMins;
@@ -16,8 +19,6 @@ public class ServiceEntity {
     private Integer miGBs;
     private Integer miExtraGBsCost;
 
-    @Id
-    @Column(name = "id")
     public int getId() {
         return id;
     }

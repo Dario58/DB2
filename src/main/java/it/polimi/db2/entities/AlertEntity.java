@@ -6,12 +6,14 @@ import java.sql.Date;
 @Entity
 @Table(name = "alert", schema = "db2_project")
 public class AlertEntity {
+    @Id
+    @Column(name = "id", nullable = false)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
+
     private int amountLastRejection;
     private Date dateLastRejection;
 
-    @Id
-    @Column(name = "id")
     public int getId() {
         return id;
     }

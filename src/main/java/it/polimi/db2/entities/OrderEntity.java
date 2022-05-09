@@ -6,13 +6,14 @@ import java.sql.Timestamp;
 @Entity
 @Table(name = "order", schema = "db2_project")
 public class OrderEntity {
+    @Id
+    @Column(name = "id", nullable = false)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
     private Timestamp issueTime;
     private int totCost;
     private Boolean valid;
 
-    @Id
-    @Column(name = "id")
     public int getId() {
         return id;
     }

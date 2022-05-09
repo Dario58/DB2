@@ -10,7 +10,8 @@ public class OptionalProductEntity {
     private int monthlyFee;
 
     @Id
-    @Column(name = "id")
+    @Column(name = "id", nullable = false)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     public int getId() {
         return id;
     }

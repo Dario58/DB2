@@ -5,12 +5,14 @@ import javax.persistence.*;
 @Entity
 @Table(name = "validityperiod", schema = "db2_project")
 public class ValidityPeriodEntity {
+    @Id
+    @Column(name = "id", nullable = false)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
     private int months;
     private int costPerMonth;
 
-    @Id
-    @Column(name = "id")
+
     public int getId() {
         return id;
     }
