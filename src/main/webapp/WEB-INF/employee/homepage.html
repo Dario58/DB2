@@ -3,23 +3,23 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Homepage</title>
+    <title>Employee Homepage</title>
     <link href="/css/style.css" data-th-ref="@{/css/style.css}" rel="stylesheet">
     <link href="/css/body.css" data-th-ref="@{/css/body.css}" rel="stylesheet">
 </head>
 <body class="has-background-light">
 <section class="container py-5 vh100">
-    <div class="has-text-right">
-        <div data-th-text="'Signed in as ' + ${session.employee.nickname}">Signed in as pippo</div>
+    <div class="has-text-left">
+        <div data-th-text="'Signed in as ' + ${session.employee.nickname}"></div>
         <a href="#" data-th-href="@{/employee/logout}">Logout</a>
     </div>
 
     <div class="column">
         <div class="has-text-centered mb-6">
-            <h1 class="title">Admin Homepage</h1>
+            <h1 class="title">Employee Homepage</h1>
         </div>
-        <h2 class="is-size-3 mb-2">Welcome to the admin homepage!</h2>
-        <h3 class="is-size-5 mb-1">Please select an action:</h3>
+        <h2 class="is-size-3 mb-2">Welcome to the employee homepage!</h2>
+        <h3 class="is-size-3 mb-2>">See below if you want to create new packages</h3>
     </div>
 </section>
 </body>

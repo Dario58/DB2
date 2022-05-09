@@ -22,7 +22,7 @@ import java.util.regex.Pattern;
 
 @WebServlet(name = "registerServlet", value = "/register")
 public class RegisterServlet extends HttpServlet {
-    private final String registerPath = "/WEB-INF/register.html";
+    private String registerPath = new String();
     private TemplateEngine templateEngine;
 
     @EJB(name = "it.polimi.db2.services/UserService")
@@ -43,9 +43,13 @@ public class RegisterServlet extends HttpServlet {
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         resp.setContentType("text/html");
 
+        if(Boolean.parseBoolean(req.getParameter("doRedirect"))) {
+            req.getSession().setAttribute("doRedirect", true);
+        }
         ServletContext servletContext = getServletContext();
         WebContext ctx = new WebContext(req, resp, servletContext, req.getLocale());
 
+        registerPath = "/WEB-INF/register.html";
         templateEngine.process(registerPath, ctx, resp.getWriter());
     }
 
@@ -86,7 +90,11 @@ public class RegisterServlet extends HttpServlet {
             templateEngine.process(registerPath, ctx, resp.getWriter());
         } else {
             req.getSession().setAttribute("user", user);
-            resp.sendRedirect(getServletContext().getContextPath() + "/login");
+            if((Boolean) req.getSession().getAttribute("doRedirect")){
+                resp.sendRedirect(getServletContext().getContextPath() + "/cart");
+            }else {
+                resp.sendRedirect(getServletContext().getContextPath() + "/login");
+            }
         }
     }
 

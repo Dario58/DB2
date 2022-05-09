@@ -38,6 +38,9 @@ public class LoginServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        if(Boolean.parseBoolean(req.getParameter("doRedirect"))) {
+            req.getSession().setAttribute("doRedirect", true);
+        }
         resp.sendRedirect(getServletContext().getContextPath());
     }
 
@@ -68,7 +71,12 @@ public class LoginServlet extends HttpServlet {
             templateEngine.process("/index.html", ctx, resp.getWriter());
         } else {
             req.getSession().setAttribute("user", user);
-            resp.sendRedirect(getServletContext().getContextPath() + "/homepage");
+
+            if((Boolean) req.getSession().getAttribute("doRedirect")){
+                resp.sendRedirect(getServletContext().getContextPath() + "/cart");
+            }else {
+                resp.sendRedirect(getServletContext().getContextPath() + "/homepage");
+            }
         }
     }
 }

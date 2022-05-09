@@ -11,9 +11,9 @@
     <div class="hero-body">
         <div class="container">
             <div data-th-if="${session.user == null}" class="column is-left" style="text-align:left;"
-                 data-th-text="'Guest User'"></div>
+                  data-th-text="'Guest User'"></div>
             <div data-th-if="${session.user != null}" class="column is-4 is-offset-4">
-                <div data-th-text="'Logged in as: ' + ${session.user.nickname} "></div>
+                <div  data-th-text="'Logged in as: ' + ${session.user.nickname} "></div>
                 <a data-th-href="@{/logout}">Logout</a>
             </div>
             <div class="has-text-centered mb-5">
