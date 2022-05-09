@@ -24,5 +24,32 @@
         <span th:text="'Total cost: ' + ${session.filledOrder.getTotalExpenditure()} + '$'"></span>
     </div>
 </div>
+
+<div class="container">
+    <div th:if="${session.user} != null">
+        <div class="box">
+            <form method="post" data-th-action="@{/cart}">
+                <button type="submit" class="button is-primary is-small" style="background-color: #2160c4" name="purchaseOk" th:value="true">Purchase OK</button>
+            </form>
+            <br>
+            <form method="post" data-th-action="@{/cart}">
+                <button type="submit" class="button is-primary is-small" style="background-color: #2160c4" name="purchaseKo" th:value="false">Purchase KO</button>
+            </form>
+        </div>
+    </div>
+    <div th:if="${session.user} == null">
+        <div class="box">
+            <label>It seems like you're not logged, choose one of the options: </label>
+            <br>
+            <form method="get" data-th-action="@{/login}">
+                <button type="submit" class="button is-primary is-small" style="background-color: #2160c4" name="doRedirect" th:value="true">Login</button>
+            </form>
+            <br>
+            <form method="get" data-th-action="@{/register}">
+                <button type="submit" class="button is-primary is-small" style="background-color: #2160c4" name="doRedirect" th:value="true">Register</button>
+            </form>
+        </div>
+    </div>
+</div>
 </body>
 </html>
