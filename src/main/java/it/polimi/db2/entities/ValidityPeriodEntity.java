@@ -1,6 +1,7 @@
 package it.polimi.db2.entities;
 
 import javax.persistence.*;
+import java.util.Collection;
 
 @Entity
 @Table(name = "validityperiod", schema = "db2_project")
@@ -9,9 +10,11 @@ public class ValidityPeriodEntity {
     @Column(name = "id", nullable = false)
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
+
     @Basic
     @Column(name = "months")
     private int months;
+
     @Basic
     @Column(name = "costPerMonth")
     private int costPerMonth;

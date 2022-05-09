@@ -50,9 +50,7 @@ public class BundleService {
         BundleEntity newBundle = new BundleEntity(title);
         em.persist(newBundle);
 
-        int bundleId = findBundleByTitle(title).getId();
-        addServicesToBundle(listOfServices, bundleId);
-        addValidityPeriodsToBundle(listOfValidityPeriods, bundleId);
+        //TODO: METTI VALIDITY SERVICES ECCETERA
 
         System.out.println("Created bundle OK: " + title);
 
@@ -101,29 +99,5 @@ public class BundleService {
         assert !ss.isEmpty();
 
         return new Product(b, vps, ss, ops);
-    }
-
-    private void addServicesToBundle(List<Integer> listOfServices, int bundleId) {
-        for(int service : listOfServices) {
-            em.createNamedQuery("BundleEntity.addServiceToBundle")
-                    .setParameter("1", service)
-                    .setParameter("2", bundleId);
-        }
-    }
-
-    private void addValidityPeriodsToBundle(List<Integer> listOfValidityPeriods, int bundleId) {
-        for(int validityPeriod : listOfValidityPeriods) {
-            em.createNamedQuery("BundleEntity.addValidityPeriodToBundle")
-                    .setParameter("1", validityPeriod)
-                    .setParameter("2", bundleId);
-        }
-    }
-
-    private void addAvailableOptionalsToBundle(List<Integer> listOfAvailableOptionals, int bundleId) {
-        for(int optional : listOfAvailableOptionals) {
-            em.createNamedQuery("BundleEntity.addAvailableOptionalToBundle")
-                    .setParameter("1", optional)
-                    .setParameter("2", bundleId);
-        }
     }
 }

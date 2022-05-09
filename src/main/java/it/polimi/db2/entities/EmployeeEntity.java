@@ -12,9 +12,11 @@ public class EmployeeEntity {
     @Column(name = "id", nullable = false)
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
+
     @Basic
     @Column(name = "nickname")
     private String nickname;
+
     @Basic
     @Column(name = "password")
     private String password;

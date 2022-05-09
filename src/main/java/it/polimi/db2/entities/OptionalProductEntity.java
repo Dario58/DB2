@@ -1,6 +1,7 @@
 package it.polimi.db2.entities;
 
 import javax.persistence.*;
+import java.util.Collection;
 
 @Entity
 @Table(name = "optionalproduct", schema = "db2_project")
@@ -9,9 +10,11 @@ public class OptionalProductEntity {
     @Column(name = "id", nullable = false)
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
+
     @Basic
     @Column(name = "title")
     private String title;
+
     @Basic
     @Column(name = "monthlyFee")
     private int monthlyFee;

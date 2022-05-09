@@ -1,6 +1,7 @@
 package it.polimi.db2.entities;
 
 import javax.persistence.*;
+import java.util.Collection;
 
 @Entity
 @Table(name = "bundle", schema = "db2_project")
@@ -11,19 +12,35 @@ import javax.persistence.*;
 @NamedNativeQueries({
         @NamedNativeQuery(name = "BundleEntity.findServicesById", query = "SELECT serviceId FROM servicesinbundle s WHERE s.bundleId = ?1"),
         @NamedNativeQuery(name = "BundleEntity.findValidityPeriodsById", query = "SELECT validityPeriodId FROM validityperiodsperbundle vp WHERE vp.bundleId = ?1"),
-        @NamedNativeQuery(name = "BundleEntity.findAvailableOptionalsById", query = "SELECT optionalId FROM availableoptionalsforbundle ao WHERE ao.bundleId = ?1"),
-        @NamedNativeQuery(name = "BundleEntity.addServiceToBundle", query = "INSERT INTO servicesinbundle (serviceId, bundleId) VALUES (?1, ?2)"),
-        @NamedNativeQuery(name = "BundleEntity.addValidityPeriodToBundle", query = "INSERT INTO validityperiodsperbundle (bundleId, validityPeriodId) VALUES (?2, ?1)"),
-        @NamedNativeQuery(name = "BundleEntity.addAvailableOptionalToBundle", query = "INSERT INTO availableoptionalsforbundle (optionalId, bundleId) VALUES (?1, ?2)")
+        @NamedNativeQuery(name = "BundleEntity.findAvailableOptionalsById", query = "SELECT optionalId FROM availableoptionalsforbundle ao WHERE ao.bundleId = ?1")
 })
 public class BundleEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
     private int id;
+
     @Basic
     @Column(name = "title")
     private String title;
+
+    @ManyToMany
+    @JoinTable(name = "availableoptionalsforbundle",
+            joinColumns = @JoinColumn(name = "bundleId"),
+            inverseJoinColumns = @JoinColumn(name = "optionalId"))
+    private Collection<OptionalProductEntity> availableOptionals;
+
+    @ManyToMany
+    @JoinTable(name = "validityperiodsperbundle",
+            joinColumns = @JoinColumn(name = "bundleId"),
+            inverseJoinColumns = @JoinColumn(name = "validityPeriodId"))
+    private Collection<OptionalProductEntity> availableValidityPeriods;
+
+    @ManyToMany
+    @JoinTable(name = "servicesinbundle",
+            joinColumns = @JoinColumn(name = "bundleId"),
+            inverseJoinColumns = @JoinColumn(name = "serviceId"))
+    private Collection<BundleEntity> servicesInBundle;
 
     public BundleEntity(String title) {
         this.title = title;

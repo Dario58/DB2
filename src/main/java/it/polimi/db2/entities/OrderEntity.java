@@ -2,6 +2,7 @@ package it.polimi.db2.entities;
 
 import javax.persistence.*;
 import java.sql.Timestamp;
+import java.util.Collection;
 
 @Entity
 @Table(name = "order", schema = "db2_project")
@@ -10,15 +11,36 @@ public class OrderEntity {
     @Column(name = "id", nullable = false)
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
+
     @Basic
     @Column(name = "issueTime")
     private Timestamp issueTime;
+
     @Basic
     @Column(name = "totCost")
     private int totCost;
+
     @Basic
     @Column(name = "valid")
     private Boolean valid;
+
+    @ManyToMany
+    @JoinTable(name = "chosenoptionalsinorder",
+            joinColumns = @JoinColumn(name = "orderId"),
+            inverseJoinColumns = @JoinColumn(name = "optionalId"))
+    private Collection<OptionalProductEntity> chosenOptionals;
+
+    @ManyToOne
+    @JoinColumn(name = "validityPeriodId")
+    private ValidityPeriodEntity validityPeriodInOrder;
+
+    @ManyToOne
+    @JoinColumn(name = "bundleId")
+    private BundleEntity bundleInOrder;
+
+    @ManyToOne
+    @JoinColumn(name = "clientId")
+    private UserEntity user;
 
     public int getId() {
         return id;

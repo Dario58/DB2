@@ -1,6 +1,7 @@
 package it.polimi.db2.entities;
 
 import javax.persistence.*;
+import java.util.Collection;
 
 @Entity
 @Table(name = "service", schema = "db2_project")
@@ -9,30 +10,39 @@ public class ServiceEntity {
     @Column(name = "id", nullable = false)
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
+
     @Basic
     @Column(name = "offer")
     private String offer;
+
     @Basic
     @Column(name = "mpMins")
     private Integer mpMins;
+
     @Basic
     @Column(name = "mpSms")
     private Integer mpSms;
+
     @Basic
     @Column(name = "mpExtraMinsCost")
     private Integer mpExtraMinsCost;
+
     @Basic
     @Column(name = "mpExtraSmsCost")
     private Integer mpExtraSmsCost;
+
     @Basic
     @Column(name = "fiGBs")
     private Integer fiGBs;
+
     @Basic
     @Column(name = "fiExtraGBsCost")
     private Integer fiExtraGBsCost;
+
     @Basic
     @Column(name = "miGBs")
     private Integer miGBs;
+
     @Basic
     @Column(name = "miExtraGBsCost")
     private Integer miExtraGBsCost;

@@ -10,12 +10,21 @@ public class ServiceActivationScheduleEntity {
     @Column(name = "id", nullable = false)
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
+
     @Basic
     @Column(name = "activationDate")
     private Date activationDate;
+
     @Basic
     @Column(name = "deactivationDate")
     private Date deactivationDate;
+
+    @ManyToOne
+    @JoinColumn(name = "userId")
+    private UserEntity user;
+
+    @OneToOne(optional = false)
+    private OrderEntity order;
 
     public int getId() {
         return id;
