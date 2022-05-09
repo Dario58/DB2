@@ -10,7 +10,11 @@ public class ServiceActivationScheduleEntity {
     @Column(name = "id", nullable = false)
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
+    @Basic
+    @Column(name = "activationDate")
     private Date activationDate;
+    @Basic
+    @Column(name = "deactivationDate")
     private Date deactivationDate;
 
     public int getId() {
@@ -21,8 +25,7 @@ public class ServiceActivationScheduleEntity {
         this.id = id;
     }
 
-    @Basic
-    @Column(name = "activationDate")
+
     public Date getActivationDate() {
         return activationDate;
     }
@@ -31,8 +34,7 @@ public class ServiceActivationScheduleEntity {
         this.activationDate = activationDate;
     }
 
-    @Basic
-    @Column(name = "deactivationDate")
+
     public Date getDeactivationDate() {
         return deactivationDate;
     }

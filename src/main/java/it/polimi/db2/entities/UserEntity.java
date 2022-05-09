@@ -14,10 +14,20 @@ public class UserEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
     private int id;
+    @Basic
+    @Column(name = "nickname")
     private String nickname;
+    @Basic
+    @Column(name = "password")
     private String password;
+    @Basic
+    @Column(name = "email")
     private String email;
+    @Basic
+    @Column(name = "insolvent")
     private boolean insolvent;
+    @Basic
+    @Column(name = "flag")
     private boolean flag;
 
     public UserEntity(String nickname, String password, String email) {
@@ -32,8 +42,6 @@ public class UserEntity {
 
     }
 
-    @Id
-    @Column(name = "id")
     public int getId() {
         return id;
     }
@@ -42,8 +50,7 @@ public class UserEntity {
         this.id = id;
     }
 
-    @Basic
-    @Column(name = "nickname")
+
     public String getNickname() {
         return nickname;
     }
@@ -52,8 +59,7 @@ public class UserEntity {
         this.nickname = nickname;
     }
 
-    @Basic
-    @Column(name = "password")
+
     public String getPassword() {
         return password;
     }
@@ -62,8 +68,7 @@ public class UserEntity {
         this.password = password;
     }
 
-    @Basic
-    @Column(name = "email")
+
     public String getEmail() {
         return email;
     }
@@ -72,8 +77,7 @@ public class UserEntity {
         this.email = email;
     }
 
-    @Basic
-    @Column(name = "insolvent")
+
     public boolean isInsolvent() {
         return insolvent;
     }
@@ -82,8 +86,7 @@ public class UserEntity {
         this.insolvent = insolvent;
     }
 
-    @Basic
-    @Column(name = "flag")
+
     public boolean isFlag() {
         return flag;
     }

@@ -9,14 +9,32 @@ public class ServiceEntity {
     @Column(name = "id", nullable = false)
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
+    @Basic
+    @Column(name = "offer")
     private String offer;
+    @Basic
+    @Column(name = "mpMins")
     private Integer mpMins;
+    @Basic
+    @Column(name = "mpSms")
     private Integer mpSms;
+    @Basic
+    @Column(name = "mpExtraMinsCost")
     private Integer mpExtraMinsCost;
+    @Basic
+    @Column(name = "mpExtraSmsCost")
     private Integer mpExtraSmsCost;
+    @Basic
+    @Column(name = "fiGBs")
     private Integer fiGBs;
+    @Basic
+    @Column(name = "fiExtraGBsCost")
     private Integer fiExtraGBsCost;
+    @Basic
+    @Column(name = "miGBs")
     private Integer miGBs;
+    @Basic
+    @Column(name = "miExtraGBsCost")
     private Integer miExtraGBsCost;
 
     public int getId() {
@@ -27,8 +45,7 @@ public class ServiceEntity {
         this.id = id;
     }
 
-    @Basic
-    @Column(name = "offer")
+
     public String getOffer() {
         return offer;
     }
@@ -37,8 +54,7 @@ public class ServiceEntity {
         this.offer = offer;
     }
 
-    @Basic
-    @Column(name = "mpMins")
+
     public Integer getMpMins() {
         return mpMins;
     }
@@ -47,8 +63,7 @@ public class ServiceEntity {
         this.mpMins = mpMins;
     }
 
-    @Basic
-    @Column(name = "mpSms")
+
     public Integer getMpSms() {
         return mpSms;
     }
@@ -57,8 +72,7 @@ public class ServiceEntity {
         this.mpSms = mpSms;
     }
 
-    @Basic
-    @Column(name = "mpExtraMinsCost")
+
     public Integer getMpExtraMinsCost() {
         return mpExtraMinsCost;
     }
@@ -67,8 +81,7 @@ public class ServiceEntity {
         this.mpExtraMinsCost = mpExtraMinsCost;
     }
 
-    @Basic
-    @Column(name = "mpExtraSmsCost")
+
     public Integer getMpExtraSmsCost() {
         return mpExtraSmsCost;
     }
@@ -77,8 +90,7 @@ public class ServiceEntity {
         this.mpExtraSmsCost = mpExtraSmsCost;
     }
 
-    @Basic
-    @Column(name = "fiGBs")
+
     public Integer getFiGBs() {
         return fiGBs;
     }
@@ -87,8 +99,7 @@ public class ServiceEntity {
         this.fiGBs = fiGBs;
     }
 
-    @Basic
-    @Column(name = "fiExtraGBsCost")
+
     public Integer getFiExtraGBsCost() {
         return fiExtraGBsCost;
     }
@@ -97,8 +108,7 @@ public class ServiceEntity {
         this.fiExtraGBsCost = fiExtraGBsCost;
     }
 
-    @Basic
-    @Column(name = "miGBs")
+
     public Integer getMiGBs() {
         return miGBs;
     }
@@ -107,8 +117,7 @@ public class ServiceEntity {
         this.miGBs = miGBs;
     }
 
-    @Basic
-    @Column(name = "miExtraGBsCost")
+
     public Integer getMiExtraGBsCost() {
         return miExtraGBsCost;
     }

@@ -10,8 +10,14 @@ public class OrderEntity {
     @Column(name = "id", nullable = false)
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
+    @Basic
+    @Column(name = "issueTime")
     private Timestamp issueTime;
+    @Basic
+    @Column(name = "totCost")
     private int totCost;
+    @Basic
+    @Column(name = "valid")
     private Boolean valid;
 
     public int getId() {
@@ -22,8 +28,7 @@ public class OrderEntity {
         this.id = id;
     }
 
-    @Basic
-    @Column(name = "issueTime")
+
     public Timestamp getIssueTime() {
         return issueTime;
     }
@@ -32,8 +37,7 @@ public class OrderEntity {
         this.issueTime = issueTime;
     }
 
-    @Basic
-    @Column(name = "totCost")
+
     public int getTotCost() {
         return totCost;
     }
@@ -42,8 +46,7 @@ public class OrderEntity {
         this.totCost = totCost;
     }
 
-    @Basic
-    @Column(name = "valid")
+
     public Boolean getValid() {
         return valid;
     }

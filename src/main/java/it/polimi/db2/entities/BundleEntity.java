@@ -21,6 +21,8 @@ public class BundleEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
     private int id;
+    @Basic
+    @Column(name = "title")
     private String title;
 
     public BundleEntity(String title) {
@@ -31,7 +33,6 @@ public class BundleEntity {
 
     }
 
-    @Column(name = "id")
     public int getId() {
         return id;
     }
@@ -40,8 +41,7 @@ public class BundleEntity {
         this.id = id;
     }
 
-    @Basic
-    @Column(name = "title")
+
     public String getTitle() {
         return title;
     }

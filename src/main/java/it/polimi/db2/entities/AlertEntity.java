@@ -10,10 +10,20 @@ public class AlertEntity {
     @Column(name = "id", nullable = false)
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
-
-    private int amountLastRejection;
+    @Basic
+    @Column(name = "dateLastRejection")
     private Date dateLastRejection;
+    @Basic
+    @Column(name = "amountLastRejection")
+    private int amountLastRejection;
 
+    public Date getDateLastRejection() {
+        return dateLastRejection;
+    }
+
+    public int getAmountLastRejection() {
+        return amountLastRejection;
+    }
     public int getId() {
         return id;
     }
@@ -22,20 +32,8 @@ public class AlertEntity {
         this.id = id;
     }
 
-    @Basic
-    @Column(name = "amountLastRejection")
-    public int getAmountLastRejection() {
-        return amountLastRejection;
-    }
-
     public void setAmountLastRejection(int amountLastRejection) {
         this.amountLastRejection = amountLastRejection;
-    }
-
-    @Basic
-    @Column(name = "dateLastRejection")
-    public Date getDateLastRejection() {
-        return dateLastRejection;
     }
 
     public void setDateLastRejection(Date dateLastRejection) {

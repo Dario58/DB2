@@ -5,13 +5,17 @@ import javax.persistence.*;
 @Entity
 @Table(name = "optionalproduct", schema = "db2_project")
 public class OptionalProductEntity {
-    private int id;
-    private String title;
-    private int monthlyFee;
-
     @Id
     @Column(name = "id", nullable = false)
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private int id;
+    @Basic
+    @Column(name = "title")
+    private String title;
+    @Basic
+    @Column(name = "monthlyFee")
+    private int monthlyFee;
+
     public int getId() {
         return id;
     }
@@ -20,8 +24,6 @@ public class OptionalProductEntity {
         this.id = id;
     }
 
-    @Basic
-    @Column(name = "title")
     public String getTitle() {
         return title;
     }
@@ -30,8 +32,7 @@ public class OptionalProductEntity {
         this.title = title;
     }
 
-    @Basic
-    @Column(name = "monthlyFee")
+
     public int getMonthlyFee() {
         return monthlyFee;
     }
