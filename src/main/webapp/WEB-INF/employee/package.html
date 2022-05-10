@@ -4,8 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Employee Homepage</title>
-    <link href="WEB-INF/webapp/css/style.css" data-th-href="@{/css/style.css}" rel="stylesheet">
-    <link href="css/prova.css" data-th-href="@{/css/prova.css}" rel="stylesheet">
+    <link href="../css/style.css" data-th-href="@{/css/style.css}" rel="stylesheet">
+    <link href="../css/body.css" data-th-href="@{/css/body.css}" rel="stylesheet">
 </head>
 <body class="has-background-white">
 <section class="container py-5 vh100">
@@ -49,7 +49,7 @@
             <option name="Mobile Phone" th:value="true">Mobile Phone</option>
             <option name="Mobile Internet" th:value="true">Mobile Internet</option>
         </select>
-    </div>
+    </div><br>
     </div>
     <div class="container">
         <div class="box">
@@ -63,13 +63,13 @@
                 </div>
             </div>
             <div class="field">
-                <label class="label" for="costPerMonth">costPerMonth</label>
+                <label class="label" for="costPerMonth">Cost Per Month</label>
                 <div class="control">
                     <input class="input" type="int" name="costPerMonth" id="costPerMonth" placeholder="costPerMonth" required>
                 </div>
             </div>
         </div>
-    </div>
+    </div><br>
     <div class="container">
         <div class="box">
             <h4>You can choose optional services:</h4><br>
