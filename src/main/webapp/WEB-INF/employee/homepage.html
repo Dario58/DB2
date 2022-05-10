@@ -4,8 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Employee Homepage</title>
-    <link href="/css/style.css" data-th-ref="@{/css/style.css}" rel="stylesheet">
-    <link href="/css/body.css" data-th-ref="@{/css/body.css}" rel="stylesheet">
+    <link href="css/style.css" data-th-ref="@{/css/style.css}" rel="stylesheet">
 </head>
 <body class="has-background-white">
 <section class="container py-5 vh100">
@@ -19,13 +18,21 @@
             <h1 class="title">Employee Homepage</h1>
         </div>
         <h2 class="is-size-3 mb-2">Welcome to the employee homepage!</h2>
-        <h3 class="is-size-3 mb-2>">See below if you want to create new packages</h3>
     </div>
-    <div class="container">
-        <div class="box">
-
+    <form method="get" data-th-action="@{'/employee/package'}">
+        <div class="has-text-centered">
+            <input type="submit" class="button is-primary is-medium" style="background-color: lightskyblue" value="Create new Package">
         </div>
+    </form>
+    <div class="mt-4">
+        <p>Or else, see sales report here!</p>
+        <br>
     </div>
+    <form method="get" data-th-action="@{'/employee/report'}">
+        <div class="has-text-centered">
+            <input type="submit" class="button is-primary is-medium" style="background-color: lightskyblue" value="Sales Report">
+        </div>
+    </form>
 </section>
 </body>
 </html>

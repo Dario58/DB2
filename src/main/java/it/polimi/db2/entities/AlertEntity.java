@@ -1,6 +1,6 @@
 package it.polimi.db2.entities;
 
-import org.graalvm.compiler.lir.LIRInstruction;
+
 
 import javax.persistence.*;
 import java.sql.Date;
@@ -28,7 +28,6 @@ public class AlertEntity {
     @Basic
     @Column(name = "amountLastRejection")
     private int amountLastRejection;
-
     public Date getDateLastRejection() {
         return dateLastRejection;
     }

@@ -42,6 +42,17 @@ public class OrderEntity {
     @JoinColumn(name = "clientId")
     private UserEntity user;
 
+    public OrderEntity(Timestamp issueTime, int totCost) {
+
+        this.issueTime = issueTime;
+        this.totCost = totCost;
+        this.valid = null;
+    }
+
+    public OrderEntity() {
+
+    }
+
     public int getId() {
         return id;
     }

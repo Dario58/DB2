@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Employee Homepage</title>
+    <link href="WEB-INF/webapp/css/style.css" data-th-href="@{/css/style.css}" rel="stylesheet">
+    <link href="css/prova.css" data-th-href="@{/css/prova.css}" rel="stylesheet">
+</head>
+<body class="has-background-white">
+<section class="container py-5 vh100">
+    <div class="has-text-left">
+        <div data-th-text="'Signed in as ' + ${session.employee.nickname}"></div>
+        <a href="#" data-th-href="@{/employee/logout}">Logout</a>
+    </div>
+    <div class="has-text-centered mb-6">
+        <h1 class="title">Creation page</h1>
+    </div><br>
+<div class="container">
+    <div class="box">
+        <h1>Choose one or more services you would like to insert in the new package service:</h1><br>
+        <select required>
+            <option>--service--</option>
+            <option name="Fixed Phone" th:value="true">Fixed Phone</option>
+            <option name="Fixed Internet" th:value="true">Fixed Internet</option>
+            <option name="Mobile Phone" th:value="true">Mobile Phone</option>
+            <option name="Mobile Internet" th:value="true">Mobile Internet</option>
+        </select>
+        <select>
+            <option>--service--</option>
+            <option name="Fixed Phone" th:value="true">Fixed Phone</option>
+            <option name="Fixed Internet" th:value="true">Fixed Internet
+           <!-- <span data-th-if="Fixed Phone == 'true'"></span>-->
+            </option>
+            <option name="Mobile Phone" th:value="true">Mobile Phone</option>
+            <option name="Mobile Internet" th:value="true">Mobile Internet</option>
+        </select>
+        <select>
+            <option>--service--</option>
+            <option name="Fixed Phone" th:value="true">Fixed Phone</option>
+            <option name="Fixed Internet" th:value="true">Fixed Internet</option>
+            <option name="Mobile Phone" th:value="true">Mobile Phone</option>
+            <option name="Mobile Internet" th:value="true">Mobile Internet</option>
+        </select>
+        <select>
+            <option>--service--</option>
+            <option name="Fixed Phone" th:value="true">Fixed Phone</option>
+            <option name="Fixed Internet" th:value="true">Fixed Internet</option>
+            <option name="Mobile Phone" th:value="true">Mobile Phone</option>
+            <option name="Mobile Internet" th:value="true">Mobile Internet</option>
+        </select>
+    </div>
+    </div>
+    <div class="container">
+        <div class="box">
+        <h2>Choose among the available validity periods: </h2><br>
+        NON RIESCO AD ACCEDERE AI SERVIZI GIA' CREATI
+        <br><h3>Or else, create a new one:</h3><br>
+            <div class="field">
+                <label class="label" for="months">Months</label>
+                <div class="control">
+                    <input class="input" type="int" name="months" id="months" placeholder="Months" required>
+                </div>
+            </div>
+            <div class="field">
+                <label class="label" for="costPerMonth">costPerMonth</label>
+                <div class="control">
+                    <input class="input" type="int" name="costPerMonth" id="costPerMonth" placeholder="costPerMonth" required>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="container">
+        <div class="box">
+            <h4>You can choose optional services:</h4><br>
+        </div>
+    </div>
+</section>
+</body>
+</html>

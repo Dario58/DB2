@@ -5,6 +5,7 @@ import java.util.Collection;
 
 @Entity
 @Table(name = "service", schema = "db2_project")
+
 public class ServiceEntity {
     @Id
     @Column(name = "id", nullable = false)
