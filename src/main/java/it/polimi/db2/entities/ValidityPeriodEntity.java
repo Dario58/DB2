@@ -12,6 +12,11 @@ public class ValidityPeriodEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
+    public ValidityPeriodEntity(int months, int costPerMonth) {
+        this.months = months;
+        this.costPerMonth = costPerMonth;
+    }
+
     @Basic
     @Column(name = "months")
     private int months;
@@ -19,6 +24,10 @@ public class ValidityPeriodEntity {
     @Basic
     @Column(name = "costPerMonth")
     private int costPerMonth;
+
+    public ValidityPeriodEntity() {
+
+    }
 
     public int getId() {
         return id;

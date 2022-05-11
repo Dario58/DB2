@@ -1,12 +1,6 @@
 package it.polimi.db2.services;
-
-
-
 import it.polimi.db2.entities.*;
-
 import it.polimi.db2.exceptions.CredentialException;
-import it.polimi.db2.utils.Product;
-
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.NonUniqueResultException;

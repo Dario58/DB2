@@ -1,5 +1,4 @@
 package it.polimi.db2.servlets.employee;
-
 import it.polimi.db2.entities.EmployeeEntity;
 import it.polimi.db2.exceptions.CredentialException;
 import it.polimi.db2.services.EmployeeService;
@@ -8,7 +7,6 @@ import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.context.WebContext;
 import org.thymeleaf.templatemode.TemplateMode;
 import org.thymeleaf.templateresolver.ServletContextTemplateResolver;
-
 import javax.ejb.EJB;
 import javax.persistence.NonUniqueResultException;
 import javax.servlet.ServletContext;

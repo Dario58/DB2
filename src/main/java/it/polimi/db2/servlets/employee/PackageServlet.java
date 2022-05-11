@@ -36,7 +36,6 @@ public class PackageServlet extends HttpServlet {
         templateResolver.setSuffix(".html");
     }
 
-
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
@@ -67,7 +66,21 @@ public class PackageServlet extends HttpServlet {
             String path = "/WEB-INF/employee/package.html";
 
             templateEngine.process(path, ctx, resp.getWriter());
-
     }
 
+    @Override
+    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+
+        HttpSession session = req.getSession();
+
+       int months = Integer.parseInt((String) session.getAttribute("months"));
+       int costPerMonth = Integer.parseInt((String) session.getAttribute("costPerMonth"));
+
+       assert months != 0;
+       assert costPerMonth != 0;
+
+       ValidityPeriodEntity validityPeriodEntity = new ValidityPeriodEntity(months,costPerMonth);
+
+       System.out.println("Trying validity period creation" + months + costPerMonth);
+    }
 }

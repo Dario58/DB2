@@ -24,7 +24,7 @@
     <div class="box">
         <h1>Choose one or more services you would like to insert in the new package service:</h1><br>
         <select required>
-            <option>--service--</option>
+            <option></option>
             <option name="Fixed Phone" th:value="true">Fixed Phone</option>
             <option name="Fixed Internet" th:value="true">Fixed Internet</option>
             <option name="Mobile Phone" th:value="true">Mobile Phone</option>
@@ -97,9 +97,11 @@
             </div>
         </div>
         </div>
+    <form method="post" data-th-action="@{'/employee/package'}">
     <div class="has-text-centered">
         <input type="submit" class="button is-primary is-medium" style="background-color: lightskyblue" value="Submit">
     </div>
+    </form>
 </section>
 </body>
 </html>
