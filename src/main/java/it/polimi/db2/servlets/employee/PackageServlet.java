@@ -66,12 +66,8 @@ public class PackageServlet extends HttpServlet {
             session.setAttribute("validityPeriodEntityList", validityPeriodEntityList);
             String path = "/WEB-INF/employee/package.html";
 
-
             templateEngine.process(path, ctx, resp.getWriter());
 
-
     }
-
-
 
 }
