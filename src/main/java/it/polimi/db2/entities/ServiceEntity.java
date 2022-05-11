@@ -5,6 +5,9 @@ import java.util.Collection;
 
 @Entity
 @Table(name = "service", schema = "db2_project")
+@NamedQueries({
+        @NamedQuery(name = "ServiceEntity.retrieveAllServices", query = "SELECT s FROM ServiceEntity s"),
+})
 
 public class ServiceEntity {
     @Id

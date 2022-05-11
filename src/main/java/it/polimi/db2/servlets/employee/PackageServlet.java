@@ -1,15 +1,12 @@
 package it.polimi.db2.servlets.employee;
-
-import it.polimi.db2.entities.BundleEntity;
-import it.polimi.db2.entities.OptionalProductEntity;
-import it.polimi.db2.entities.ServiceEntity;
-import it.polimi.db2.entities.ValidityPeriodEntity;
-import it.polimi.db2.utils.Product;
+import it.polimi.db2.entities.*;
+import it.polimi.db2.services.PackageService;
 import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.context.WebContext;
 import org.thymeleaf.templatemode.TemplateMode;
 import org.thymeleaf.templateresolver.ServletContextTemplateResolver;
-
+import javax.ejb.EJB;
+import javax.persistence.PersistenceException;
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -26,6 +23,9 @@ public class PackageServlet extends HttpServlet {
 
     private TemplateEngine templateEngine;
 
+    @EJB(name = "it.polimi.db2.services/PackageService")
+    private PackageService packageService;
+
     @Override
     public void init() throws ServletException {
         ServletContext servletContext = getServletContext();
@@ -39,20 +39,52 @@ public class PackageServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        resp.setContentType("text/html");
 
-        ServletContext servletContext = getServletContext();
-        WebContext ctx = new WebContext(req, resp, servletContext, req.getLocale());
-        String path = "/WEB-INF/employee/package.html";
-
-        templateEngine.process(path, ctx, resp.getWriter());
-    }
-
-    @Override
-    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         HttpSession session = req.getSession();
 
+        List<OptionalProductEntity> optionalProductEntityList = new ArrayList<>();
+        List<ValidityPeriodEntity> validityPeriodEntityList = new ArrayList<>();
 
+        try {
+           optionalProductEntityList = packageService.retrieveAllOptional();
+        } catch (PersistenceException e) {
+            resp.sendError(HttpServletResponse.SC_BAD_REQUEST, "Couldn't retrieve optional products.");
+        }
+        try {
+            validityPeriodEntityList = packageService.retrieveAllPeriods();
+        } catch (PersistenceException e) {
+            resp.sendError(HttpServletResponse.SC_BAD_REQUEST, "Couldn't retrieve validity periods.");
+        }
+
+            resp.setContentType("text/html");
+
+            ServletContext servletContext = getServletContext();
+            WebContext ctx = new WebContext(req, resp, servletContext, req.getLocale());
+            ctx.setVariable("optionalProductEntityList", optionalProductEntityList);
+            session.setAttribute("optionalProductEntityList", optionalProductEntityList);
+
+
+            ServletContext otherServletContext = getServletContext();
+            WebContext context = new WebContext(req, resp, otherServletContext, req.getLocale());
+            ctx.setVariable("validityPeriodEntityList", validityPeriodEntityList);
+            session.setAttribute("validityPeriodEntityList", validityPeriodEntityList);
+            String path = "/WEB-INF/employee/package.html";
+
+
+            templateEngine.process(path, ctx, resp.getWriter());
+            templateEngine.process(path, context, resp.getWriter());
 
     }
+
+        @Override
+        protected void doPost (HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+            resp.setContentType("text/html");
+
+            ServletContext servletContext = getServletContext();
+            WebContext ctx = new WebContext(req, resp, servletContext, req.getLocale());
+            ctx.setVariable("errorMessage", "Couldn't read optional products.");
+
+            templateEngine.process("/WEB-INF/employee/package.html", ctx, resp.getWriter());
+        }
+
 }

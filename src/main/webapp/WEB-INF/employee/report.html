@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Report Sales</title>
+    <link href="../../css/style.css" data-th-href="@{/css/style.css}" rel="stylesheet">
+</head>
+<body>
+<div>
+    <p> Sales Report Page </p>
+</div>
+<div class="has-text-left">
+    <div data-th-text="'Signed in as ' + ${session.employee.nickname}"></div>
+    <a href="#" data-th-href="@{/employee/logout}">Logout</a>
+</div>
+<form method="get" data-th-action="@{'/employee/homepage'}">
+    <div class="has-text-right">
+        <input type="submit" class="button is-primary is-small" style="background-color: lightskyblue" value="Back">
+    </div>
+</form>
+</body>

@@ -8,10 +8,7 @@ import it.polimi.db2.exceptions.BundleExistentException;
 import it.polimi.db2.utils.Product;
 
 import javax.ejb.Stateless;
-import javax.management.Query;
 import javax.persistence.EntityManager;
-import javax.persistence.NamedNativeQueries;
-import javax.persistence.NamedNativeQuery;
 import javax.persistence.PersistenceContext;
 import java.util.ArrayList;
 import java.util.List;

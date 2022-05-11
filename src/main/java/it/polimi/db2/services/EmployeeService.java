@@ -1,9 +1,11 @@
 package it.polimi.db2.services;
 
 
-import it.polimi.db2.entities.EmployeeEntity;
-import it.polimi.db2.entities.ServiceEntity;
+
+import it.polimi.db2.entities.*;
+
 import it.polimi.db2.exceptions.CredentialException;
+import it.polimi.db2.utils.Product;
 
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
@@ -38,6 +40,5 @@ public class EmployeeService {
 
         throw new NonUniqueResultException("More than one user registered with same credentials.");
     }
-
 
 }
