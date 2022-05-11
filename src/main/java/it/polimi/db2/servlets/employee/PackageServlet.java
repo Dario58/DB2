@@ -62,29 +62,16 @@ public class PackageServlet extends HttpServlet {
             WebContext ctx = new WebContext(req, resp, servletContext, req.getLocale());
             ctx.setVariable("optionalProductEntityList", optionalProductEntityList);
             session.setAttribute("optionalProductEntityList", optionalProductEntityList);
-
-
-            ServletContext otherServletContext = getServletContext();
-            WebContext context = new WebContext(req, resp, otherServletContext, req.getLocale());
             ctx.setVariable("validityPeriodEntityList", validityPeriodEntityList);
             session.setAttribute("validityPeriodEntityList", validityPeriodEntityList);
             String path = "/WEB-INF/employee/package.html";
 
 
             templateEngine.process(path, ctx, resp.getWriter());
-            templateEngine.process(path, context, resp.getWriter());
+
 
     }
 
-        @Override
-        protected void doPost (HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-            resp.setContentType("text/html");
 
-            ServletContext servletContext = getServletContext();
-            WebContext ctx = new WebContext(req, resp, servletContext, req.getLocale());
-            ctx.setVariable("errorMessage", "Couldn't read optional products.");
-
-            templateEngine.process("/WEB-INF/employee/package.html", ctx, resp.getWriter());
-        }
 
 }
