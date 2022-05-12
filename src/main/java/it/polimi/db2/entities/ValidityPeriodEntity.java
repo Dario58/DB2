@@ -5,11 +5,17 @@ import java.util.Collection;
 
 @Entity
 @Table(name = "validityperiod", schema = "db2_project")
+@NamedQuery(name = "ValidityPeriodEntity.retrieveAllPeriods", query = "SELECT s FROM ValidityPeriodEntity s")
 public class ValidityPeriodEntity {
     @Id
     @Column(name = "id", nullable = false)
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
+
+    public ValidityPeriodEntity(int months, int costPerMonth) {
+        this.months = months;
+        this.costPerMonth = costPerMonth;
+    }
 
     @Basic
     @Column(name = "months")
@@ -18,6 +24,10 @@ public class ValidityPeriodEntity {
     @Basic
     @Column(name = "costPerMonth")
     private int costPerMonth;
+
+    public ValidityPeriodEntity() {
+
+    }
 
     public int getId() {
         return id;

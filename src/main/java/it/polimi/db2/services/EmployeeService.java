@@ -1,9 +1,6 @@
 package it.polimi.db2.services;
-
-
-import it.polimi.db2.entities.EmployeeEntity;
+import it.polimi.db2.entities.*;
 import it.polimi.db2.exceptions.CredentialException;
-
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.NonUniqueResultException;
@@ -26,7 +23,7 @@ public class EmployeeService {
                     .setParameter("password", password)
                     .getResultList();
         } catch (PersistenceException e) {
-            throw new CredentialException("Could not verify credentals");
+            throw new CredentialException("Could not verify credentials");
         }
 
         if (uList.isEmpty()) {
@@ -37,4 +34,5 @@ public class EmployeeService {
 
         throw new NonUniqueResultException("More than one user registered with same credentials.");
     }
+
 }

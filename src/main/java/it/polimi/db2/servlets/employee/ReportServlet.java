@@ -1,24 +1,25 @@
 package it.polimi.db2.servlets.employee;
 
-import it.polimi.db2.entities.BundleEntity;
-import it.polimi.db2.entities.UserEntity;
 import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.context.WebContext;
 import org.thymeleaf.templatemode.TemplateMode;
 import org.thymeleaf.templateresolver.ServletContextTemplateResolver;
+
 import javax.servlet.ServletContext;
+import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 import java.io.IOException;
 
-@WebServlet(name = "EmployeeHomepageServlet", value = "/employee/homepage")
-public class HomepageServlet extends HttpServlet {
+@WebServlet(name = "ReportServlet", value = "/employee/report")
+public class ReportServlet extends HttpServlet {
+
     private TemplateEngine templateEngine;
 
-    public void init() {
+    @Override
+    public void init() throws ServletException {
         ServletContext servletContext = getServletContext();
         ServletContextTemplateResolver templateResolver = new ServletContextTemplateResolver(servletContext);
         templateResolver.setTemplateMode(TemplateMode.HTML);
@@ -27,19 +28,20 @@ public class HomepageServlet extends HttpServlet {
         templateResolver.setSuffix(".html");
     }
 
+
     @Override
-    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {
+    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         resp.setContentType("text/html");
 
         ServletContext servletContext = getServletContext();
         WebContext ctx = new WebContext(req, resp, servletContext, req.getLocale());
-        String path = "/WEB-INF/employee/homepage.html";
+        String path = "/WEB-INF/employee/report.html";
 
         templateEngine.process(path, ctx, resp.getWriter());
+    }
 
-        HttpSession session = req.getSession();
-        UserEntity user = (UserEntity) session.getAttribute("user");
+    @Override
+    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
-        BundleEntity bundle;
     }
 }

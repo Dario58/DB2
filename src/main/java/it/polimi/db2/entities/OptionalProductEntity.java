@@ -5,6 +5,10 @@ import java.util.Collection;
 
 @Entity
 @Table(name = "optionalproduct", schema = "db2_project")
+@NamedQueries({
+        @NamedQuery(name = "OptionalProductEntity.retrieveAllOptional", query = "SELECT s FROM OptionalProductEntity s"),
+        @NamedQuery(name = "OptionalProductEntity.checkValidity", query = "SELECT s FROM OptionalProductEntity s WHERE s.title = :title")
+})
 public class OptionalProductEntity {
     @Id
     @Column(name = "id", nullable = false)
