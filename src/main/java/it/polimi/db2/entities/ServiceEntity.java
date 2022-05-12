@@ -2,11 +2,15 @@ package it.polimi.db2.entities;
 
 import javax.persistence.*;
 import java.util.Collection;
+import java.util.Objects;
 
 @Entity
 @Table(name = "service", schema = "db2_project")
 @NamedQueries({
         @NamedQuery(name = "ServiceEntity.retrieveAllServices", query = "SELECT s FROM ServiceEntity s"),
+        @NamedQuery(name = "ServiceEntity.findMiByParameters", query = "SELECT s FROM ServiceEntity s WHERE (s.offer = 'MI' AND s.miGBs = :gbs AND s.miExtraGBsCost = :extra)"),
+        @NamedQuery(name = "ServiceEntity.findFiByParameters", query = "SELECT s FROM ServiceEntity s WHERE (s.offer = 'FI' AND s.fiGBs = :gbs AND s.fiExtraGBsCost = :extra)"),
+        @NamedQuery(name = "ServiceEntity.findMpByParameters", query = "SELECT s FROM ServiceEntity s WHERE (s.offer = 'MP' AND s.mpMins = :mins AND s.mpSms = :sms AND s.mpExtraMinsCost = :extraMins AND s.mpExtraSmsCost = :extraSms)")
 })
 
 public class ServiceEntity {
@@ -50,6 +54,46 @@ public class ServiceEntity {
     @Basic
     @Column(name = "miExtraGBsCost")
     private Integer miExtraGBsCost;
+
+    public ServiceEntity(String offer, Integer mpMins, Integer mpSms, Integer mpExtraMinsCost, Integer mpExtraSmsCost) {
+        assert offer.equals("MP");
+        this.offer = offer;
+        this.mpMins = mpMins;
+        this.mpSms = mpSms;
+        this.mpExtraMinsCost = mpExtraMinsCost;
+        this.mpExtraSmsCost = mpExtraSmsCost;
+        this.fiExtraGBsCost = null;
+        this.fiGBs = null;
+        this.miExtraGBsCost = null;
+        this.miGBs = null;
+    }
+
+    public ServiceEntity(String offer, Integer GBs, Integer ExtraGBsCost) {
+        if(offer.equals("MI")) {
+            this.offer = offer;
+            this.miGBs = GBs;
+            this.miExtraGBsCost = ExtraGBsCost;
+            this.mpMins = null;
+            this.mpSms = null;
+            this.mpExtraMinsCost = null;
+            this.mpExtraSmsCost = null;
+            this.fiExtraGBsCost = null;
+            this.fiGBs = null;
+        } else if(offer.equals("FI")) {
+            this.offer = offer;
+            this.miGBs = null;
+            this.miExtraGBsCost = null;
+            this.mpMins = null;
+            this.mpSms = null;
+            this.mpExtraMinsCost = null;
+            this.mpExtraSmsCost = null;
+            this.fiExtraGBsCost = ExtraGBsCost;
+            this.fiGBs = GBs;
+        }
+    }
+
+    public ServiceEntity(){}
+
 
     public int getId() {
         return id;

@@ -59,11 +59,13 @@ public class PackageServlet extends HttpServlet {
 
             ServletContext servletContext = getServletContext();
             WebContext ctx = new WebContext(req, resp, servletContext, req.getLocale());
+
             ctx.setVariable("optionalProductEntityList", optionalProductEntityList);
             session.setAttribute("optionalProductEntityList", optionalProductEntityList);
 
             ctx.setVariable("validityPeriodEntityList", validityPeriodEntityList);
             session.setAttribute("validityPeriodEntityList", validityPeriodEntityList);
+
             String path = "/WEB-INF/employee/package.html";
 
             templateEngine.process(path, ctx, resp.getWriter());

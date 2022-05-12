@@ -17,7 +17,7 @@ public class OptionalService {
     @PersistenceContext(unitName = "DB2")
     private EntityManager em;
 
-    public List<OptionalProductEntity> retrieveProductByTitle(){
+    public List<OptionalProductEntity> retrieveAllOptionals(){
         return em.createNamedQuery("OptionalProductEntity.retrieveAllOptional", OptionalProductEntity.class)
                 .getResultList();
     }
@@ -35,14 +35,14 @@ public class OptionalService {
                     .setParameter("title", title)
                     .getResultList();
         } catch (PersistenceException e) {
-
             throw new PersistenceException("Could not verify existence");
         }
+
         if(list.isEmpty()){
             return;
         }
-        throw new OptionalExistentException("Invalid title. An optional product with this title already exists.");
 
+        throw new OptionalExistentException("Invalid title. An optional product with this title already exists.");
     }
 
 }

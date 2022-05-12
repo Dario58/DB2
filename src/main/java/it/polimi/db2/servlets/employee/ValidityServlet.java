@@ -1,17 +1,13 @@
 package it.polimi.db2.servlets.employee;
 
-import it.polimi.db2.entities.OptionalProductEntity;
-import it.polimi.db2.exceptions.CredentialException;
-import it.polimi.db2.exceptions.OptionalExistentException;
-import it.polimi.db2.services.OptionalService;
-import org.apache.commons.text.StringEscapeUtils;
+import it.polimi.db2.entities.ValidityPeriodEntity;
+import it.polimi.db2.exceptions.ValidityPeriodExistentException;
+import it.polimi.db2.services.ValidityService;
 import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.context.WebContext;
 import org.thymeleaf.templatemode.TemplateMode;
 import org.thymeleaf.templateresolver.ServletContextTemplateResolver;
-
 import javax.ejb.EJB;
-import javax.persistence.NonUniqueResultException;
 import javax.persistence.PersistenceException;
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
@@ -21,13 +17,12 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-@WebServlet(name = "OptionalServlet", value = "/employee/optional")
-public class OptionalServlet extends HttpServlet {
-
+@WebServlet(name = "ValidityServlet", value = "/employee/optional")
+public class ValidityServlet extends HttpServlet {
     private TemplateEngine templateEngine;
 
-    @EJB(name = "it.polimi.db2.services/OptionalService")
-    private OptionalService optionalService;
+    @EJB(name = "it.polimi.db2.services/ValidityService")
+    private ValidityService validityService;
 
     @Override
     public void init() throws ServletException {
@@ -43,37 +38,38 @@ public class OptionalServlet extends HttpServlet {
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         resp.setContentType("text/html");
 
-        if(req.getParameter("goToOptional") != null && Boolean.parseBoolean(req.getParameter("goToOptional"))) {
+        if(req.getParameter("goToValidity") != null && Boolean.parseBoolean(req.getParameter("goToValidity"))) {
             req.getSession().setAttribute("doRedirect", true);
         }
         ServletContext servletContext = getServletContext();
         WebContext ctx = new WebContext(req, resp, servletContext, req.getLocale());
-        String path = "/WEB-INF/employee/optional.html";
+        String path = "/WEB-INF/employee/validity.html";
 
         templateEngine.process(path, ctx, resp.getWriter());
     }
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        String title = StringEscapeUtils.escapeJava(req.getParameter("title"));
-        int months = Integer.parseInt(req.getParameter("MonthlyFee"));
+        assert !(req.getParameter("monthlyFee") != null || req.getParameter("months") != null);
+        int monthlyFee = Integer.parseInt(req.getParameter("monthlyFee"));
+        int months = Integer.parseInt(req.getParameter("months"));
 
-        if (title == null || months == 0 || title.isEmpty()) {
+        if (monthlyFee == 0 || months == 0) {
             resp.sendError(HttpServletResponse.SC_BAD_REQUEST, "Missing values");
             return;
         }
 
-        OptionalProductEntity optionalProduct = null;
+        ValidityPeriodEntity validityPeriod = null;
         String error = "";
 
         try {
-            optionalService.checkValidity(title);
-            optionalProduct = new OptionalProductEntity(title, months);
-            optionalService.createOptional(optionalProduct);
-        } catch (OptionalExistentException | PersistenceException e) {
+            validityService.checkValidity(months, monthlyFee);
+            validityPeriod = new ValidityPeriodEntity(months, monthlyFee);
+            validityService.createValidityPeriod(validityPeriod);
+        } catch (ValidityPeriodExistentException | PersistenceException e) {
             error = e.getMessage();
         }
-        if (optionalProduct == null) {
+        if (validityPeriod == null) {
             resp.setContentType("text/html");
 
             ServletContext servletContext = getServletContext();
@@ -89,4 +85,3 @@ public class OptionalServlet extends HttpServlet {
         }
     }
 }
-
