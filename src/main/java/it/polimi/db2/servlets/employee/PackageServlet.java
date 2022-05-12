@@ -61,6 +61,7 @@ public class PackageServlet extends HttpServlet {
             WebContext ctx = new WebContext(req, resp, servletContext, req.getLocale());
             ctx.setVariable("optionalProductEntityList", optionalProductEntityList);
             session.setAttribute("optionalProductEntityList", optionalProductEntityList);
+
             ctx.setVariable("validityPeriodEntityList", validityPeriodEntityList);
             session.setAttribute("validityPeriodEntityList", validityPeriodEntityList);
             String path = "/WEB-INF/employee/package.html";
@@ -75,12 +76,12 @@ public class PackageServlet extends HttpServlet {
 
        int months = Integer.parseInt((String) session.getAttribute("months"));
        int costPerMonth = Integer.parseInt((String) session.getAttribute("costPerMonth"));
-
+        System.out.println("2 Trying validity period creation" + months + costPerMonth);
        assert months != 0;
        assert costPerMonth != 0;
-
+        System.out.println("3 Trying validity period creation" + months + costPerMonth);
        ValidityPeriodEntity validityPeriodEntity = new ValidityPeriodEntity(months,costPerMonth);
 
-       System.out.println("Trying validity period creation" + months + costPerMonth);
+       System.out.println("4 Trying validity period creation" + months + costPerMonth);
     }
 }

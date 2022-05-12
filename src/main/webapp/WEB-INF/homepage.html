@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Homepage</title>
-    <link href="/css/style.css" data-th-ref="@{/css/style.css}" rel="stylesheet">
+    <link href="../../css/style.css" data-th-href="@{/css/style.css}" rel="stylesheet">
 </head>
 <body class="has-background-white">
 <section class="hero-is-fullheight">
@@ -20,28 +20,30 @@
                 <h1 class="title">Homepage</h1>
             </div>
         </div>
-        <div th:each="product: ${products}" class="my-2">
-            <strong>
-            <!--/*@thymesVar id="product" type="it.polimi.db2.utils.Product"*/-->
-            <span th:text="${product.getBundle().getTitle()}"></span>
-            </strong>
-            <br>
-            <form method="post" data-th-action="@{'/homepage'}">
-                <div>
-                    <!--/*@thymesVar id="product" type="it.polimi.db2.utils.Product"*/-->
-                    <button type="submit" class="button is-primary is-small" style="background-color: #2160c4" name="buyButton" th:value="${product.getBundle().getId()}">
-                        Buy Bundle
-                    </button>
+        <div class="container" style="display: flex">
+            <div th:each="product: ${products}" class="my-2">
+                <strong>
+                <!--/*@thymesVar id="product" type="it.polimi.db2.utils.Product"*/-->
+                <span th:text="${product.getBundle().getTitle()}"></span>
+                </strong>
+                <br>
+                <form method="post" data-th-action="@{'/homepage'}">
+                    <div>
+                        <!--/*@thymesVar id="product" type="it.polimi.db2.utils.Product"*/-->
+                        <button type="submit" class="button is-primary is-small" style="background-color: #2160c4" name="buyButton" th:value="${product.getBundle().getId()}">
+                            Buy Bundle
+                        </button>
+                    </div>
+                </form>
+                <div data-th-each="service: ${product.services}">
+                    <strong><span data-th-if="${service.offer} == 'FP'">Fixed Phone</span></strong>
+                    <strong><span data-th-if="${service.offer} == 'FI'">Fixed Internet</span></strong>
+                    <strong><span data-th-if="${service.offer} == 'MP'">Mobile Phone</span></strong>
+                    <strong><span data-th-if="${service.offer} == 'MI'">Mobile Internet</span></strong>
                 </div>
-            </form>
-            <div data-th-each="service: ${product.services}">
-                <strong><span data-th-if="${service.offer} == 'FP'">Fixed Phone</span></strong>
-                <strong><span data-th-if="${service.offer} == 'FI'">Fixed Internet</span></strong>
-                <strong><span data-th-if="${service.offer} == 'MP'">Mobile Phone</span></strong>
-                <strong><span data-th-if="${service.offer} == 'MI'">Mobile Internet</span></strong>
-            </div>
-            <div data-th-each="period: ${product.validityPeriods}">
-                <strong><span data-th-text="${period.months} + ' months at: ' + '$' + ${period.costPerMonth} + '/month.'"></span></strong>
+                <div data-th-each="period: ${product.validityPeriods}">
+                    <strong><span data-th-text="${period.months} + ' months at: ' + '$' + ${period.costPerMonth} + '/month.'"></span></strong>
+                </div>
             </div>
         </div>
     </div>

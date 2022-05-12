@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Admin Login</title>
     <link href="../../css/style.css" data-th-href="@{/css/style.css}" rel="stylesheet">
+    <link href="../../css/style.css" data-th-href="@{/css/style.css}" rel="stylesheet">
 </head>
 <body class="has-background-white">
 <section class="container py-5 vh100">
@@ -23,45 +24,29 @@
     </form>
     <div class="box">
         <h1>Choose one or more services you would like to insert in the new package service:</h1><br>
-        <select required>
-            <option></option>
-            <option name="Fixed Phone" th:value="true">Fixed Phone</option>
-            <option name="Fixed Internet" th:value="true">Fixed Internet</option>
-            <option name="Mobile Phone" th:value="true">Mobile Phone</option>
-            <option name="Mobile Internet" th:value="true">Mobile Internet</option>
-        </select>
-        <select>
-            <option>--service--</option>
-            <option name="Fixed Phone" th:value="true">Fixed Phone</option>
-            <option name="Fixed Internet" th:value="true">Fixed Internet
-           <!-- <span data-th-if="Fixed Phone == 'true'"></span>-->
-            </option>
-            <option name="Mobile Phone" th:value="true">Mobile Phone</option>
-            <option name="Mobile Internet" th:value="true">Mobile Internet</option>
-        </select>
-        <select>
-            <option>--service--</option>
-            <option name="Fixed Phone" th:value="true">Fixed Phone</option>
-            <option name="Fixed Internet" th:value="true">Fixed Internet</option>
-            <option name="Mobile Phone" th:value="true">Mobile Phone</option>
-            <option name="Mobile Internet" th:value="true">Mobile Internet</option>
-        </select>
-        <select>
-            <option>--service--</option>
-            <option name="Fixed Phone" th:value="true">Fixed Phone</option>
-            <option name="Fixed Internet" th:value="true">Fixed Internet</option>
-            <option name="Mobile Phone" th:value="true">Mobile Phone</option>
-            <option name="Mobile Internet" th:value="true">Mobile Internet</option>
-        </select>
+        <ul class="nav site-nav">
+            <li><a href="#">Fixed Phone</a><!-- * -->
+            <li class="flyout">
+                <a href="#">Fixed Internet</a>
+                <!-- Flyout -->
+                <ul class="flyout-content nav stacked">
+                    <li><a href="#">Item 1</a></li>
+                    <li><a href="#">Item 2</a></li>
+                    <li><a href="#">Item 3</a></li>
+                </ul>
+                <!-- * -->
+            <li><a href="#">Mobile Phone</a><!-- * -->
+            <li><a href="#">Mobile Internet</a><!-- * -->
+        </ul>
     </div><br>
     </div>
     <div class="container">
         <h2>Choose among the available validity periods: </h2><br>
-        <div class="box">
+        <div class="box" aria-required="true">
             <div th:if="${validityPeriodEntityList} != null" th:each="validityPeriodEntity : ${validityPeriodEntityList}" class="my-2">
 
                     <!--/*@thymesVar id="validityPeriodEntity" type="it.polimi.db2.entities.ValidityPeriodEntity"*/-->
-                    <input type="radio" th:id="'vp' + ${validityPeriodEntity.id}" name="selectedValidityPeriod" th:value="${validityPeriodEntity.getId()}" required>
+                    <input type="checkbox" th:id="'vp' + ${validityPeriodEntity.id}" name="selectedValidityPeriod" th:value="${validityPeriodEntity.getId()}">
                     <label th:for="'vp' + ${validityPeriodEntity.id}" th:text="${validityPeriodEntity.getMonths()} + ' months, at: ' + ${validityPeriodEntity.getCostPerMonth()} + '$ per month. (Total of ' + ${validityPeriodEntity.getMonths()} * ${validityPeriodEntity.getCostPerMonth()} + '$)'"></label>
             </div>
         <br><h3>Or else, create a new one:</h3><br>
@@ -84,14 +69,14 @@
             <h4>You can choose optional services:</h4><br>
             <div th:if="${optionalProductEntityList} != null" th:each="optionalProductEntity : ${optionalProductEntityList}" class="my-2">
             <!--/*@thymesVar id="optionalProductEntity" type="it.polimi.db2.entities.OptionalProductEntity"*/-->
-            <input type="radio" th:id="${optionalProductEntity.id}" name="selectedValidityPeriod" th:value="${optionalProductEntity.getId()}">
+            <input type="checkbox" th:id="${optionalProductEntity.id}" name="selectedValidityPeriod" th:value="${optionalProductEntity.getId()}">
             <label th:for=" 'op' + ${optionalProductEntity.id}" th:text="${optionalProductEntity.getTitle()} + ' for: ' + ${optionalProductEntity.getMonthlyFee()} + '$ per month.' "></label>
             </div>
             <br><h5>You can also create a new one if you do not like the ones in the database</h5><br>
             <div>
                 <form method="get" data-th-action="@{'/employee/optional'}">
                     <div class="has-text-left">
-                        <button type="submit" class="button is-primary is-medium" name="doRedirect" th:value="true" style="background-color: lightskyblue"> Create new Optional </button>
+                        <button type="submit" class="button is-primary is-medium" name="goToOptional" th:value="true" style="background-color: lightskyblue"> Create new Optional </button>
                     </div>
                 </form>
             </div>

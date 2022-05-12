@@ -3,6 +3,7 @@ package it.polimi.db2.services;
 import it.polimi.db2.entities.OptionalProductEntity;
 import it.polimi.db2.entities.UserEntity;
 import it.polimi.db2.exceptions.CredentialException;
+import it.polimi.db2.exceptions.OptionalExistentException;
 
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
@@ -21,7 +22,11 @@ public class OptionalService {
                 .getResultList();
     }
 
-    public OptionalProductEntity checkValidity(String title) throws CredentialException {
+    public void createOptional(OptionalProductEntity optionalProductEntity){
+        em.persist(optionalProductEntity);
+    }
+
+    public void checkValidity(String title) throws OptionalExistentException {
 
         List<OptionalProductEntity> list;
 
@@ -31,12 +36,12 @@ public class OptionalService {
                     .getResultList();
         } catch (PersistenceException e) {
 
-            throw new CredentialException("Could not verify credentials");
+            throw new PersistenceException("Could not verify existence");
         }
         if(list.isEmpty()){
-            return null;
+            return;
         }
-        throw new NonUniqueResultException("Invalid title. An optional product with this title already exists.");
+        throw new OptionalExistentException("Invalid title. An optional product with this title already exists.");
 
     }
 

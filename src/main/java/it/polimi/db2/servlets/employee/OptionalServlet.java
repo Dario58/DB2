@@ -2,6 +2,7 @@ package it.polimi.db2.servlets.employee;
 
 import it.polimi.db2.entities.OptionalProductEntity;
 import it.polimi.db2.exceptions.CredentialException;
+import it.polimi.db2.exceptions.OptionalExistentException;
 import it.polimi.db2.services.OptionalService;
 import org.apache.commons.text.StringEscapeUtils;
 import org.thymeleaf.TemplateEngine;
@@ -11,6 +12,7 @@ import org.thymeleaf.templateresolver.ServletContextTemplateResolver;
 
 import javax.ejb.EJB;
 import javax.persistence.NonUniqueResultException;
+import javax.persistence.PersistenceException;
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -41,6 +43,9 @@ public class OptionalServlet extends HttpServlet {
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         resp.setContentType("text/html");
 
+        if(req.getParameter("goToOptional") != null && Boolean.parseBoolean(req.getParameter("goToOptional"))) {
+            req.getSession().setAttribute("doRedirect", true);
+        }
         ServletContext servletContext = getServletContext();
         WebContext ctx = new WebContext(req, resp, servletContext, req.getLocale());
         String path = "/WEB-INF/employee/optional.html";
@@ -58,13 +63,14 @@ public class OptionalServlet extends HttpServlet {
             return;
         }
 
-        OptionalProductEntity optionalProduct;
+        OptionalProductEntity optionalProduct = null;
 
         try {
-            optionalProduct = optionalService.checkValidity(title);
-        } catch (CredentialException | NonUniqueResultException e) {
+            optionalService.checkValidity(title);
+            optionalProduct = new OptionalProductEntity(title, months);
+            optionalService.createOptional(optionalProduct);
+        } catch (OptionalExistentException | PersistenceException e) {
             resp.sendError(HttpServletResponse.SC_BAD_REQUEST, "Unable to check credentials");
-            return;
         }
         if (optionalProduct == null) {
             resp.setContentType("text/html");
@@ -73,12 +79,9 @@ public class OptionalServlet extends HttpServlet {
             final WebContext ctx = new WebContext(req, resp, servletContext, req.getLocale());
             ctx.setVariable("errorMessage", "Incorrect title or invalid number of months.");
 
-        } else {
-
-            req.getSession().setAttribute("optionalProduct", optionalProduct);
-            req.getSession().setAttribute("months", months);
         }
-        if ((Boolean) req.getSession().getAttribute("doRedirect")) {
+
+        if (req.getSession().getAttribute("doRedirect") != null && (Boolean) req.getSession().getAttribute("doRedirect") ) {
             resp.sendRedirect(getServletContext().getContextPath() + "/employee/package");
         } else {
             resp.sendRedirect(getServletContext().getContextPath() + "/employee/homepage");

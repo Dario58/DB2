@@ -23,6 +23,14 @@ public class OptionalProductEntity {
     @Column(name = "monthlyFee")
     private int monthlyFee;
 
+    public OptionalProductEntity(String title, int monthlyFee) {
+        this.title = title;
+        this.monthlyFee = monthlyFee;
+    }
+
+    public OptionalProductEntity(){
+    }
+
     public int getId() {
         return id;
     }
