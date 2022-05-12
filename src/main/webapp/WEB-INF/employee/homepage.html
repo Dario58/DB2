@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Admin Login</title>
+    <title>Employee Homepage</title>
     <link href="../../css/style.css" data-th-href="@{/css/style.css}" rel="stylesheet">
 </head>
 <body class="has-background-white">
@@ -12,7 +12,6 @@
         <div data-th-text="'Signed in as ' + ${session.employee.nickname}"></div>
         <a href="#" data-th-href="@{/employee/logout}">Logout</a>
     </div>
-
     <div class="column">
         <div class="has-text-centered mb-6">
             <h1 class="title">Employee Homepage</h1>

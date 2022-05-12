@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Service Selection</title>
+    <link href="../../css/style.css" data-th-href="@{/css/style.css}" rel="stylesheet">
+    <link href="../../css/style.css" data-th-href="@{/css/style.css}" rel="stylesheet">
+</head>
+<body>
+<body class="has-background-white">
+<section class="container py-5 vh100">
+    <div class="has-text-left">
+        <div data-th-text="'Signed in as ' + ${session.employee.nickname}"></div>
+        <a href="#" data-th-href="@{/employee/logout}">Logout</a>
+    </div>
+    <div class="has-text-centered mb-6">
+        <h1 class="title">Creation page</h1>
+    </div><br>
+    <div class="container">
+    </div>
+    <div class="container" style="display: flex">
+        <div class="box">
+            <form method="post" data-th-action="@{'/employee/serviceSelection'}">
+                <button type="submit" class="button is-primary is-medium" style="background-color: lightskyblue" name="serviceSelected" value="FI">Fixed Internet</button>
+                <button type="submit" class="button is-primary is-medium" style="background-color: lightskyblue" name="serviceSelected" value="MP">Mobile Phone</button>
+                <button type="submit" class="button is-primary is-medium" style="background-color: lightskyblue" name="serviceSelected" value="MI">Mobile Internet</button>
+            </form>
+        </div>
+
+    </div>
+</section>
+</body>

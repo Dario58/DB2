@@ -14,9 +14,4 @@
     <div data-th-text="'Signed in as ' + ${session.employee.nickname}"></div>
     <a href="#" data-th-href="@{/employee/logout}">Logout</a>
 </div>
-<form method="get" data-th-action="@{'/employee/homepage'}">
-    <div class="has-text-right">
-        <input type="submit" class="button is-primary is-small" style="background-color: lightskyblue" value="Back">
-    </div>
-</form>
 </body>

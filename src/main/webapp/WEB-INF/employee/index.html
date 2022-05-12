@@ -3,13 +3,20 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Admin Login</title>
+    <title>Employee Login Page</title>
     <link href="../../css/style.css" data-th-href="@{/css/style.css}" rel="stylesheet">
 </head>
 <body class="has-background-light">
 <section class="hero is-fullheight">
     <div class="hero-body">
         <div class="container">
+            <div>
+                <form method="get" data-th-action="@{'/login'}">
+                    <div class="has-text-right">
+                        <input type="submit" class="button is-primary is-medium" style="background-color: lightskyblue" value="Back">
+                    </div>
+                </form>
+            </div>
             <div class="column is-4 is-offset-4">
                 <div class="has-text-centered mb-5">
                     <h1 class="title">Employee Login Page</h1>

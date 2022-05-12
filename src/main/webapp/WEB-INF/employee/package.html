@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Admin Login</title>
+    <title>Package Creation page</title>
     <link href="../../css/style.css" data-th-href="@{/css/style.css}" rel="stylesheet">
     <link href="../../css/style.css" data-th-href="@{/css/style.css}" rel="stylesheet">
 </head>
@@ -17,27 +17,23 @@
         <h1 class="title">Creation page</h1>
     </div><br>
 <div class="container">
-    <form method="get" data-th-action="@{'/employee/homepage'}">
-        <div class="has-text-right">
-            <input type="submit" class="button is-primary is-small" style="background-color: lightskyblue" value="Back">
-        </div>
-    </form>
     <div class="box">
         <h1>Choose one or more services you would like to insert in the new package service:</h1><br>
-        <ul class="nav site-nav">
-            <li><a href="#">Fixed Phone</a><!-- * -->
-            <li class="flyout">
-                <a href="#">Fixed Internet</a>
-                <!-- Flyout -->
-                <ul class="flyout-content nav stacked">
-                    <li><a href="#">Item 1</a></li>
-                    <li><a href="#">Item 2</a></li>
-                    <li><a href="#">Item 3</a></li>
-                </ul>
-                <!-- * -->
-            <li><a href="#">Mobile Phone</a><!-- * -->
-            <li><a href="#">Mobile Internet</a><!-- * -->
-        </ul>
+        <div th:if="${services} != null" th:each="service: ${services}">
+            <!--/*@thymesVar id="service" type="it.polimi.db2.entities.ServiceEntity"*/-->
+            <input type="checkbox" th:id="${service.id}" name="selectedService" th:value="${service.getId()}">
+            <label th:for="${service.id}" th:text="${service.getOffer()}"></label>
+                <div th:if="(${service.getOffer().toString()} == 'FP') and (${service.getFiGBs()} != null)" th:text="${service.getFiGBs()} + 'at: ' + ${service.getFiExtraGBsCost()} + '$'" style="display: flex"></div>
+                <div th:if="(${service.getOffer().toString()} == 'MP') and (${service.getMpSms()} != null) and (${service.getMpMins()} != null)" th:text="${service.getMpSms()} + ' and ' + ${service.getMpMins()} + ' at: ' + ${service.getMpExtraMinsCost() } + '$'" style="display: flex"></div>
+                <div th:if="(${service.getOffer().toString()} == 'MI') and (${service.getMiGBs()} != null)" th:text="${service.getMiGBs()} + ' at: ' + ${service.getMiExtraGBsCost()} + '$' " style="display: flex"></div>
+
+        </div>
+        <br><h2>Or else, create a new one:</h2><br>
+        <form method="get" data-th-action="@{'/employee/serviceSelection'}">
+            <div class="has-text-left">
+                <button type="submit" class="button is-primary is-medium" name="goToServiceSelection" th:value="true" style="background-color: lightskyblue"> Create new Service </button>
+            </div>
+        </form>
     </div><br>
     </div>
     <div class="container">
@@ -50,18 +46,11 @@
                     <label th:for="'vp' + ${validityPeriodEntity.id}" th:text="${validityPeriodEntity.getMonths()} + ' months, at: ' + ${validityPeriodEntity.getCostPerMonth()} + '$ per month. (Total of ' + ${validityPeriodEntity.getMonths()} * ${validityPeriodEntity.getCostPerMonth()} + '$)'"></label>
             </div>
         <br><h3>Or else, create a new one:</h3><br>
-            <div class="field">
-                <label class="label" for="months">Months</label>
-                <div class="control">
-                    <input class="input" type="number" name="months" id="months" placeholder="Months" required>
+            <form method="get" data-th-action="@{'/employee/validity'}">
+                <div class="has-text-left">
+                    <button type="submit" class="button is-primary is-medium" name="goToValidity" th:value="true" style="background-color: lightskyblue"> Create new Validity Period </button>
                 </div>
-            </div>
-            <div class="field">
-                <label class="label" for="costPerMonth">Cost Per Month</label>
-                <div class="control">
-                    <input class="input" type="number" name="costPerMonth" id="costPerMonth" placeholder="costPerMonth" required>
-                </div>
-            </div>
+            </form>
         </div>
     </div><br>
     <div class="container">
@@ -72,7 +61,7 @@
             <input type="checkbox" th:id="${optionalProductEntity.id}" name="selectedValidityPeriod" th:value="${optionalProductEntity.getId()}">
             <label th:for=" 'op' + ${optionalProductEntity.id}" th:text="${optionalProductEntity.getTitle()} + ' for: ' + ${optionalProductEntity.getMonthlyFee()} + '$ per month.' "></label>
             </div>
-            <br><h5>You can also create a new one if you do not like the ones in the database</h5><br>
+            <br><h5>You can also create a new one if you do not like the ones in the database:</h5><br>
             <div>
                 <form method="get" data-th-action="@{'/employee/optional'}">
                     <div class="has-text-left">
@@ -82,6 +71,7 @@
             </div>
         </div>
         </div>
+    <br>
     <form method="post" data-th-action="@{'/employee/package'}">
     <div class="has-text-centered">
         <input type="submit" class="button is-primary is-medium" style="background-color: lightskyblue" value="Submit">

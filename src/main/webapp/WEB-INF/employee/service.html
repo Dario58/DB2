@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Service Package</title>
+    <link href="../../css/style.css" data-th-href="@{/css/style.css}" rel="stylesheet">
+</head>
+        <body class="has-background-white">
+        <section class="container py-5 vh100">
+            <div class="has-text-left">
+                <div data-th-text="'Signed in as ' + ${session.employee.nickname}"></div>
+                <a href="#" data-th-href="@{/employee/logout}">Logout</a>
+            </div>
+            <div class="has-text-centered mb-6">
+                <h1 class="title">Creation page</h1>
+            </div><br>
+
+            <div th:if="${session.serviceType} == 'FI'" class="field">
+                <div class="container">
+                    <label class="label" for="fiGBs">Giga Byte</label>
+                    <div class="control">
+                        <input class="input" type="number" name="fiGBs" id="fiGBs" placeholder="fiGBs" required>
+                    </div>
+
+                <div>
+                    <label class="label" for="fiExtraGBsCost">Cost</label>
+                    <div class="control">
+                        <input class="input" type="number" name="fiExtraGBsCost" id="fiExtraGBsCost" placeholder="fiExtraGBsCost" required>
+                    </div>
+                </div>
+            </div>
+
+
+            <div th:if="${session.serviceType} == 'MP'" class="field">
+                <div class="container">
+                    <label class="label" for="mpMins">Minutes</label>
+                    <div class="control">
+                         <input class="input" type="number" name="mpMins" id="mpMins" placeholder="mpMins" required>
+                    </div>
+                    <label class="label" for="mpSms">SMS</label>
+                    <div class="control">
+                        <input class="input" type="number" name="mpSms" id="mpSms" placeholder="mpSms" required>
+                    </div>
+
+                    <div>
+                         <label class="label" for="mpExtraMinsCost">Cost</label>
+                         <div class="control">
+                            <input class="input" type="number" name="mpExtraMinsCost" id="mpExtraMinsCost" placeholder="mpExtraMinsCost" required>
+                         </div>
+                    </div>
+                    <div>
+                        <label class="label" for="mpExtraSmsCost">Cost</label>
+                        <div class="control">
+                            <input class="input" type="number" name="mpExtraSmsCost" id="mpExtraSmsCost" placeholder="mpExtraSmsCost" required>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+
+            <div th:if="${session.serviceType} == 'FI'" class="field">
+                <div class="container">
+                    <label class="label" for="miGBs">Giga Byte</label>
+                    <div class="control">
+                         <input class="input" type="number" name="miGBs" id="miGBs" placeholder="miGBs" required>
+                    </div>
+
+                    <div>
+                         <label class="label" for="miExtraGBsCost">Cost</label>
+                         <div class="control">
+                             <input class="input" type="number" name="miExtraGBsCost" id="miExtraGBsCost" placeholder="miExtraGBsCost" required>
+                         </div>
+                    </div>
+                </div>
+            </div>
+            <div data-th-if="${errorMessage != null}" class="notification is-danger"
+                data-th-text="${errorMessage}">Test error
+            </div>
+        <div class="has-text-centered"><input type="submit" class="button is-primary is-medium" name="submit" th:value="true"
+                                                      style="background-color: lightskyblue" value="Submit"></div>
+
+
+    </div>
+</section>
+</body>
+</html>

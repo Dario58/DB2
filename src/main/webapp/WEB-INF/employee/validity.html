@@ -3,7 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Optional package</title>
+    <title>Validity Periods Creation</title>
+    <link href="../../css/style.css" data-th-href="@{/css/style.css}" rel="stylesheet">
     <link href="../../css/style.css" data-th-href="@{/css/style.css}" rel="stylesheet">
 </head>
 <body class="has-background-light">
@@ -16,35 +17,32 @@
             </div>
             <div class="column is-4 is-offset-4">
                 <div class="has-text-centered mb-5">
-                    <h1 class="title">Optional Services Creation Page</h1>
+                    <h1 class="title">Validity Period Creation Page</h1>
                 </div>
                 <div class="box">
-                    <form name="title" method="post" data-th-action="@{'/employee/optional'}">
+                    <form name="title" method="post" data-th-action="@{'/employee/validity'}">
                         <fieldset>
                             <div class="field">
-                                <label class="label" for="title">Title</label>
+                                <label class="label" for="months">Months</label>
                                 <div class="control">
-                                    <input class="input" type="text" name="title" id="title"
-                                           placeholder="Title" required>
+                                    <input class="input" type="number" name="months" id="months" placeholder="Months" required>
                                 </div>
                             </div>
                             <div class="field">
-                                <label class="label" for="MonthlyFee">Fee</label>
+                                <label class="label" for="monthlyFee">Cost Per Month</label>
                                 <div class="control">
-                                    <input class="input" type="number" name="MonthlyFee" id="MonthlyFee"
-                                           placeholder="MonthlyFee" required>
+                                    <input class="input" type="number" name="monthlyFee" id="monthlyFee" placeholder="MonthlyFee" required>
                                 </div>
                             </div>
                             <div data-th-if="${errorMessage != null}" class="notification is-danger"
                                  data-th-text="${errorMessage}">Test error
                             </div>
-                            <div class="has-text-centered"><input type="submit" class="button is-primary is-medium"
-                                                                  style="background-color: lightskyblue" value="Submit"></div>
                         </fieldset>
+                            <div class="has-text-centered"><input type="submit" class="button is-primary is-medium" name="goToValidity" th:value="true"
+                                                                  style="background-color: lightskyblue" value="Submit"></div>
                     </form>
                 </div>
             </div>
         </div>
     </div>
 </section>
-</body>

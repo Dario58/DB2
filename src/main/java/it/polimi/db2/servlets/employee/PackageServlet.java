@@ -41,9 +41,15 @@ public class PackageServlet extends HttpServlet {
 
         HttpSession session = req.getSession();
 
+        List<ServiceEntity> services = new ArrayList<>();
         List<OptionalProductEntity> optionalProductEntityList = new ArrayList<>();
         List<ValidityPeriodEntity> validityPeriodEntityList = new ArrayList<>();
 
+        try{
+            services = packageService.retrieveAllService();
+        } catch (PersistenceException e) {
+            resp.sendError(HttpServletResponse.SC_BAD_REQUEST, "Couldn't retrieve services.");
+        }
         try {
            optionalProductEntityList = packageService.retrieveAllOptional();
         } catch (PersistenceException e) {
@@ -59,6 +65,8 @@ public class PackageServlet extends HttpServlet {
 
             ServletContext servletContext = getServletContext();
             WebContext ctx = new WebContext(req, resp, servletContext, req.getLocale());
+            ctx.setVariable("services", services);
+            session.setAttribute("services", services);
             ctx.setVariable("optionalProductEntityList", optionalProductEntityList);
             session.setAttribute("optionalProductEntityList", optionalProductEntityList);
 
