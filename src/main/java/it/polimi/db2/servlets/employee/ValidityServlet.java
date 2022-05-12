@@ -17,7 +17,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-@WebServlet(name = "ValidityServlet", value = "/employee/optional")
+@WebServlet(name = "ValidityServlet", value = "/employee/validity")
 public class ValidityServlet extends HttpServlet {
     private TemplateEngine templateEngine;
 

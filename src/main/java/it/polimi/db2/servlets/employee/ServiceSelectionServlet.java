@@ -67,6 +67,6 @@ public class ServiceSelectionServlet extends HttpServlet {
         ServletContext servletContext = getServletContext();
         WebContext ctx = new WebContext(req, resp, servletContext, req.getLocale());
 
-        templateEngine.process("/WEB-INF/service.html", ctx, resp.getWriter());
+        templateEngine.process("/WEB-INF/employee/service.html", ctx, resp.getWriter());
     }
 }

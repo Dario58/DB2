@@ -15,7 +15,7 @@
             <div class="has-text-centered mb-6">
                 <h1 class="title">Creation page</h1>
             </div><br>
-
+        <form method="post" data-th-action="@{/employee/service}">
             <div th:if="${session.serviceType} == 'FI'" class="field">
                 <div class="container">
                     <label class="label" for="fiGBs">Giga Byte</label>
@@ -30,6 +30,7 @@
                     </div>
                 </div>
             </div>
+
 
 
             <div th:if="${session.serviceType} == 'MP'" class="field">
@@ -60,7 +61,7 @@
 
 
 
-            <div th:if="${session.serviceType} == 'FI'" class="field">
+            <div th:if="${session.serviceType} == 'MI'" class="field">
                 <div class="container">
                     <label class="label" for="miGBs">Giga Byte</label>
                     <div class="control">
@@ -78,11 +79,12 @@
             <div data-th-if="${errorMessage != null}" class="notification is-danger"
                 data-th-text="${errorMessage}">Test error
             </div>
-        <div class="has-text-centered"><input type="submit" class="button is-primary is-medium" name="submit" th:value="true"
-                                                      style="background-color: lightskyblue" value="Submit"></div>
+            <div class="has-text-centered">
 
-
-    </div>
+                <button type="submit" class="button is-primary is-medium" id="okCreate" name="okCreate" th:value="true" style="background-color: lightskyblue" >Submit</button>
+            </div>
+        </div>
+        </form>
 </section>
 </body>
 </html>

@@ -21,12 +21,11 @@
         <h1>Choose one or more services you would like to insert in the new package service:</h1><br>
         <div th:if="${services} != null" th:each="service: ${services}">
             <!--/*@thymesVar id="service" type="it.polimi.db2.entities.ServiceEntity"*/-->
-            <input type="checkbox" th:id="${service.id}" name="selectedService" th:value="${service.getId()}">
-            <label th:for="${service.id}" th:text="${service.getOffer()}"></label>
-                <div th:if="(${service.getOffer().toString()} == 'FP') and (${service.getFiGBs()} != null)" th:text="${service.getFiGBs()} + 'at: ' + ${service.getFiExtraGBsCost()} + '$'" style="display: flex"></div>
-                <div th:if="(${service.getOffer().toString()} == 'MP') and (${service.getMpSms()} != null) and (${service.getMpMins()} != null)" th:text="${service.getMpSms()} + ' and ' + ${service.getMpMins()} + ' at: ' + ${service.getMpExtraMinsCost() } + '$'" style="display: flex"></div>
-                <div th:if="(${service.getOffer().toString()} == 'MI') and (${service.getMiGBs()} != null)" th:text="${service.getMiGBs()} + ' at: ' + ${service.getMiExtraGBsCost()} + '$' " style="display: flex"></div>
-
+            <input type="checkbox" th:id="${service.id}" name="selectedService" th:value="${service.getId()}" required>
+            <label th:if="(${service.getOffer().toString()} == 'FP')" th:for="${service.id}" th:text="'Fixed Phone'"></label>
+            <label th:if="(${service.getOffer().toString()} == 'FI')" th:for="${service.id}" th:text="'Fixed Internet' + '  - ' + ${service.getFiGBs()} + ' GBs and ' + ${service.getFiExtraGBsCost()} + '$/extraGB' "></label>
+            <label th:if="(${service.getOffer().toString()} == 'MP')" th:for="${service.id}" th:text="'Mobile Phone' + '  - ' + ${service.getMpSms()} + ' SMS and ' + ${service.getMpMins()} + ' MINS with ' + ${service.getMpExtraSmsCost()} + '$/extraSMS and ' + ${service.getMpExtraMinsCost()} + '$/extraMIN' "></label>
+            <label th:if="(${service.getOffer().toString()} == 'MI')" th:for="${service.id}" th:text="'Mobile Internet' + '  - ' + ${service.getMiGBs()} + ' GBs and ' + ${service.getMiExtraGBsCost()} + '$/extraGB' "></label>
         </div>
         <br><h2>Or else, create a new one:</h2><br>
         <form method="get" data-th-action="@{'/employee/serviceSelection'}">
@@ -42,7 +41,7 @@
             <div th:if="${validityPeriodEntityList} != null" th:each="validityPeriodEntity : ${validityPeriodEntityList}" class="my-2">
 
                     <!--/*@thymesVar id="validityPeriodEntity" type="it.polimi.db2.entities.ValidityPeriodEntity"*/-->
-                    <input type="checkbox" th:id="'vp' + ${validityPeriodEntity.id}" name="selectedValidityPeriod" th:value="${validityPeriodEntity.getId()}">
+                    <input type="checkbox" th:id="'vp' + ${validityPeriodEntity.id}" name="selectedValidityPeriod" th:value="${validityPeriodEntity.getId()}" required>
                     <label th:for="'vp' + ${validityPeriodEntity.id}" th:text="${validityPeriodEntity.getMonths()} + ' months, at: ' + ${validityPeriodEntity.getCostPerMonth()} + '$ per month. (Total of ' + ${validityPeriodEntity.getMonths()} * ${validityPeriodEntity.getCostPerMonth()} + '$)'"></label>
             </div>
         <br><h3>Or else, create a new one:</h3><br>
