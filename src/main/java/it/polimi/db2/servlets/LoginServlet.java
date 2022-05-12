@@ -72,7 +72,7 @@ public class LoginServlet extends HttpServlet {
         } else {
             req.getSession().setAttribute("user", user);
 
-            if((Boolean) req.getSession().getAttribute("doRedirect")){
+            if(req.getSession().getAttribute("doRedirect") != null && (Boolean) req.getSession().getAttribute("doRedirect")){
                 resp.sendRedirect(getServletContext().getContextPath() + "/cart");
             }else {
                 resp.sendRedirect(getServletContext().getContextPath() + "/homepage");

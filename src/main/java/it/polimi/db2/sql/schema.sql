@@ -5,7 +5,7 @@ CREATE TABLE IF NOT EXISTS `User` (
     password VARCHAR(50) NOT NULL,
     email VARCHAR(100) NOT NULL,
     insolvent BIT NOT NULL DEFAULT 0,
-    flag BIT NOT NULL,
+    failedPayments INT NOT NULL DEFAULT 0,
     UNIQUE KEY(nickname),
     UNIQUE KEY(email)
     ) AUTO_INCREMENT = 1;
@@ -111,11 +111,11 @@ CREATE TABLE IF NOT EXISTS Alert (
 CREATE TABLE IF NOT EXISTS ServiceActivationSchedule (
                                                          id INT PRIMARY KEY AUTO_INCREMENT,
                                                          userId INT,
-                                                         bundleId INT,
+                                                         orderId INT,
                                                          activationDate DATE NOT NULL,
                                                          deactivationDate DATE NOT NULL,
                                                          FOREIGN KEY (userId) REFERENCES User(id) ON UPDATE CASCADE ON DELETE CASCADE, -- ? --
-    FOREIGN KEY (bundleId) REFERENCES Bundle(id) ON UPDATE CASCADE ON DELETE CASCADE -- ? --
+    FOREIGN KEY (orderId) REFERENCES `Order`(id) ON UPDATE CASCADE ON DELETE CASCADE -- ? --
     ) AUTO_INCREMENT = 1;
 
 
@@ -124,7 +124,7 @@ CREATE TABLE IF NOT EXISTS ServiceActivationSchedule (
 -- Purchases per package --
 CREATE TABLE IF NOT EXISTS PurchasesPerPackage (
                                                    bundleId INT PRIMARY KEY,
-                                                   purchaseCount INT NOT NULL
+                                                   purchaseCount INT DEFAULT 0
 );
 
 /*
@@ -135,23 +135,23 @@ DELIMITER //
 CREATE TRIGGER UpdatePurchaseCount
     AFTER UPDATE ON `Order`
     FOR EACH ROW
-BEGIN
-    IF NEW.valid = 1 THEN
-        IF NEW.bundleId NOT IN (SELECT bundleId FROM PurchasesPerPackage) THEN
-            INSERT INTO PurchasesPerPackage (bundleId, purchaseCount)
-            VALUES (NEW.bundleId, 0);
-END IF;
-UPDATE PurchasesPerPackage SET purchaseCount = purchaseCount + 1
-WHERE PurchasesPerPackage.bundleId = NEW.bundleId;
-END IF;
-END //
+    BEGIN
+        IF NEW.valid = 1 THEN
+            IF NEW.bundleId NOT IN (SELECT bundleId FROM PurchasesPerPackage) THEN
+                INSERT INTO PurchasesPerPackage (bundleId, purchaseCount)
+                VALUES (NEW.bundleId, 0);
+            END IF;
+        UPDATE PurchasesPerPackage SET purchaseCount = purchaseCount + 1
+        WHERE PurchasesPerPackage.bundleId = NEW.bundleId;
+        END IF;
+    END //
 DELIMITER ;
 
 -- Purchases per package and validity period --
 CREATE TABLE IF NOT EXISTS PurchasePerPackageValidityPeriod (
                                                                 bundleId INT NOT NULL,
                                                                 validityId INT NOT NULL,
-                                                                purchaseCount INT NOT NULL,
+                                                                purchaseCount INT DEFAULT 0,
                                                                 UNIQUE KEY(bundleId, validityId)
     );
 
@@ -164,23 +164,23 @@ DELIMITER //
 CREATE TRIGGER UpdatePurchaseCountValidity
     AFTER UPDATE ON `Order`
     FOR EACH ROW
-BEGIN
-    IF NEW.valid = 1 THEN
-        IF (NEW.bundleId, NEW.validityPeriodId) NOT IN (SELECT bundleId, validityId FROM PurchasePerPackageValidityPeriod) THEN
-            INSERT INTO PurchasePerPackageValidityPeriod (bundleId, validityId, purchaseCount)
-            VALUES (NEW.bundleId, NEW.validityPeriodId, 0);
-END IF;
-UPDATE PurchasePerPackageValidityPeriod SET purchaseCount = purchaseCount + 1
-WHERE PurchasePerPackageValidityPeriod.bundleId = NEW.bundleId AND PurchasePerPackageValidityPeriod.validityId = NEW.validityPeriodId;
-END IF;
-END //
+    BEGIN
+        IF NEW.valid = 1 THEN
+            IF (NEW.bundleId, NEW.validityPeriodId) NOT IN (SELECT bundleId, validityId FROM PurchasePerPackageValidityPeriod) THEN
+                INSERT INTO PurchasePerPackageValidityPeriod (bundleId, validityId, purchaseCount)
+                VALUES (NEW.bundleId, NEW.validityPeriodId, 0);
+            END IF;
+        UPDATE PurchasePerPackageValidityPeriod SET purchaseCount = purchaseCount + 1
+        WHERE (PurchasePerPackageValidityPeriod.bundleId = NEW.bundleId AND PurchasePerPackageValidityPeriod.validityId = NEW.validityPeriodId);
+        END IF;
+    END //
 DELIMITER ;
 
 -- Total value per package with and without optional products --
 CREATE TABLE IF NOT EXISTS TotValuePerPackageSold (
                                                       bundleId INT PRIMARY KEY,
-                                                      totValue INT NOT NULL,
-                                                      totValueNoOptionals INT NOT NULL
+                                                      totValue INT DEFAULT 0,
+                                                      totValueNoOptionals INT DEFAULT 0
 );
 
 /*
@@ -191,27 +191,25 @@ DELIMITER //
 CREATE TRIGGER UpdateTotValuePerPackage
     AFTER UPDATE ON `Order`
     FOR EACH ROW
-BEGIN
-    IF NEW.valid = 1 THEN
-        IF NEW.bundleId NOT IN (SELECT bundleId FROM TotValuePerPackageSold) THEN
-            INSERT INTO TotValuePerPackageSold (bundleId, totValue, totValueNoOptionals)
-            VALUES (NEW.bundleId, 0, 0);
-END IF;
-UPDATE TotValuePerPackageSold SET totValue = totValue + NEW.totCost
-WHERE TotValuePerPackageSold.bundleId = NEW.bundleId;
-UPDATE TotValuePerPackageSold SET totValueNoOptionals = totValueNoOptionals + NEW.totCost -
-                                                        (SELECT SUM(monthlyFee)
-                                                         FROM OptionalProduct op
-                                                         WHERE op.id IN
-                                                               (SELECT optionalId AS optionals FROM ChosenOptionalsInOrder chosen WHERE NEW.id = chosen.orderId));
-END IF;
-END //
+    BEGIN
+        IF NEW.valid = 1 THEN
+            IF NEW.bundleId NOT IN (SELECT bundleId FROM TotValuePerPackageSold) THEN
+                INSERT INTO TotValuePerPackageSold (bundleId, totValue, totValueNoOptionals)
+                VALUES (NEW.bundleId, 0, 0);
+            END IF;
+        UPDATE TotValuePerPackageSold SET totValue = totValue + NEW.totCost
+        WHERE TotValuePerPackageSold.bundleId = NEW.bundleId;
+        UPDATE TotValuePerPackageSold SET totValueNoOptionals = totValueNoOptionals + ((SELECT months FROM ValidityPeriod vp WHERE vp.id = NEW.validityPeriodId) *
+                                                                                       (SELECT costPerMonth FROM ValidityPeriod vp WHERE vp.id = NEW.validityPeriodId))
+        WHERE TotValuePerPackageSold.bundleId = NEW.bundleId;
+        END IF;
+    END //
 DELIMITER ;
 
 -- Average number of optional products per package --
 CREATE TABLE IF NOT EXISTS AverageNumOptionalsPerPackage (
                                                              bundleId INT PRIMARY KEY,
-                                                             averageNumOptionals INT NOT NULL
+                                                             averageNumOptionals FLOAT DEFAULT 0
 );
 
 /*
@@ -223,24 +221,26 @@ DELIMITER //
 CREATE TRIGGER UpdateAvgNumOptionalsPerPackage
     AFTER UPDATE ON `Order`
     FOR EACH ROW
-BEGIN
-    IF NEW.valid = 1 THEN
-        IF NEW.bundleId NOT IN (SELECT bundleId FROM AverageNumOptionalsPerPackage) THEN
-            INSERT INTO AverageNumOptionalsPerPackage (bundleId, averageNumOptionals)
-            VALUES (NEW.bundleId, 0);
-END IF;
-UPDATE AverageNumOptionalsPerPackage SET averageNumOptionals = (averageNumOptionals +
-                                                                (SELECT COUNT(*) FROM ChosenOptionalsInOrder co WHERE co.orderId = NEW.id)) /
-                                                               (SELECT COUNT(*) FROM `Order` o WHERE o.bundleId = NEW.bundleId AND NEW.valid = 1)
-WHERE AverageNumOptionalsPerPackage.bundleId = NEW.bundleId;
-END IF;
-END //
+    BEGIN
+        DECLARE chosenOptionals FLOAT;
+        DECLARE bundleSales FLOAT;
+        IF NEW.valid = 1 THEN
+            SET chosenOptionals = CAST((SELECT COUNT(*) FROM ChosenOptionalsInOrder co WHERE co.orderId = NEW.id) AS FLOAT);
+            SET bundleSales = CAST((SELECT COUNT(*) FROM `Order` o WHERE (o.bundleId = NEW.bundleId AND o.valid = 1)) AS FLOAT);
+            IF NEW.bundleId NOT IN (SELECT bundleId FROM AverageNumOptionalsPerPackage) THEN
+                INSERT INTO AverageNumOptionalsPerPackage (bundleId, averageNumOptionals)
+                VALUES (NEW.bundleId, 0);
+            END IF;
+            UPDATE AverageNumOptionalsPerPackage SET averageNumOptionals = averageNumOptionals + ((chosenOptionals - averageNumOptionals) / bundleSales)
+            WHERE AverageNumOptionalsPerPackage.bundleId = NEW.bundleId;
+        END IF;
+    END //
 DELIMITER ;
 
 -- Best seller optional product --
 CREATE TABLE IF NOT EXISTS BestSellerOptional (
                                                   optionalId INT PRIMARY KEY,
-                                                  totRevenue INT NOT NULL
+                                                  totRevenue INT DEFAULT 0
 );
 
 /*
@@ -252,16 +252,62 @@ DELIMITER //
 CREATE TRIGGER UpdateBestSellerOptional
     AFTER UPDATE ON `Order`
     FOR EACH ROW
-BEGIN
-    IF NEW.valid = 1 THEN
-        IF (SELECT optionalId FROM ChosenOptionalsInOrder co WHERE co.orderId = NEW.id)
-            NOT IN (SELECT optionalId FROM BestSellerOptional) THEN
-            INSERT INTO BestSellerOptional (optionalId, totRevenue)
-            VALUES ((SELECT optionalId FROM ChosenOptionalsInOrder co WHERE co.orderId = NEW.id), 0);
-END IF;
-UPDATE BestSellerOptional SET totRevenue = totRevenue + (SELECT monthlyFee FROM OptionalProduct op WHERE op.id IN (SELECT id FROM ChosenOptionalsInOrder co WHERE co.orderId = NEW.id)) *
-                                                        (SELECT months FROM ValidityPeriod vp WHERE vp.id = NEW.validityPeriodId)
-WHERE BestSellerOptional.optionalId IN (SELECT optionalId FROM ChosenOptionalsInOrder co WHERE co.orderId = NEW.id);
-END IF;
-END //
+    BEGIN
+        DECLARE done INT DEFAULT FALSE;
+        DECLARE chosenId INT;
+        DECLARE cur CURSOR FOR (SELECT optionalId FROM ChosenOptionalsInOrder co WHERE co.orderId = NEW.id);
+        DECLARE CONTINUE HANDLER FOR NOT FOUND SET done = TRUE;
+        IF NEW.valid = 1 THEN
+            OPEN cur;
+                chosen_loop: LOOP
+                    FETCH cur INTO chosenId;
+                    IF done THEN
+                      LEAVE chosen_loop;
+                    END IF;
+                    IF chosenId NOT IN (SELECT optionalId FROM BestSellerOptional) THEN
+                        INSERT INTO BestSellerOptional (optionalId, totRevenue)
+                        VALUES (chosenId, 0);
+                    END IF;
+                    UPDATE BestSellerOptional SET totRevenue = totRevenue + ((SELECT monthlyFee FROM OptionalProduct op WHERE op.id = chosenId) *
+                                                                             (SELECT months FROM ValidityPeriod vp WHERE vp.id = NEW.validityPeriodId ))
+                    WHERE BestSellerOptional.optionalId = chosenId;
+                END LOOP;
+            CLOSE cur;
+        END IF;
+    END //
+DELIMITER ;
+
+/**
+  Adds 1 to the failed order counter
+ */
+DELIMITER //
+CREATE TRIGGER AddFailedOrderToUser
+    AFTER UPDATE ON `Order`
+    FOR EACH ROW
+    BEGIN
+       IF NEW.valid = 0 THEN
+           UPDATE `User` u SET u.failedPayments = u.failedPayments + 1
+           WHERE u.id = NEW.clientId;
+       END IF;
+    END //
+DELIMITER ;
+
+/**
+  This trigger populates Alert after 3 failed payments.
+  If the user later has other failed payments it doesn't update
+  unless he resolved some payments (<3) and then he reaches 3 again.
+ */
+DELIMITER //
+CREATE TRIGGER PopulateAlert
+    AFTER UPDATE ON `User`
+    FOR EACH ROW
+    BEGIN
+        IF (NEW.failedPayments >= 3 AND OLD.failedPayments < 3) THEN
+            INSERT INTO Alert (userId, nickname, amountLastRejection, dateLastRejection)
+            VALUES (NEW.id,
+                    NEW.nickname,
+                    (SELECT totCost FROM `Order` o WHERE o.clientId = NEW.id ORDER BY o.issueTime DESC LIMIT 1),
+                    (SELECT issueTime FROM `Order` o WHERE o.clientId = NEW.id ORDER BY o.issueTime DESC LIMIT 1));
+        END IF;
+    END //
 DELIMITER ;

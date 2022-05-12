@@ -27,15 +27,15 @@ public class UserEntity {
     @Column(name = "insolvent")
     private boolean insolvent;
     @Basic
-    @Column(name = "flag")
-    private boolean flag;
+    @Column(name = "failedPayments")
+    private int failedPayments;
 
     public UserEntity(String nickname, String password, String email) {
         this.nickname = nickname;
         this.password = password;
         this.email = email;
         this.insolvent = false;
-        this.flag = false;
+        this.failedPayments = 0;
     }
 
     public UserEntity() {
@@ -87,12 +87,12 @@ public class UserEntity {
     }
 
 
-    public boolean isFlag() {
-        return flag;
+    public int getFailedPayments () {
+        return failedPayments;
     }
 
-    public void setFlag(boolean flag) {
-        this.flag = flag;
+    public void setFailedPayments(int failedPayments) {
+        this.failedPayments = failedPayments;
     }
 
     @Override
@@ -104,7 +104,7 @@ public class UserEntity {
 
         if (id != that.id) return false;
         if (insolvent != that.insolvent) return false;
-        if (flag != that.flag) return false;
+        if (failedPayments != that.failedPayments) return false;
         if (nickname != null ? !nickname.equals(that.nickname) : that.nickname != null) return false;
         if (password != null ? !password.equals(that.password) : that.password != null) return false;
         if (email != null ? !email.equals(that.email) : that.email != null) return false;
@@ -119,7 +119,7 @@ public class UserEntity {
         result = 31 * result + (password != null ? password.hashCode() : 0);
         result = 31 * result + (email != null ? email.hashCode() : 0);
         result = 31 * result + (insolvent ? 1 : 0);
-        result = 31 * result + (flag ? 1 : 0);
+        result = 31 * result + failedPayments;
         return result;
     }
 }

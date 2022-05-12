@@ -85,14 +85,6 @@ public class UserService {
     public void setUserInsolvent(int userId) {
         UserEntity user = em.find(UserEntity.class, userId);
         user.setInsolvent(true);
-
-        em.merge(user);
-    }
-
-    public void setUserFlagged(int userId) {
-        UserEntity user = em.find(UserEntity.class, userId);
-        user.setFlag(true);
-
         em.merge(user);
     }
 }

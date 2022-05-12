@@ -1,7 +1,5 @@
 package it.polimi.db2.entities;
 
-import org.graalvm.compiler.lir.LIRInstruction;
-
 import javax.persistence.*;
 import java.sql.Date;
 import java.util.Objects;

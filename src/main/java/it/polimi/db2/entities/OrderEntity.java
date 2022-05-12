@@ -1,7 +1,11 @@
 package it.polimi.db2.entities;
 
 import javax.persistence.*;
+import javax.transaction.Transactional;
+import java.awt.*;
+import java.sql.Date;
 import java.sql.Timestamp;
+import java.time.Instant;
 import java.util.Collection;
 
 @Entity
@@ -22,7 +26,11 @@ public class OrderEntity {
 
     @Basic
     @Column(name = "valid")
-    private Boolean valid;
+    private Byte valid;
+
+    @Basic
+    @Column(name = "startDate")
+    private Date startDate;
 
     @ManyToMany
     @JoinTable(name = "chosenoptionalsinorder",
@@ -41,6 +49,19 @@ public class OrderEntity {
     @ManyToOne
     @JoinColumn(name = "clientId")
     private UserEntity user;
+
+    public OrderEntity(int totalExpenditure, Byte valid, Date startDate, Collection<OptionalProductEntity> chosenOptionals, ValidityPeriodEntity validityPeriodInOrder, BundleEntity bundleInOrder, UserEntity user) {
+        this.valid = valid;
+        this.startDate = startDate;
+        this.issueTime = Timestamp.from(Instant.now());
+        this.totCost = totalExpenditure;
+        this.chosenOptionals = chosenOptionals;
+        this.validityPeriodInOrder = validityPeriodInOrder;
+        this.bundleInOrder = bundleInOrder;
+        this.user = user;
+    }
+
+    public OrderEntity() {}
 
     public int getId() {
         return id;
@@ -64,40 +85,69 @@ public class OrderEntity {
         return totCost;
     }
 
+    public Collection<OptionalProductEntity> getChosenOptionals() {
+        return chosenOptionals;
+    }
+
+    public ValidityPeriodEntity getValidityPeriodInOrder() {
+        return validityPeriodInOrder;
+    }
+
+    public BundleEntity getBundleInOrder() {
+        return bundleInOrder;
+    }
+
+    public UserEntity getUser() {
+        return user;
+    }
+
     public void setTotCost(int totCost) {
         this.totCost = totCost;
     }
 
 
-    public Boolean getValid() {
+    public Byte getValid() {
         return valid;
     }
 
-    public void setValid(Boolean valid) {
+    public Date getStartDate() {
+        return startDate;
+    }
+
+    public void setStartDate(Date startDate) {
+        this.startDate = startDate;
+    }
+
+    public void setValid(Byte valid) {
         this.valid = valid;
+    }
+
+    public void setChosenOptionals(Collection<OptionalProductEntity> chosenOptionals) {
+        this.chosenOptionals = chosenOptionals;
+    }
+
+    public void setValidityPeriodInOrder(ValidityPeriodEntity validityPeriodInOrder) {
+        this.validityPeriodInOrder = validityPeriodInOrder;
+    }
+
+    public void setBundleInOrder(BundleEntity bundleInOrder) {
+        this.bundleInOrder = bundleInOrder;
+    }
+
+    public void setUser(UserEntity user) {
+        this.user = user;
     }
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-
         OrderEntity that = (OrderEntity) o;
-
-        if (id != that.id) return false;
-        if (totCost != that.totCost) return false;
-        if (issueTime != null ? !issueTime.equals(that.issueTime) : that.issueTime != null) return false;
-        if (valid != null ? !valid.equals(that.valid) : that.valid != null) return false;
-
-        return true;
+        return id == that.id && totCost == that.totCost && issueTime.equals(that.issueTime) && valid.equals(that.valid) && chosenOptionals.equals(that.chosenOptionals) && validityPeriodInOrder.equals(that.validityPeriodInOrder) && bundleInOrder.equals(that.bundleInOrder) && user.equals(that.user);
     }
 
     @Override
     public int hashCode() {
-        int result = id;
-        result = 31 * result + (issueTime != null ? issueTime.hashCode() : 0);
-        result = 31 * result + totCost;
-        result = 31 * result + (valid != null ? valid.hashCode() : 0);
-        return result;
+        return super.hashCode();
     }
 }
