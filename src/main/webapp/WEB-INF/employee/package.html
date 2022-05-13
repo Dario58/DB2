@@ -4,8 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Package Creation page</title>
-    <link href="../../css/style.css" data-th-href="@{/css/style.css}" rel="stylesheet">
-    <link href="../../css/style.css" data-th-href="@{/css/style.css}" rel="stylesheet">
+    <link href="css/style.css" data-th-href="@{/css/style.css}" rel="stylesheet">
+    <link href="css/style.css" data-th-href="@{/css/style.css}" rel="stylesheet">
 </head>
 <body class="has-background-white">
 <section class="container py-5 vh100">
@@ -13,69 +13,97 @@
         <div data-th-text="'Signed in as ' + ${session.employee.nickname}"></div>
         <a href="#" data-th-href="@{/employee/logout}">Logout</a>
     </div>
+    <div data-th-if="${errorMessage != null}" class="notification is-danger"
+         data-th-text="${errorMessage}">Test error
+    </div>
     <div class="has-text-centered mb-6">
         <h1 class="title">Creation page</h1>
-    </div><br>
-<div class="container">
-    <div class="box">
-        <h1>Choose one or more services you would like to insert in the new package service:</h1><br>
-        <div th:if="${services} != null" th:each="service: ${services}">
-            <!--/*@thymesVar id="service" type="it.polimi.db2.entities.ServiceEntity"*/-->
-            <input type="checkbox" th:id="${service.id}" name="selectedService" th:value="${service.getId()}" required>
-            <label th:if="(${service.getOffer().toString()} == 'FP')" th:for="${service.id}" th:text="'Fixed Phone'"></label>
-            <label th:if="(${service.getOffer().toString()} == 'FI')" th:for="${service.id}" th:text="'Fixed Internet' + '  - ' + ${service.getFiGBs()} + ' GBs and ' + ${service.getFiExtraGBsCost()} + '$/extraGB' "></label>
-            <label th:if="(${service.getOffer().toString()} == 'MP')" th:for="${service.id}" th:text="'Mobile Phone' + '  - ' + ${service.getMpSms()} + ' SMS and ' + ${service.getMpMins()} + ' MINS with ' + ${service.getMpExtraSmsCost()} + '$/extraSMS and ' + ${service.getMpExtraMinsCost()} + '$/extraMIN' "></label>
-            <label th:if="(${service.getOffer().toString()} == 'MI')" th:for="${service.id}" th:text="'Mobile Internet' + '  - ' + ${service.getMiGBs()} + ' GBs and ' + ${service.getMiExtraGBsCost()} + '$/extraGB' "></label>
-        </div>
-        <br><h2>Or else, create a new one:</h2><br>
-        <form method="get" data-th-action="@{'/employee/serviceSelection'}">
-            <div class="has-text-left">
-                <button type="submit" class="button is-primary is-medium" name="goToServiceSelection" th:value="true" style="background-color: lightskyblue"> Create new Service </button>
-            </div>
-        </form>
-    </div><br>
     </div>
+    <br>
     <div class="container">
-        <h2>Choose among the available validity periods: </h2><br>
-        <div class="box" aria-required="true">
-            <div th:if="${validityPeriodEntityList} != null" th:each="validityPeriodEntity : ${validityPeriodEntityList}" class="my-2">
 
-                    <!--/*@thymesVar id="validityPeriodEntity" type="it.polimi.db2.entities.ValidityPeriodEntity"*/-->
-                    <input type="checkbox" th:id="'vp' + ${validityPeriodEntity.id}" name="selectedValidityPeriod" th:value="${validityPeriodEntity.getId()}" required>
-                    <label th:for="'vp' + ${validityPeriodEntity.id}" th:text="${validityPeriodEntity.getMonths()} + ' months, at: ' + ${validityPeriodEntity.getCostPerMonth()} + '$ per month. (Total of ' + ${validityPeriodEntity.getMonths()} * ${validityPeriodEntity.getCostPerMonth()} + '$)'"></label>
-            </div>
-        <br><h3>Or else, create a new one:</h3><br>
-            <form method="get" data-th-action="@{'/employee/validity'}">
-                <div class="has-text-left">
-                    <button type="submit" class="button is-primary is-medium" name="goToValidity" th:value="true" style="background-color: lightskyblue"> Create new Validity Period </button>
-                </div>
-            </form>
+        <div class="box" aria-required="true">
+            <h1>Choose a title:</h1><br>
+            <label>
+                <input form="selectionForm" type="text" th:name="'selectedTitle'" required>
+            </label>
         </div>
-    </div><br>
-    <div class="container">
-        <div class="box">
-            <h4>You can choose optional services:</h4><br>
-            <div th:if="${optionalProductEntityList} != null" th:each="optionalProductEntity : ${optionalProductEntityList}" class="my-2">
-            <!--/*@thymesVar id="optionalProductEntity" type="it.polimi.db2.entities.OptionalProductEntity"*/-->
-            <input type="checkbox" th:id="${optionalProductEntity.id}" name="selectedValidityPeriod" th:value="${optionalProductEntity.getId()}">
-            <label th:for=" 'op' + ${optionalProductEntity.id}" th:text="${optionalProductEntity.getTitle()} + ' for: ' + ${optionalProductEntity.getMonthlyFee()} + '$ per month.' "></label>
+
+        <div class="box" aria-required="true">
+            <h1>Choose one or more services you would like to insert in the new package service:</h1><br>
+
+            <div th:if="${services} != null" th:each="service: ${services}" class="my-2">
+                <!--/*@thymesVar id="service" type="it.polimi.db2.entities.ServiceEntity"*/-->
+                <input form="selectionForm" type="checkbox" th:id="'service' + ${service.getId()}" th:name="'selectedService' + ${service.getId()}" th:value="${service.getId()}">
+                <label th:if="(${service.getOffer().toString()} == 'FP')" th:for="'service' + ${service.getId()}" th:text="'Fixed Phone'"></label>
+                <label th:if="(${service.getOffer().toString()} == 'FI')" th:for="'service' + ${service.getId()}" th:text="'Fixed Internet' + '  - ' + ${service.getFiGBs()} + ' GBs and ' + ${service.getFiExtraGBsCost()} + '$/extraGB' "></label>
+                <label th:if="(${service.getOffer().toString()} == 'MP')" th:for="'service' + ${service.getId()}" th:text="'Mobile Phone' + '  - ' + ${service.getMpSms()} + ' SMS and ' + ${service.getMpMins()} + ' MINS with ' + ${service.getMpExtraSmsCost()} + '$/extraSMS and ' + ${service.getMpExtraMinsCost()} + '$/extraMIN' "></label>
+                <label th:if="(${service.getOffer().toString()} == 'MI')" th:for="'service' + ${service.getId()}" th:text="'Mobile Internet' + '  - ' + ${service.getMiGBs()} + ' GBs and ' + ${service.getMiExtraGBsCost()} + '$/extraGB' "></label>
             </div>
-            <br><h5>You can also create a new one if you do not like the ones in the database:</h5><br>
-            <div>
-                <form method="get" data-th-action="@{'/employee/optional'}">
+
+            <br><h1>Or else, create a new one:</h1><br>
+
+            <div class="container">
+                <form id="serviceCreationForm" method="get" data-th-action="@{'/employee/serviceSelection'}">
+                    <div class="has-text-left">
+                        <button type="submit" class="button is-primary is-medium" name="goToServiceSelection" th:value="true" style="background-color: lightskyblue"> Create new Service </button>
+                    </div>
+                </form>
+            </div>
+
+        </div>
+        <br>
+        <div class="box" aria-required="true">
+            <h1>Choose among the available validity periods: </h1><br>
+
+            <div th:if="${validityPeriodEntityList} != null" th:each="validityPeriodEntity : ${validityPeriodEntityList}" class="my-2">
+                <!--/*@thymesVar id="validityPeriodEntity" type="it.polimi.db2.entities.ValidityPeriodEntity"*/-->
+                <input form="selectionForm" type="checkbox" th:id="'vp' + ${validityPeriodEntity.getId()}" th:name="'selectedValidityPeriod' + ${validityPeriodEntity.getId()}" th:value="${validityPeriodEntity.getId()}" >
+                <label th:for="'vp' + ${validityPeriodEntity.getId()}" th:text="${validityPeriodEntity.getMonths()} + ' months, at: ' + ${validityPeriodEntity.getCostPerMonth()} + '$ per month. (Total of ' + ${validityPeriodEntity.getMonths()} * ${validityPeriodEntity.getCostPerMonth()} + '$)'"></label>
+            </div>
+
+            <br><h1>Or else, create a new one:</h1><br>
+
+            <div class="container">
+                <form id="validityCreationForm" method="get" data-th-action="@{'/employee/validity'}">
+                    <div class="has-text-left">
+                        <button type="submit" class="button is-primary is-medium" name="goToValidity" th:value="true" style="background-color: lightskyblue"> Create new Validity Period </button>
+                    </div>
+                </form>
+            </div>
+
+        </div>
+
+        <div class="box" aria-required="true">
+            <h1>You can choose optional services:</h1><br>
+
+            <div th:if="${optionalProductEntityList} != null" th:each="optionalProductEntity : ${optionalProductEntityList}" class="my-2">
+                <!--/*@thymesVar id="optionalProductEntity" type="it.polimi.db2.entities.OptionalProductEntity"*/-->
+                <input form="selectionForm" type="checkbox" th:id="'op' + ${optionalProductEntity.getId()}" th:name="'selectedOptional' + ${optionalProductEntity.getId()}" th:value="${optionalProductEntity.getId()}">
+                <label th:for="'op' + ${optionalProductEntity.getId()}" th:text="${optionalProductEntity.getTitle()} + ' for: ' + ${optionalProductEntity.getMonthlyFee()} + '$ per month.' "></label>
+            </div>
+
+            <br><h1>Or else, create a new one:</h1><br>
+
+            <div class="container" aria-required="true">
+                <form id="optionalCreationForm" method="get" data-th-action="@{'/employee/optional'}">
                     <div class="has-text-left">
                         <button type="submit" class="button is-primary is-medium" name="goToOptional" th:value="true" style="background-color: lightskyblue"> Create new Optional </button>
                     </div>
                 </form>
             </div>
+
         </div>
-        </div>
-    <br>
-    <form method="post" data-th-action="@{'/employee/package'}">
-    <div class="has-text-centered">
-        <input type="submit" class="button is-primary is-medium" style="background-color: lightskyblue" value="Submit">
+
+        <form id="selectionForm" method="post" data-th-action="@{'/employee/package'}">
+            <div class="has-text-centered">
+                <input type="submit" class="button is-primary is-medium" style="background-color: lightskyblue" value="Submit">
+            </div>
+        </form>
+
+        <br>
+
     </div>
-    </form>
 </section>
 </body>
 </html>

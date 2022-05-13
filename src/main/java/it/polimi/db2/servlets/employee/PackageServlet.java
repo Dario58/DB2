@@ -1,5 +1,7 @@
 package it.polimi.db2.servlets.employee;
 import it.polimi.db2.entities.*;
+import it.polimi.db2.exceptions.BundleExistentException;
+import it.polimi.db2.services.BundleService;
 import it.polimi.db2.services.PackageService;
 import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.context.WebContext;
@@ -46,7 +48,7 @@ public class PackageServlet extends HttpServlet {
         List<ValidityPeriodEntity> validityPeriodEntityList = new ArrayList<>();
 
         try{
-            services = packageService.retrieveAllService();
+            services = packageService.retrieveAllServices();
         } catch (PersistenceException e) {
             resp.sendError(HttpServletResponse.SC_BAD_REQUEST, "Couldn't retrieve services.");
         }
@@ -79,17 +81,82 @@ public class PackageServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-
         HttpSession session = req.getSession();
+        String error = "";
 
-       int months = Integer.parseInt((String) session.getAttribute("months"));
-       int costPerMonth = Integer.parseInt((String) session.getAttribute("costPerMonth"));
-        System.out.println("2 Trying validity period creation" + months + costPerMonth);
-       assert months != 0;
-       assert costPerMonth != 0;
-        System.out.println("3 Trying validity period creation" + months + costPerMonth);
-       ValidityPeriodEntity validityPeriodEntity = new ValidityPeriodEntity(months,costPerMonth);
+        String title = "";
+        List<ServiceEntity> chosenServices = new ArrayList<>();
+        List<ValidityPeriodEntity> chosenValidityPeriods = new ArrayList<>();
+        List<OptionalProductEntity> chosenOptionalProducts = new ArrayList<>();
 
-       System.out.println("4 Trying validity period creation" + months + costPerMonth);
+        if(req.getParameter("selectedTitle") != null) {
+            title = req.getParameter("selectedTitle");
+        }
+
+
+        for(ServiceEntity s : packageService.retrieveAllServices()) {
+            if(req.getParameter("selectedService" + s.getId()) != null && Integer.parseInt(req.getParameter("selectedService" + s.getId())) == s.getId()) {
+                chosenServices.add(s);
+            }
+        }
+        if(chosenServices.isEmpty()) {
+            resp.setContentType("text/html");
+
+            ServletContext servletContext = getServletContext();
+            final WebContext ctx = new WebContext(req, resp, servletContext, req.getLocale());
+            ctx.setVariable("errorMessage", "No service selected: At least one required.");
+            templateEngine.process("/WEB-INF/employee/homepage.html", ctx, resp.getWriter());
+            return;
+        }
+
+        for(ValidityPeriodEntity v : packageService.retrieveAllPeriods()) {
+            if(req.getParameter("selectedValidityPeriod" + v.getId()) != null && Integer.parseInt(req.getParameter("selectedValidityPeriod" + v.getId())) == v.getId()) {
+                chosenValidityPeriods.add(v);
+            }
+        }
+        if(chosenValidityPeriods.isEmpty()) {
+            resp.setContentType("text/html");
+
+            ServletContext servletContext = getServletContext();
+            final WebContext ctx = new WebContext(req, resp, servletContext, req.getLocale());
+            ctx.setVariable("errorMessage", "No validity period selected: At least one required.");
+            templateEngine.process("/WEB-INF/employee/homepage.html", ctx, resp.getWriter());
+            return;
+        }
+
+        for(OptionalProductEntity o : packageService.retrieveAllOptional()) {
+            if(req.getParameter("selectedOptional" + o.getId()) != null && Integer.parseInt(req.getParameter("selectedOptional" + o.getId())) == o.getId()) {
+                chosenOptionalProducts.add(o);
+            }
+        }
+
+        BundleEntity bundle = null;
+
+        try {
+            packageService.checkValidity(title, chosenServices, chosenValidityPeriods, chosenOptionalProducts);
+            bundle = new BundleEntity(title, chosenServices, chosenValidityPeriods, chosenOptionalProducts);
+            packageService.createBundle(bundle);
+        } catch (BundleExistentException | PersistenceException e) {
+            error = e.getMessage();
+        }
+        if (bundle == null) {
+            resp.setContentType("text/html");
+
+            ServletContext servletContext = getServletContext();
+            final WebContext ctx = new WebContext(req, resp, servletContext, req.getLocale());
+            ctx.setVariable("errorMessage", error);
+            templateEngine.process("/WEB-INF/employee/homepage.html", ctx, resp.getWriter());
+            return;
+        }
+
+        resp.setContentType("text/html");
+
+        ServletContext servletContext = getServletContext();
+        WebContext ctx = new WebContext(req, resp, servletContext, req.getLocale());
+        String path = "/WEB-INF/employee/homepage.html";
+
+        templateEngine.process(path, ctx, resp.getWriter());
+
+
     }
 }

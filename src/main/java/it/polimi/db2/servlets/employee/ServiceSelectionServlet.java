@@ -7,7 +7,6 @@ import org.thymeleaf.context.WebContext;
 import org.thymeleaf.templatemode.TemplateMode;
 import org.thymeleaf.templateresolver.ServletContextTemplateResolver;
 
-import javax.persistence.PersistenceException;
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -37,6 +36,7 @@ public class ServiceSelectionServlet extends HttpServlet {
         if(req.getParameter("goToServiceSelection") != null && Boolean.parseBoolean(req.getParameter("goToServiceSelection"))) {
             req.getSession().setAttribute("doRedirect", true);
         }
+
         ServletContext servletContext = getServletContext();
         WebContext ctx = new WebContext(req, resp, servletContext, req.getLocale());
         String path = "/WEB-INF/employee/serviceSelection.html";

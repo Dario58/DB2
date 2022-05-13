@@ -1,7 +1,10 @@
 package it.polimi.db2.entities;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
+import java.util.Objects;
 
 @Entity
 @Table(name = "bundle", schema = "db2_project")
@@ -34,20 +37,51 @@ public class BundleEntity {
     @JoinTable(name = "validityperiodsperbundle",
             joinColumns = @JoinColumn(name = "bundleId"),
             inverseJoinColumns = @JoinColumn(name = "validityPeriodId"))
-    private Collection<OptionalProductEntity> availableValidityPeriods;
+    private Collection<ValidityPeriodEntity> availableValidityPeriods;
 
     @ManyToMany
     @JoinTable(name = "servicesinbundle",
             joinColumns = @JoinColumn(name = "bundleId"),
             inverseJoinColumns = @JoinColumn(name = "serviceId"))
-    private Collection<BundleEntity> servicesInBundle;
+    private Collection<ServiceEntity> servicesInBundle;
 
     public BundleEntity(String title) {
         this.title = title;
     }
 
+    public BundleEntity(String title, List<ServiceEntity> services, List<ValidityPeriodEntity> periods, List<OptionalProductEntity> optionals) {
+        this.title = title;
+        this.servicesInBundle = services;
+        this.availableValidityPeriods = periods;
+        this.availableOptionals = optionals;
+    }
+
     public BundleEntity() {
 
+    }
+
+    public Collection<OptionalProductEntity> getAvailableOptionals() {
+        return availableOptionals;
+    }
+
+    public void setAvailableOptionals(Collection<OptionalProductEntity> availableOptionals) {
+        this.availableOptionals = availableOptionals;
+    }
+
+    public Collection<ValidityPeriodEntity> getAvailableValidityPeriods() {
+        return availableValidityPeriods;
+    }
+
+    public void setAvailableValidityPeriods(Collection<ValidityPeriodEntity> availableValidityPeriods) {
+        this.availableValidityPeriods = availableValidityPeriods;
+    }
+
+    public Collection<ServiceEntity> getServicesInBundle() {
+        return servicesInBundle;
+    }
+
+    public void setServicesInBundle(Collection<ServiceEntity> servicesInBundle) {
+        this.servicesInBundle = servicesInBundle;
     }
 
     public int getId() {
@@ -69,15 +103,18 @@ public class BundleEntity {
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-
+        System.out.println("controllo");
         BundleEntity that = (BundleEntity) o;
 
-        if (id != that.id) return false;
-        if (title != null ? !title.equals(that.title) : that.title != null) return false;
+        assert availableOptionals != null && that.availableOptionals != null;
 
-        return true;
+        return title.equals(that.title)
+                && servicesInBundle.containsAll(that.servicesInBundle)
+                && that.servicesInBundle.containsAll(servicesInBundle)
+                && availableValidityPeriods.containsAll(that.availableValidityPeriods)
+                && that.availableValidityPeriods.containsAll(availableValidityPeriods)
+                && availableOptionals.containsAll(that.availableOptionals)
+                && that.availableOptionals.containsAll(availableOptionals);
     }
 
     @Override

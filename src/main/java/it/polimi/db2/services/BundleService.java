@@ -36,24 +36,6 @@ public class BundleService {
                 .getResultList();
     }
 
-    public BundleEntity addNewBundle(String title, List<Integer> listOfServices, List<Integer> listOfValidityPeriods) throws BundleExistentException {
-
-        System.out.println("Creating new user with title: " + title + ", services ids:" + listOfServices + ", validityPeriods ids:" + listOfValidityPeriods);
-
-        if (findBundleByTitle(title) != null) {
-            throw new BundleExistentException("Bundle title already in use!");
-        }
-
-        BundleEntity newBundle = new BundleEntity(title);
-        em.persist(newBundle);
-
-        //TODO: METTI VALIDITY SERVICES ECCETERA
-
-        System.out.println("Created bundle OK: " + title);
-
-        return newBundle;
-    }
-
     public List<ValidityPeriodEntity> findValidityPeriodsByBundleId(int bId) {
         List<ValidityPeriodEntity> vPeriods = new ArrayList<>();
         List<Integer> validityPeriodsIds = em.createNamedQuery("BundleEntity.findValidityPeriodsById")

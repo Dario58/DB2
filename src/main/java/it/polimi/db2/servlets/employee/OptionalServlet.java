@@ -79,7 +79,8 @@ public class OptionalServlet extends HttpServlet {
             ServletContext servletContext = getServletContext();
             final WebContext ctx = new WebContext(req, resp, servletContext, req.getLocale());
             ctx.setVariable("errorMessage", error);
-
+            templateEngine.process("/WEB-INF/employee/optional.html", ctx, resp.getWriter());
+            return;
         }
 
         if (req.getSession().getAttribute("doRedirect") != null && (Boolean) req.getSession().getAttribute("doRedirect") ) {

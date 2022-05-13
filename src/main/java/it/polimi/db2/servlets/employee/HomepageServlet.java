@@ -36,10 +36,5 @@ public class HomepageServlet extends HttpServlet {
         String path = "/WEB-INF/employee/homepage.html";
 
         templateEngine.process(path, ctx, resp.getWriter());
-
-        HttpSession session = req.getSession();
-        UserEntity user = (UserEntity) session.getAttribute("user");
-
-        BundleEntity bundle;
     }
 }
