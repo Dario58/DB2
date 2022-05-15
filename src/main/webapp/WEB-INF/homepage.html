@@ -54,15 +54,15 @@
                 <strong>
                     <!--/*@thymesVar id="order" type="it.polimi.db2.entities.OrderEntity"*/-->
                     <!--/*@thymesVar id="optional" type="it.polimi.db2.entities.OptionalProductEntity"*/-->
-                    <label th:id="${order.id}" th:name="'selectedOptional' + ${order.getId()}" th:value="${order.getId()}"></label>
                     <label th:for="${order.id}" th:text="${order.getBundleInOrder().getTitle()} + ': ' + ${order.getValidityPeriodInOrder().getMonths()} + ' months at ' + ${order.getValidityPeriodInOrder().getCostPerMonth()} + '$/month. ' "></label>
                     <label th:for="${order.id}" th:each="optional: ${order.getChosenOptionals()}" th:text="'With: ' + ${optional.getTitle()} + ' at ' + ${optional.getMonthlyFee()} + '$/month. '"></label>
                     <label th:text="'(Total of: ' + ${order.getTotCost()} + '$).'"></label>
                 </strong>
             </div><br>
-            <form id="repaymentForm" method="get" data-th-action="@{'/cart'}">
+            <form id="repaymentForm" method="post" data-th-action="@{'/cart'}">
                 <div class="has-text-centered">
-                    <input type="submit" class="button is-primary is-medium"  name="orderToRepay" style="background-color: #2160c4" value="Submit">
+                    <!--/*@thymesVar id="order" type="it.polimi.db2.entities.OrderEntity"*/-->
+                    <button type="submit" class="button is-primary is-medium"  name="orderToRepay" style="background-color: #2160c4" th:value="${order.getId()}">Repay</button>
                 </div>
             </form>
         </div>
