@@ -54,7 +54,7 @@
                 <strong>
                     <!--/*@thymesVar id="order" type="it.polimi.db2.entities.OrderEntity"*/-->
                     <!--/*@thymesVar id="optional" type="it.polimi.db2.entities.OptionalProductEntity"*/-->
-                    <input type="radio" th:id="${order.id}" th:name="'selectedOptional' + ${order.getId()}" th:value="${order.getId()}">
+                    <label th:id="${order.id}" th:name="'selectedOptional' + ${order.getId()}" th:value="${order.getId()}"></label>
                     <label th:for="${order.id}" th:text="${order.getBundleInOrder().getTitle()} + ': ' + ${order.getValidityPeriodInOrder().getMonths()} + ' months at ' + ${order.getValidityPeriodInOrder().getCostPerMonth()} + '$/month. ' "></label>
                     <label th:for="${order.id}" th:each="optional: ${order.getChosenOptionals()}" th:text="'With: ' + ${optional.getTitle()} + ' at ' + ${optional.getMonthlyFee()} + '$/month. '"></label>
                     <label th:text="'(Total of: ' + ${order.getTotCost()} + '$).'"></label>
