@@ -79,11 +79,9 @@ public class CartServlet extends HttpServlet {
             System.out.println("PURCHASE KO");
         }
 
-        ServletContext servletContext = getServletContext();
-        WebContext ctx = new WebContext(req, resp, servletContext, req.getLocale());
-        String path = "/WEB-INF/homepage.html";
 
-        templateEngine.process(path, ctx, resp.getWriter());
+        resp.sendRedirect(getServletContext().getContextPath() + "/homepage");
+
     }
 
 }
