@@ -1,7 +1,6 @@
 package it.polimi.db2.servlets.employee;
 import it.polimi.db2.entities.*;
 import it.polimi.db2.exceptions.BundleExistentException;
-import it.polimi.db2.services.BundleService;
 import it.polimi.db2.services.PackageService;
 import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.context.WebContext;

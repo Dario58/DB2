@@ -47,6 +47,23 @@
             </div>
         </div>
     </div>
+    <div class="container"style="display: flex">
+        <div class="box">
+            <p>These are your previous orders that went wrong</p><br>
+            <div th:if="${session.user.getFailedPayments() != null}" th:each="order: ${session.orders}">
+                <strong>
+                    <!--/*@thymesVar id="order" type="it.polimi.db2.entities.OrderEntity"*/-->
+                    <input type="radio" th:id="${order.id}" th:name="'selectedOptional' + ${order.getId()}" th:value="${order.getId()}">
+                    <label th:for="${order.id}" th:text="${order.getBundleInOrder()} + ' ' + ${order.getValidityPeriodInOrder()} + ' ' +  ${order.getChosenOptionals()}"></label>
+                </strong>
+            </div><br>
+            <form id="repaymentForm" method="post" data-th-action="@{'/cart'}">
+                <div class="has-text-centered">
+                    <input type="submit" class="button is-primary is-medium" style="background-color: #2160c4" value="Submit">
+                </div>
+            </form>
+        </div>
+    </div>
 </section>
 </body>
 </html>

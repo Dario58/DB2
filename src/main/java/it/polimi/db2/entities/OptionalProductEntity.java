@@ -9,6 +9,7 @@ import java.util.Collection;
         @NamedQuery(name = "OptionalProductEntity.retrieveAllOptional", query = "SELECT s FROM OptionalProductEntity s"),
         @NamedQuery(name = "OptionalProductEntity.checkValidity", query = "SELECT s FROM OptionalProductEntity s WHERE s.title = :title")
 })
+@NamedNativeQuery(name = "OptionalProductEntity.retrieveBest", query = "SELECT optionalId FROM bestselleroptional b")
 public class OptionalProductEntity {
     @Id
     @Column(name = "id", nullable = false)

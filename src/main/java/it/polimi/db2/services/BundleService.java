@@ -1,9 +1,6 @@
 package it.polimi.db2.services;
 
-import it.polimi.db2.entities.BundleEntity;
-import it.polimi.db2.entities.OptionalProductEntity;
-import it.polimi.db2.entities.ServiceEntity;
-import it.polimi.db2.entities.ValidityPeriodEntity;
+import it.polimi.db2.entities.*;
 import it.polimi.db2.exceptions.BundleExistentException;
 import it.polimi.db2.utils.Product;
 
@@ -78,5 +75,9 @@ public class BundleService {
         assert !ss.isEmpty();
 
         return new Product(b, vps, ss, ops);
+    }
+
+    public List<OrderEntity> suspendedOrders (){
+        return em.createNamedQuery("OrderEntity.getSuspended").getResultList();
     }
 }

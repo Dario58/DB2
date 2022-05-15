@@ -15,7 +15,11 @@ import java.util.Objects;
 @NamedNativeQueries({
         @NamedNativeQuery(name = "BundleEntity.findServicesById", query = "SELECT serviceId FROM servicesinbundle s WHERE s.bundleId = ?1"),
         @NamedNativeQuery(name = "BundleEntity.findValidityPeriodsById", query = "SELECT validityPeriodId FROM validityperiodsperbundle vp WHERE vp.bundleId = ?1"),
-        @NamedNativeQuery(name = "BundleEntity.findAvailableOptionalsById", query = "SELECT optionalId FROM availableoptionalsforbundle ao WHERE ao.bundleId = ?1")
+        @NamedNativeQuery(name = "BundleEntity.findAvailableOptionalsById", query = "SELECT optionalId FROM availableoptionalsforbundle ao WHERE ao.bundleId = ?1"),
+        @NamedNativeQuery(name = "BundleEntity.retrieveNumPurchases", query = "SELECT purchaseCount FROM purchasesperpackage pp"),
+        @NamedNativeQuery(name = "BundleEntity.retrieveNumPurchPerPackAndVal", query = "SELECT purchaseCount FROM purchaseperpackagevalidityperiod ppvp"),
+        @NamedNativeQuery(name = "BundleEntity.retrieveTotSold", query = "SELECT totValue and totValueNoOptionals FROM totvalueperpackagesold t"),
+        @NamedNativeQuery(name = "BundleEntity.retrieveAverage", query = "SELECT AverageNumOptionals FROM averagenumoptionalsperpackage av")
 })
 public class BundleEntity {
     @Id

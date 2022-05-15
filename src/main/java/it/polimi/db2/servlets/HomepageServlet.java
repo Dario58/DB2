@@ -47,6 +47,7 @@ public class HomepageServlet extends HttpServlet {
         UserEntity user = (UserEntity) session.getAttribute("user");
 
         List<BundleEntity> bundleList = new ArrayList<>();
+        List<OrderEntity> orderList = new ArrayList<>();
 
         try {
             bundleList = bundleService.retrieveAllBundles();
@@ -60,11 +61,24 @@ public class HomepageServlet extends HttpServlet {
             for(BundleEntity b : bundleList) products.add(bundleService.buildProduct(b, b.getId()));
         }
 
+        try{
+            orderList = bundleService.suspendedOrders();
+        }catch (PersistenceException e) {
+            resp.sendError(HttpServletResponse.SC_BAD_REQUEST, "Couldn't retrieve suspended orders.");
+        }
+
+        List<OrderEntity> orders = null;
+        if(orderList != null){
+            orders = new ArrayList<>();
+            for(OrderEntity o : orderList) orders.add(o);
+        }
+
         resp.setContentType("text/html");
 
         ServletContext servletContext = getServletContext();
         WebContext ctx = new WebContext(req, resp, servletContext, req.getLocale());
         session.setAttribute("products", products);
+        session.setAttribute("orders", orders);
         String path = "/WEB-INF/homepage.html";
 
         templateEngine.process(path, ctx, resp.getWriter());
