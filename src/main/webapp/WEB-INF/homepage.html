@@ -47,9 +47,9 @@
             </div>
         </div>
     </div>
-    <p class="has-text-centered">These are your previous orders that went wrong</p><br>
+    <p th:if="${session.user != null}" class="has-text-centered">These are your previous orders that went wrong</p><br>
     <div class="container">
-        <div class="box" th:if="${session.failedOrders != null and !session.failedOrders.isEmpty()}" th:each="order: ${session.failedOrders}">
+        <div class="box" th:if="${session.user != null and session.failedOrders != null and !session.failedOrders.isEmpty()}" th:each="order: ${session.failedOrders}">
             <div>
                 <strong>
                     <!--/*@thymesVar id="order" type="it.polimi.db2.entities.OrderEntity"*/-->

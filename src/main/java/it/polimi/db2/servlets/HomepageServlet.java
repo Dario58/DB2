@@ -61,13 +61,13 @@ public class HomepageServlet extends HttpServlet {
             for(BundleEntity b : bundleList) products.add(bundleService.buildProduct(b, b.getId()));
         }
 
-        try{
-            failedOrderList = bundleService.suspendedOrders();
-        }catch (PersistenceException e) {
-            resp.sendError(HttpServletResponse.SC_BAD_REQUEST, "Couldn't retrieve suspended orders.");
+        if(user != null) {
+            try{
+                failedOrderList = bundleService.suspendedOrderByUser(user.getId());
+            }catch (PersistenceException e) {
+                resp.sendError(HttpServletResponse.SC_BAD_REQUEST, "Couldn't retrieve suspended orders.");
+            }
         }
-
-
 
         resp.setContentType("text/html");
 

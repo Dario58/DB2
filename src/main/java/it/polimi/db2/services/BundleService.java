@@ -80,4 +80,8 @@ public class BundleService {
     public List<OrderEntity> suspendedOrders (){
         return em.createNamedQuery("OrderEntity.getSuspended").getResultList();
     }
+
+    public List<OrderEntity> suspendedOrderByUser (int uId) {
+        return em.createNamedQuery("OrderEntity.getFailedOrdersUser").setParameter("uId", uId).getResultList();
+    }
 }

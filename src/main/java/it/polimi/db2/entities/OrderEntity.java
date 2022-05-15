@@ -10,7 +10,11 @@ import java.util.Collection;
 
 @Entity
 @Table(name = "order", schema = "db2_project")
-@NamedQuery(name = "OrderEntity.getSuspended", query = "SELECT o FROM OrderEntity o WHERE o.valid = 'n'")
+@NamedQueries({
+        @NamedQuery(name = "OrderEntity.getSuspended", query = "SELECT o FROM OrderEntity o WHERE o.valid = 'n'"),
+        @NamedQuery(name = "OrderEntity.getFailedOrdersUser", query = "SELECT o FROM OrderEntity o WHERE o.valid = 'n' AND o.user.id = :uId")
+})
+
 public class OrderEntity {
     @Id
     @Column(name = "id", nullable = false)
