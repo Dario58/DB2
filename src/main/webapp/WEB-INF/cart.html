@@ -11,7 +11,7 @@
     <h1> This is your cart: </h1>
 </div>
 <div class="container">
-    <div class="box">
+    <div class="box" th:if="${session.orderToRepay == null or session.orderToRepay == false}">
         <span th:text="${session.filledOrder.getBundle().getTitle()} + ' for ' +
         ${session.filledOrder.getValidityPeriod().getMonths()} + ' months at ' +
         ${session.filledOrder.getValidityPeriod().getCostPerMonth()} + '$ per month.'"></span>
@@ -22,6 +22,12 @@
               th:text="${optional.getTitle()} + ' at ' + ${optional.getMonthlyFee()} + '$ per month.'"></span>
         <br>
         <span th:text="'Total cost: ' + ${session.filledOrder.getTotalExpenditure()} + '$'"></span>
+    </div>
+</div>
+
+<div class="container" th:if="${session.orderToRepay} == true">
+    <div class="box">
+        <span>Repay the selected order</span>
     </div>
 </div>
 

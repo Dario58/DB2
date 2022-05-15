@@ -87,4 +87,10 @@ public class UserService {
         user.setInsolvent(true);
         em.merge(user);
     }
+
+    public void addFailedPayment(int useId) {
+        UserEntity user = em.find(UserEntity.class, useId);
+        user.setFailedPayments(user.getFailedPayments() + 1);
+        em.merge(user);
+    }
 }

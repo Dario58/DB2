@@ -19,6 +19,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import javax.transaction.Transactional;
 
 import java.io.IOException;
@@ -58,6 +59,37 @@ public class CartServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        req.getSession().setAttribute("orderToRepay", false);
+
+        if(req.getParameter("orderToRepay") != null) {
+            req.getSession().setAttribute("repayId", Integer.parseInt(req.getParameter("orderToRepay")));
+            req.getSession().setAttribute("orderToRepay", true);
+            req.getSession().setAttribute("repayProcess", true);
+            ServletContext servletContext = getServletContext();
+            WebContext ctx = new WebContext(req, resp, servletContext, req.getLocale());
+            templateEngine.process("/WEB-INF/cart.html", ctx, resp.getWriter());
+            return;
+        }
+
+        if(req.getSession().getAttribute("repayProcess") != null && req.getSession().getAttribute("repayProcess").equals(true)){
+            if(req.getParameter("purchaseKo") != null && Boolean.parseBoolean(req.getParameter("purchaseKo"))) {
+                userService.addFailedPayment(((UserEntity) req.getSession().getAttribute("user")).getId());
+                System.out.println("PURCHASE KO");
+            }
+            if(req.getParameter("purchaseOk") != null && Boolean.parseBoolean(req.getParameter("purchaseOk"))) {
+                int oId = (int) req.getSession().getAttribute("repayId");
+                orderCreationService.updateOrderOk(oId);
+                orderCreationService.createActivationSchedule(oId);
+                System.out.println("PURCHASE OK");
+            }
+            HttpSession session = req.getSession();
+            session.setAttribute("repayProcess", null);
+            session.setAttribute("orderToRepay", null);
+            session.setAttribute("repayId", null);
+            resp.sendRedirect(getServletContext().getContextPath() + "/homepage");
+            return;
+        }
+
         FilledOrder filledOrder = (FilledOrder) req.getSession().getAttribute("filledOrder");
 
         assert filledOrder != null;
@@ -79,9 +111,7 @@ public class CartServlet extends HttpServlet {
             System.out.println("PURCHASE KO");
         }
 
-
         resp.sendRedirect(getServletContext().getContextPath() + "/homepage");
-
     }
 
 }
