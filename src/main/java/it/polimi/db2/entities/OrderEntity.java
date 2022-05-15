@@ -10,6 +10,7 @@ import java.util.Collection;
 
 @Entity
 @Table(name = "order", schema = "db2_project")
+@NamedQuery(name = "OrderEntity.getSuspended", query = "SELECT o FROM OrderEntity o WHERE o.valid = 'n'")
 public class OrderEntity {
     @Id
     @Column(name = "id", nullable = false)
@@ -26,7 +27,7 @@ public class OrderEntity {
 
     @Basic
     @Column(name = "valid")
-    private Byte valid;
+    private char valid;
 
     @Basic
     @Column(name = "startDate")
@@ -50,7 +51,7 @@ public class OrderEntity {
     @JoinColumn(name = "clientId")
     private UserEntity user;
 
-    public OrderEntity(int totalExpenditure, Byte valid, Date startDate, Collection<OptionalProductEntity> chosenOptionals, ValidityPeriodEntity validityPeriodInOrder, BundleEntity bundleInOrder, UserEntity user) {
+    public OrderEntity(int totalExpenditure, char valid, Date startDate, Collection<OptionalProductEntity> chosenOptionals, ValidityPeriodEntity validityPeriodInOrder, BundleEntity bundleInOrder, UserEntity user) {
         this.valid = valid;
         this.startDate = startDate;
         this.issueTime = Timestamp.from(Instant.now());
@@ -106,7 +107,7 @@ public class OrderEntity {
     }
 
 
-    public Byte getValid() {
+    public char getValid() {
         return valid;
     }
 
@@ -118,7 +119,7 @@ public class OrderEntity {
         this.startDate = startDate;
     }
 
-    public void setValid(Byte valid) {
+    public void setValid(char valid) {
         this.valid = valid;
     }
 
@@ -143,7 +144,7 @@ public class OrderEntity {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         OrderEntity that = (OrderEntity) o;
-        return id == that.id && totCost == that.totCost && issueTime.equals(that.issueTime) && valid.equals(that.valid) && chosenOptionals.equals(that.chosenOptionals) && validityPeriodInOrder.equals(that.validityPeriodInOrder) && bundleInOrder.equals(that.bundleInOrder) && user.equals(that.user);
+        return id == that.id && totCost == that.totCost && issueTime.equals(that.issueTime) && valid == that.valid && chosenOptionals.equals(that.chosenOptionals) && validityPeriodInOrder.equals(that.validityPeriodInOrder) && bundleInOrder.equals(that.bundleInOrder) && user.equals(that.user);
     }
 
     @Override

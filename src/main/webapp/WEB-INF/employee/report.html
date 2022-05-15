@@ -3,15 +3,166 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Report Sales</title>
-    <link href="../../css/style.css" data-th-href="@{/css/style.css}" rel="stylesheet">
+    <title>Sales Report</title>
+    <link href="css/style.css" data-th-href="@{/css/style.css}" rel="stylesheet">
+    <style>
+        table, th, td {
+            border: 1px solid black;
+            border-collapse: collapse;
+        }
+        th, td {
+            padding: 15px;
+        }
+    </style>
 </head>
 <body>
-<div>
-    <p> Sales Report Page </p>
-</div>
-<div class="has-text-left">
-    <div data-th-text="'Signed in as ' + ${session.employee.nickname}"></div>
-    <a href="#" data-th-href="@{/employee/logout}">Logout</a>
-</div>
+    <div>
+        <p> Sales Report Page </p>
+    </div>
+    <div>
+        <form method="get" data-th-action="@{'/employee/homepage'}">
+            <div class="has-text-right">
+                <input type="submit" class="button is-primary is-medium" style="background-color: lightskyblue" value="Back">
+            </div>
+        </form>
+    </div>
+    <section>
+        <div class="has-text-left">
+            <div data-th-text="'Signed in as ' + ${session.employee.nickname}"></div>
+            <a href="#" data-th-href="@{/employee/logout}">Logout</a>
+        </div>
+        <div class="container">
+            <div class="box">
+                <table id="ANOP" th:if="${session.salesReport.getAverageNumberOptionalPerPackage() != null and !session.salesReport.getAverageNumberOptionalPerPackage().isEmpty()}" style="width:100%">
+                    <caption>Average number of optional products per bundle</caption>
+                    <tr>
+                        <th>Bundle Name</th>
+                        <th>Average Number of Optionals per Package</th>
+                    </tr>
+                    <tr th:each="avg: ${session.salesReport.getAverageNumberOptionalPerPackage()}">
+                        <!--/*@thymesVar id="avg" type="it.polimi.db2.utils.AverageNumberOptionalsPackage"*/-->
+                        <td th:text="${avg.getTitle()}"></td>
+                        <td th:text="${avg.getAverage()}"></td>
+                    </tr>
+                </table>
+            </div>
+            <br>
+            <div class="box">
+                <table id="BSO" th:if="${session.salesReport.getBestSellerOptional() != null and !session.salesReport.getBestSellerOptional().isEmpty()}" style="width:100%">
+                    <caption>Best seller optional product</caption>
+                    <tr>
+                        <th>Optional Name</th>
+                        <th>Total Value</th>
+                    </tr>
+                    <tr>
+                        <td th:text="${session.salesReport.getBestSellerOptional().get(0).getTitle()}"></td>
+                        <td th:text="${session.salesReport.getBestSellerOptional().get(0).getTotRevenue()} + '$'"></td>
+                    </tr>
+                </table>
+            </div>
+            <br>
+            <div class="box">
+                <table id="TVPPS" th:if="${session.salesReport.getTotValuePerPackageSold() != null and !session.salesReport.getTotValuePerPackageSold().isEmpty()}" style="width:100%">
+                    <caption>Total value per bundle sold with and without optionals</caption>
+                    <tr>
+                        <th>Bundle Name</th>
+                        <th>Total Value</th>
+                        <th>Total Value without Optionals</th>
+                    </tr>
+                    <tr th:each="tvpps: ${session.salesReport.getTotValuePerPackageSold()}">
+                        <!--/*@thymesVar id="tvpps" type="it.polimi.db2.utils.TotValuePerPackageSold"*/-->
+                        <td th:text="${tvpps.getTitle()}"></td>
+                        <td th:text="${tvpps.getTotValue()} + '$'"></td>
+                        <td th:text="${tvpps.getTotValueNoOptionals()} + '$'"></td>
+                    </tr>
+                </table>
+            </div>
+            <br>
+            <div class="box">
+                <table id="PPP" th:if="${session.salesReport.getPurchasesPerPackage() != null and !session.salesReport.getPurchasesPerPackage().isEmpty()}" style="width:100%">
+                    <caption>Purchases per bundle</caption>
+                    <tr>
+                        <th>Bundle Name</th>
+                        <th>Purchase count</th>
+                    </tr>
+                    <tr th:each="ppp: ${session.salesReport.getPurchasesPerPackage()}">
+                        <!--/*@thymesVar id="ppp" type="it.polimi.db2.utils.PurchasesPerPackage"*/-->
+                        <td th:text="${ppp.getTitle()}"></td>
+                        <td th:text="${ppp.getPurchaseCount()}"></td>
+                    </tr>
+                </table>
+            </div>
+            <br>
+            <div class="box">
+                <table id="PPPV" th:if="${session.salesReport.getPurchasesPerPackageValidity() != null and !session.salesReport.getPurchasesPerPackageValidity().isEmpty()}" style="width:100%">
+                    <caption>Purchases per bundle and validity period</caption>
+                    <tr>
+                        <th>Bundle Name</th>
+                        <th>Validity Period</th>
+                        <th>Purchase Count</th>
+                    </tr>
+                    <tr th:each="pppv: ${session.salesReport.getPurchasesPerPackageValidity()}">
+                        <!--/*@thymesVar id="pppv" type="it.polimi.db2.utils.PurchasesPerPackageValidity"*/-->
+                        <td th:text="${pppv.getTitle()}"></td>
+                        <td th:text="${pppv.getValidityId()}"></td>
+                        <td th:text="${pppv.getPurchaseCount()}"></td>
+                    </tr>
+                </table>
+            </div>
+            <br>
+            <div class="box">
+                <table id="alert" th:if="${session.salesReport.getAlerts() != null and !session.salesReport.getAlerts().isEmpty()}" style="width:100%">
+                    <caption>Alerts</caption>
+                    <tr>
+                        <th>User Id</th>
+                        <th>User Nickname</th>
+                        <th>Date of Last Rejection</th>
+                        <th>Amount of Last Rejection</th>
+                    </tr>
+                    <tr th:each="alert: ${session.salesReport.getAlerts()}">
+                        <!--/*@thymesVar id="alert" type="it.polimi.db2.entities.AlertEntity"*/-->
+                        <td th:text="${alert.getUserId()}"></td>
+                        <td th:text="${alert.getNickname()}"></td>
+                        <td th:text="${alert.getDateLastRejection()}"></td>
+                        <td th:text="${alert.getAmountLastRejection()} + '$'"></td>
+                    </tr>
+                </table>
+            </div>
+            <br>
+            <div class="box">
+                <table id="insolvents" th:if="${session.salesReport.getInsolvents() != null and !session.salesReport.getInsolvents().isEmpty()}" style="width:100%">
+                    <caption>Insolvent users</caption>
+                    <tr>
+                        <th>User Id</th>
+                        <th>User Nickname</th>
+                        <th>Failed Payments</th>
+                    </tr>
+                    <tr th:each="user: ${session.salesReport.getInsolvents()}">
+                        <!--/*@thymesVar id="user" type="it.polimi.db2.entities.UserEntity"*/-->
+                        <td th:text="${user.getId()}"></td>
+                        <td th:text="${user.getNickname()}"></td>
+                        <td th:text="${user.getFailedPayments()}"></td>
+                    </tr>
+                </table>
+            </div>
+            <div class="box">
+                <table id="failedOrders" th:if="${session.salesReport.getFailedOrders() != null and !session.salesReport.getFailedOrders().isEmpty()}" style="width:100%">
+                    <caption>Failed Orders</caption>
+                    <tr>
+                        <th>Order Id</th>
+                        <th>User Nickname</th>
+                        <th>Issue Time</th>
+                        <th>Total Amount</th>
+                    </tr>
+                    <tr th:each="order: ${session.salesReport.getFailedOrders()}">
+                        <!--/*@thymesVar id="order" type="it.polimi.db2.entities.OrderEntity"*/-->
+                        <td th:text="${order.getId()}"></td>
+                        <td th:text="${order.getUser().getNickname()}"></td>
+                        <td th:text="${order.getIssueTime()}"></td>
+                        <td th:text="${order.getTotCost()} + '$'"></td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+    </section>
 </body>

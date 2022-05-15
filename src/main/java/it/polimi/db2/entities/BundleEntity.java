@@ -103,7 +103,7 @@ public class BundleEntity {
 
     @Override
     public boolean equals(Object o) {
-        System.out.println("controllo");
+
         BundleEntity that = (BundleEntity) o;
 
         assert availableOptionals != null && that.availableOptionals != null;

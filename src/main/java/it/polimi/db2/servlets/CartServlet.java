@@ -78,6 +78,12 @@ public class CartServlet extends HttpServlet {
             userService.setUserInsolvent(((UserEntity) req.getSession().getAttribute("user")).getId());
             System.out.println("PURCHASE KO");
         }
+
+        ServletContext servletContext = getServletContext();
+        WebContext ctx = new WebContext(req, resp, servletContext, req.getLocale());
+        String path = "/WEB-INF/homepage.html";
+
+        templateEngine.process(path, ctx, resp.getWriter());
     }
 
 }

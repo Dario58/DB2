@@ -64,7 +64,6 @@ public class HomepageServlet extends HttpServlet {
 
         ServletContext servletContext = getServletContext();
         WebContext ctx = new WebContext(req, resp, servletContext, req.getLocale());
-        ctx.setVariable("products", products);
         session.setAttribute("products", products);
         String path = "/WEB-INF/homepage.html";
 

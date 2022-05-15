@@ -6,6 +6,7 @@ import java.util.Objects;
 
 @Entity
 @Table(name = "alert", schema = "db2_project")
+@NamedQuery(name = "AlertEntity.retrieveAll", query = "SELECT new it.polimi.db2.entities.AlertEntity(u, a.dateLastRejection, a.amountLastRejection) FROM AlertEntity a JOIN UserEntity u ON u.id = a.userId")
 public class AlertEntity {
     @Id
     @Column(name = "id", nullable = false)
@@ -19,6 +20,12 @@ public class AlertEntity {
     })
     private UserEntity user;
 
+    @Column(name = "userId", updatable = false, insertable = false)
+    private int userId;
+
+    @Column(name = "nickname", updatable = false, insertable = false)
+    private String nickname;
+
     @Basic
     @Column(name = "dateLastRejection")
     private Date dateLastRejection;
@@ -26,6 +33,17 @@ public class AlertEntity {
     @Basic
     @Column(name = "amountLastRejection")
     private int amountLastRejection;
+
+    public AlertEntity(UserEntity user, Date dateLastRejection, int amountLastRejection) {
+        this.userId = user.getId();
+        this.nickname = user.getNickname();
+        this.dateLastRejection = dateLastRejection;
+        this.amountLastRejection = amountLastRejection;
+    }
+
+    public AlertEntity() {
+
+    }
 
     public Date getDateLastRejection() {
         return dateLastRejection;
@@ -56,6 +74,14 @@ public class AlertEntity {
 
     public void setDateLastRejection(Date dateLastRejection) {
         this.dateLastRejection = dateLastRejection;
+    }
+
+    public int getUserId() {
+        return userId;
+    }
+
+    public String getNickname() {
+        return nickname;
     }
 
     @Override

@@ -1,10 +1,12 @@
 package it.polimi.db2.servlets.employee;
 
+import it.polimi.db2.services.SalesReportService;
 import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.context.WebContext;
 import org.thymeleaf.templatemode.TemplateMode;
 import org.thymeleaf.templateresolver.ServletContextTemplateResolver;
 
+import javax.ejb.EJB;
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -17,6 +19,9 @@ import java.io.IOException;
 public class ReportServlet extends HttpServlet {
 
     private TemplateEngine templateEngine;
+
+    @EJB(name = "it.polimi.db2.services/SalesReportService")
+    private SalesReportService salesReportService;
 
     @Override
     public void init() throws ServletException {
@@ -32,6 +37,8 @@ public class ReportServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         resp.setContentType("text/html");
+
+        req.getSession().setAttribute("salesReport", salesReportService.createSalesReport());
 
         ServletContext servletContext = getServletContext();
         WebContext ctx = new WebContext(req, resp, servletContext, req.getLocale());

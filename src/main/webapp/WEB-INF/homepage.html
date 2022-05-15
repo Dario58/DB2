@@ -21,7 +21,7 @@
             </div>
         </div>
         <div class="container" style="display: flex">
-            <div th:each="product: ${products}" class="my-2">
+            <div th:each="product: ${session.products}" class="my-2">
                 <strong>
                 <!--/*@thymesVar id="product" type="it.polimi.db2.utils.Product"*/-->
                 <span th:text="${product.getBundle().getTitle()}"></span>

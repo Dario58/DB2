@@ -49,7 +49,8 @@ CREATE TABLE IF NOT EXISTS `Order` (
                                        bundleId INT,
                                        validityPeriodId INT,
                                        totCost INT NOT NULL,
-                                       valid BIT,
+                                       valid CHAR(1) DEFAULT '?',
+                                       startDate DATE NOT NULL,
                                        FOREIGN KEY (clientId) REFERENCES User(id) ON UPDATE CASCADE ON DELETE SET NULL,
     FOREIGN KEY (bundleId) REFERENCES Bundle(id) ON UPDATE CASCADE ON DELETE SET NULL,
     FOREIGN KEY (validityPeriodId) REFERENCES ValidityPeriod(id) ON UPDATE CASCADE ON DELETE SET NULL
@@ -136,7 +137,7 @@ CREATE TRIGGER UpdatePurchaseCount
     AFTER UPDATE ON `Order`
     FOR EACH ROW
     BEGIN
-        IF NEW.valid = 1 THEN
+        IF NEW.valid = 'y' THEN
             IF NEW.bundleId NOT IN (SELECT bundleId FROM PurchasesPerPackage) THEN
                 INSERT INTO PurchasesPerPackage (bundleId, purchaseCount)
                 VALUES (NEW.bundleId, 0);
@@ -165,7 +166,7 @@ CREATE TRIGGER UpdatePurchaseCountValidity
     AFTER UPDATE ON `Order`
     FOR EACH ROW
     BEGIN
-        IF NEW.valid = 1 THEN
+        IF NEW.valid = 'y' THEN
             IF (NEW.bundleId, NEW.validityPeriodId) NOT IN (SELECT bundleId, validityId FROM PurchasePerPackageValidityPeriod) THEN
                 INSERT INTO PurchasePerPackageValidityPeriod (bundleId, validityId, purchaseCount)
                 VALUES (NEW.bundleId, NEW.validityPeriodId, 0);
@@ -192,7 +193,7 @@ CREATE TRIGGER UpdateTotValuePerPackage
     AFTER UPDATE ON `Order`
     FOR EACH ROW
     BEGIN
-        IF NEW.valid = 1 THEN
+        IF NEW.valid = 'y' THEN
             IF NEW.bundleId NOT IN (SELECT bundleId FROM TotValuePerPackageSold) THEN
                 INSERT INTO TotValuePerPackageSold (bundleId, totValue, totValueNoOptionals)
                 VALUES (NEW.bundleId, 0, 0);
@@ -224,9 +225,9 @@ CREATE TRIGGER UpdateAvgNumOptionalsPerPackage
     BEGIN
         DECLARE chosenOptionals FLOAT;
         DECLARE bundleSales FLOAT;
-        IF NEW.valid = 1 THEN
+        IF NEW.valid = 'y' THEN
             SET chosenOptionals = CAST((SELECT COUNT(*) FROM ChosenOptionalsInOrder co WHERE co.orderId = NEW.id) AS FLOAT);
-            SET bundleSales = CAST((SELECT COUNT(*) FROM `Order` o WHERE (o.bundleId = NEW.bundleId AND o.valid = 1)) AS FLOAT);
+            SET bundleSales = CAST((SELECT COUNT(*) FROM `Order` o WHERE (o.bundleId = NEW.bundleId AND o.valid = 'y')) AS FLOAT);
             IF NEW.bundleId NOT IN (SELECT bundleId FROM AverageNumOptionalsPerPackage) THEN
                 INSERT INTO AverageNumOptionalsPerPackage (bundleId, averageNumOptionals)
                 VALUES (NEW.bundleId, 0);
@@ -257,7 +258,7 @@ CREATE TRIGGER UpdateBestSellerOptional
         DECLARE chosenId INT;
         DECLARE cur CURSOR FOR (SELECT optionalId FROM ChosenOptionalsInOrder co WHERE co.orderId = NEW.id);
         DECLARE CONTINUE HANDLER FOR NOT FOUND SET done = TRUE;
-        IF NEW.valid = 1 THEN
+        IF NEW.valid = 'y' THEN
             OPEN cur;
                 chosen_loop: LOOP
                     FETCH cur INTO chosenId;
@@ -285,7 +286,7 @@ CREATE TRIGGER AddFailedOrderToUser
     AFTER UPDATE ON `Order`
     FOR EACH ROW
     BEGIN
-       IF NEW.valid = 0 THEN
+       IF NEW.valid = 'n' THEN
            UPDATE `User` u SET u.failedPayments = u.failedPayments + 1
            WHERE u.id = NEW.clientId;
        END IF;

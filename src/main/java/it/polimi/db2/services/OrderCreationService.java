@@ -20,14 +20,14 @@ public class OrderCreationService {
     }
 
     public OrderEntity createOrder(FilledOrder filledOrder, UserEntity currentUser) {
-        OrderEntity order = new OrderEntity(filledOrder.getTotalExpenditure(), null, filledOrder.getStartDate(), filledOrder.getChosenOptionals(), filledOrder.getValidityPeriod(), filledOrder.getBundle(), currentUser);
+        OrderEntity order = new OrderEntity(filledOrder.getTotalExpenditure(), '?', filledOrder.getStartDate(), filledOrder.getChosenOptionals(), filledOrder.getValidityPeriod(), filledOrder.getBundle(), currentUser);
         em.persist(order);
         return order;
     }
 
     public void updateOrderOk(int oId) {
         OrderEntity order = findOrderById(oId);
-        order.setValid((byte) 1);
+        order.setValid('y');
         em.merge(order);
 
         em.flush();
@@ -35,7 +35,7 @@ public class OrderCreationService {
 
     public void updateOrderKo(int oId) {
         OrderEntity order = findOrderById(oId);
-        order.setValid((byte) 0);
+        order.setValid('n');
         em.merge(order);
 
         em.flush();

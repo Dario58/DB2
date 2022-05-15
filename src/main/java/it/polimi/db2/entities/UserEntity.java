@@ -7,7 +7,8 @@ import javax.persistence.*;
 @NamedQueries({
         @NamedQuery(name = "UserEntity.findByNickname", query = "SELECT u FROM UserEntity u WHERE u.nickname = :nickname"),
         @NamedQuery(name = "UserEntity.findByEmail", query = "SELECT u FROM UserEntity u WHERE u.email = :email"),
-        @NamedQuery(name = "UserEntity.checkCredentials", query = "SELECT u FROM UserEntity u WHERE u.nickname = :nickname AND u.password = :password")
+        @NamedQuery(name = "UserEntity.checkCredentials", query = "SELECT u FROM UserEntity u WHERE u.nickname = :nickname AND u.password = :password"),
+        @NamedQuery(name = "UserEntity.getInsolvents", query = "SELECT new it.polimi.db2.entities.UserEntity(u.id, u.nickname, u.failedPayments) FROM UserEntity u WHERE u.insolvent = true")
 })
 public class UserEntity {
     @Id
@@ -36,6 +37,12 @@ public class UserEntity {
         this.email = email;
         this.insolvent = false;
         this.failedPayments = 0;
+    }
+
+    public UserEntity(int id, String nickname, int failedPayments) {
+        this.id = id;
+        this.nickname = nickname;
+        this.failedPayments = failedPayments;
     }
 
     public UserEntity() {
