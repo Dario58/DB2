@@ -23,8 +23,8 @@
 [![Stargazers][stars-shield]][stars-url]
 <!--
 [![Issues][issues-shield]][issues-url]
-[![MIT License][license-shield]][license-url]
 -->
+[![MIT License][license-shield]][license-url]
 [![LinkedIn][linkedin-shield]][linkedin-url]
 
 
@@ -66,9 +66,7 @@
     </li>
     <li><a href="#roadmap">Roadmap</a></li>
     <li><a href="#contributing">Contributing</a></li>
-    <li><a href="#license">License</a></li>
     <li><a href="#contact">Contact</a></li>
-    <li><a href="#acknowledgments">Acknowledgments</a></li>
   </ol>
 </details>
 
@@ -77,6 +75,8 @@
 <!-- ABOUT THE PROJECT -->
 ## About The Project
 The webapp offers phone and internet services, plus some optionals that can be added to the subscription plan. Customers can either log in and purchase, or select their subscription plan and register before payment. Employees can create service bundles and optional products. A Sales Report page is provided to check some aggregated data regarding purchases, failed payments and popular items.
+
+See the project description in [Documentation](https://example.com)_
 
 [![Product Name Screen Shot][product-screenshot]]
 
@@ -95,9 +95,7 @@ The webapp offers phone and internet services, plus some optionals that can be a
 <!-- USAGE EXAMPLES -->
 ## Usage
 
-Use this space to show useful examples of how a project can be used. Additional screenshots, code examples and demos work well in this space. You may also link to more resources.
 
-_For more examples, please refer to the [Documentation](https://example.com)_
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
@@ -106,12 +104,13 @@ _For more examples, please refer to the [Documentation](https://example.com)_
 <!-- ROADMAP -->
 ## Roadmap
 
-- [ ] Feature 1
-- [ ] Feature 2
-- [ ] Feature 3
-    - [ ] Nested Feature
-
-See the [open issues](https://github.com/Dario58/DB2/issues) for a full list of proposed features (and known issues).
+- [✅] Service creation by employee
+- [✅] Service bundle creation by employee
+- [✅] Service purchase by customer
+- [✅] Unsuccessful payment handling and visualization
+- [✅] Sales report
+    - [✅] Aggregated data
+    - [✅] Alerts for insolvent users
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
@@ -158,7 +157,7 @@ Project Link: [https://github.com/Dario58/DB2](https://github.com/Dario58/DB2)
 [license-shield]: https://img.shields.io/github/license/Dario58/DB2.svg?style=for-the-badge
 [license-url]: https://github.com/Dario58/DB2/blob/master/LICENSE.txt
 [linkedin-shield]: https://img.shields.io/badge/-LinkedIn-black.svg?style=for-the-badge&logo=linkedin&colorB=555
-[linkedin-url]: https://linkedin.com/in/linkedin_username
+[linkedin-url]: www.linkedin.com/in/dario-del-gaizo-802ba3240
 [product-screenshot]: images/image.png
 [HTML.com]: https://img.shields.io/badge/html5-%23E34F26.svg?style=for-the-badge&logo=html5&logoColor=white
 [HTML-url]: https://nextjs.org/
