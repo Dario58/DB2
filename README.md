@@ -149,7 +149,7 @@ Don't forget to give the project a star! Thanks again!
 
 Dario Del Gaizo - delgaizodario@gmail.com - Linkedin: www.linkedin.com/in/dario-del-gaizo-802ba3240 
 
-Alessandra de Stefano - Linkedin: https://www.linkedin.com/in/alessandra-de-stefano/
+Alessandra de Stefano - destefanoalessandra244@gmail.com - Linkedin: https://www.linkedin.com/in/alessandra-de-stefano/
 
 Project Link: [https://github.com/Dario58/DB2](https://github.com/Dario58/DB2)
 
